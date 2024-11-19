@@ -1,14 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import { ArrowUpIcon } from '@/shared/ui/icons'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
-import { useStore } from '@nanostores/react'
-import { dreamStore, stepsStore } from '@/features/manage-home'
 import { cn } from '@/shared/lib/tailwind.ts'
 
 export const UpWidget: FunctionComponent = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
-  const dreamValue = useStore(dreamStore)
-  const stepsValue = useStore(stepsStore)
 
   useEffect(() => {
     function updatePosition() {
@@ -45,9 +41,6 @@ export const UpWidget: FunctionComponent = () => {
         <ArrowUpIcon className={'!size-3'} />
         <span>Назад</span>
       </Button>
-      {!!dreamValue.length && stepsValue < 1 && (
-        <Button onClick={() => stepsStore.set(1)}>Дальше</Button>
-      )}
     </div>
   )
 }

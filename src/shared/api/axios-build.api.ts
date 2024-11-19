@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const $api = axios.create({
-  baseURL: `${import.meta.env.STRAPI_API_URL}/api/`,
+export const $api = axios.create({
+  baseURL: `${import.meta.env.VITE_PUBLIC_URL}/api/`,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
+    telegram_user_id: 1347606553,
   },
-  params: { pLevel: 5 },
 })

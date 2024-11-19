@@ -1,13 +1,11 @@
-// Пример получения данных:
+import { $api } from '@/shared/api/axios-build.api.ts'
+import { DreamResponse } from '@/@types/dream'
 
-// import { useQuery } from '@tanstack/react-query';
-// import axios from 'axios';
-//
-// const fetchData = async () => {
-//     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-//     return response.data;
-// };
-//
+export const getDreamData = async () => {
+  const response = await $api.get('dream/list')
+  return response.data as DreamResponse[]
+}
+
 // const DataComponent = () => {
 //     const { data, error, isLoading } = useQuery(['posts'], fetchData);
 //

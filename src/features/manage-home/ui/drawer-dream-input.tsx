@@ -1,93 +1,138 @@
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/shared/ui-shad-cn/ui/drawer.tsx'
+import { useStore } from '@nanostores/react'
+import { lifeStore, dreamStore, stepsStore } from '../model/dream.store.ts'
+import { cn } from '@/shared/lib/tailwind.ts'
+import { useState } from 'react'
+import { AnimatedSheet } from './animated-sheet.tsx'
+import { MAX_INPUT_VALUE } from '@/shared/config/constants/max-values.constant.tsx'
 import { Textarea } from '@/shared/ui-shad-cn/ui/textarea.tsx'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
-import { MAX_INPUT_VALUE } from '@/shared/config/constants/max-values.constant.tsx'
-import { useStore } from '@nanostores/react'
-import { dreamStore, stepsStore } from '../model/dream.store.ts'
-import { cn } from '@/shared/lib/tailwind.ts'
+import { useNavigate } from 'react-router-dom'
 
 export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
   const stepsValue = useStore(stepsStore)
+  const [isExpandedDream, setIsExpandedDream] = useState(false)
+  const navigate = useNavigate()
+
+  const nextStep = () => {
+    stepsStore.set(stepsValue + 1)
+    setIsExpandedDream(false)
+    navigate('/life')
+  }
+
+  const handleCloseSheet = () => {
+    if (isExpandedDream) {
+      setIsExpandedDream(false)
+    } else {
+      setIsExpandedLife(false)
+    }
+  }
 
   return (
-    <Drawer>
-      <DrawerTrigger
-        disabled={stepsValue > 0}
-        className={cn(stepsValue > 0 && 'pointer-events-none')}
+    <>
+      {(isExpandedDream || isExpandedLife) && (
+        <div
+          className={cn(
+            'absolute inset-0 h-screen w-screen bg-black transition-opacity duration-[300ms]',
+            isExpandedDream || isExpandedLife
+              ? 'pointer-events-auto opacity-50'
+              : 'pointer-events-none opacity-0'
+          )}
+          onClick={() => setIsExpandedDream(false)}
+        ></div>
+      )}
+      <div
+        className={cn(
+          'relative h-96 cursor-pointer rounded-3xl bg-white text-start transition-all duration-[1.2s]',
+          stepsValue === 1 ? '' : '',
+          (!isExpandedDream && stepsValue === 0 && 'animate-kick') ||
+            (!isExpandedLife && stepsValue === 1 && 'animate-kick')
+        )}
       >
         <div
           className={cn(
-            'relative h-96 cursor-pointer rounded-xl p-4 text-start transition-transform duration-1000',
-            stepsValue > 0 ? 'rotate-y-180' : ''
+            'absolute inset-0 z-10 flex items-start justify-start rounded-3xl bg-paper bg-origin-content p-4',
+            stepsValue === 1 && 'hidden'
           )}
+          onClick={() => setIsExpandedDream(true)}
         >
-          {/* Лицевая сторона */}
-          <div
-            className={cn(
-              'absolute inset-0 z-10 flex rotate-3 items-start justify-start rounded-xl bg-white p-4 shadow-insertBottom',
-              stepsValue > 0 && 'hidden'
-            )}
-          >
-            <p className="no-scrollbar max-h-[345px] overflow-x-hidden text-ellipsis break-words text-xl font-medium text-muted">
-              {dreamValue.length ? dreamValue : 'Опишите свой сон...'}
-            </p>
-          </div>
-          <div
-            className={cn(
-              'absolute inset-0 z-10 flex rotate-3 items-center justify-center rounded-xl bg-white p-4 shadow-insertBottom',
-              stepsValue > 0 ? 'block' : 'hidden'
-            )}
-          >
-            <p className="rotate-y-180 text-xl font-medium text-muted">
-              Опишите, что происходит в вашей жизни.
-            </p>
-          </div>
+          <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
+            {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
+          </p>
+          {!!dreamValue && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent"></div>
+          )}
         </div>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className={'hidden'}>
-          <DrawerTitle>Move Goal</DrawerTitle>
-          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-        </DrawerHeader>
-        <form className="relative mx-auto w-full max-w-sm p-4">
-          <Textarea
-            maxLength={MAX_INPUT_VALUE}
-            value={dreamValue}
-            onChange={(e) => dreamStore.set(e.target.value)}
-            placeholder={'Опишите свой сон...'}
-            className={'h-[80vh] resize-none text-lg font-medium'}
-            disabled={stepsValue > 0}
-            minLength={4}
-          />
-          <DrawerFooter
-            className={
-              'w-full flex-row items-center justify-between bg-white p-0'
-            }
-          >
-            <p className={'text-muted'}>
-              Осталось {MAX_INPUT_VALUE - dreamValue.length} символов
-            </p>
-            <DrawerClose asChild>
-              <Button
-                onClick={() => stepsStore.set(1)}
-                disabled={!dreamValue.length}
-              >
+        <AnimatedSheet top={'top-[-130px]'} isExpanded={isExpandedDream}>
+          <div className={'relative h-[92%]'}>
+            <Textarea
+              maxLength={MAX_INPUT_VALUE}
+              value={dreamValue}
+              onChange={(e) => dreamStore.set(e.target.value)}
+              placeholder={'Опишите свой сон...'}
+              className={
+                "h-full resize-none font-['Roslindale-medium'] text-xl font-bold"
+              }
+              minLength={4}
+            />
+            <div
+              className={cn(
+                'absolute bottom-0 right-4 flex w-[89%] items-center justify-between transition-opacity duration-[500ms]',
+                isExpandedDream ? 'opacity-100' : 'opacity-0'
+              )}
+            >
+              <p className={'text-xs text-muted'}>
+                Количество слов: {dreamValue.length}/200
+              </p>
+              <Button disabled={!dreamValue.length} onClick={nextStep}>
                 Дальше
               </Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </form>
-      </DrawerContent>
-    </Drawer>
+            </div>
+          </div>
+        </AnimatedSheet>
+        {/*{stepsValue === 1 && (*/}
+        {/*  <AnimatedSheet isExpanded={isExpandedLife}>*/}
+        {/*    <div className={'relative h-[92%]'}>*/}
+        {/*      <Textarea*/}
+        {/*        maxLength={MAX_INPUT_VALUE}*/}
+        {/*        value={lifeValue}*/}
+        {/*        onChange={(e) => lifeStore.set(e.target.value)}*/}
+        {/*        placeholder={*/}
+        {/*          'Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна'*/}
+        {/*        }*/}
+        {/*        className={*/}
+        {/*          "h-full resize-none font-['Roslindale-medium'] text-xl font-bold"*/}
+        {/*        }*/}
+        {/*        minLength={4}*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*  </AnimatedSheet>*/}
+        {/*)}*/}
+        {/*<div*/}
+        {/*  className={cn(*/}
+        {/*    'absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white bg-paper p-4',*/}
+        {/*    stepsValue === 1 ? 'block' : 'hidden'*/}
+        {/*  )}*/}
+        {/*  onClick={() => setIsExpandedLife(true)}*/}
+        {/*>*/}
+        {/*  <p className="font-['Roslindale-medium'] text-xl font-bold text-muted-light">*/}
+        {/*    Опишите, что сейчас происходит в вашей жизни — если считаете, что*/}
+        {/*    это может быть важно при толковании сна*/}
+        {/*  </p>*/}
+        {/*</div>*/}
+      </div>
+      {/*{stepsValue === 1 && (*/}
+      {/*  <div*/}
+      {/*    className={*/}
+      {/*      'mt-6 flex w-full flex-col items-center justify-center gap-y-2'*/}
+      {/*    }*/}
+      {/*  >*/}
+      {/*    <Button onClick={nextStep}>Узнать значение сна</Button>*/}
+      {/*    <Button variant={'ghost'} onClick={prevStep}>*/}
+      {/*      Отмена*/}
+      {/*    </Button>*/}
+      {/*  </div>*/}
+      {/*)}*/}
+    </>
   )
 }

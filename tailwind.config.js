@@ -4,6 +4,12 @@ export default {
   darkMode: ['class'],
   theme: {
     extend: {
+      animation: {
+        kick: 'kick .5s linear',
+        'scale-down': 'scale-down .5s linear',
+        'scale-up': 'scale-up .5s linear',
+        'scan-text': 'scan-text .5s linear',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -12,10 +18,18 @@ export default {
       colors: {
         background: 'var(--background)',
         muted: 'var(--muted)',
+        'muted-light': 'var(--muted-light)',
+        'muted-light-2': 'var(--muted-light-2)',
         border: 'var(--border)',
       },
       boxShadow: {
-        insertBottom: 'inset 0px -200px 181px -100px rgba(255,255,255,1)',
+        'insert-bottom': 'inset 0px -200px 181px -100px rgba(255,255,255,1)',
+        'insert-bottom-small':
+          'inset 0px 10px 181px -100px rgba(255,255,255,1)',
+      },
+      backgroundImage: {
+        paper:
+          'repeating-linear-gradient(transparent,transparent calc(1lh - var(--line-thickness)),var(--main-line-color) calc(1lh - var(--line-thickness)),var(--main-line-color) 1lh,transparent 1lh);',
       },
     },
   },

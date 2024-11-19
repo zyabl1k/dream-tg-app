@@ -1,8 +1,5 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { CSSTransition } from 'react-transition-group'
-import { useRef } from 'react'
-import { cn } from '@/shared/lib/tailwind.ts'
 
 const dreamsList = [
   {
@@ -14,72 +11,59 @@ const dreamsList = [
   {
     id: 2,
     date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов',
+    description: 'Сон про роботов и битву с ними лол',
   },
 ]
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
 
+  // const { isPending, error, data } = useQuery({
+  //   queryKey: ['dreams'],
+  //   queryFn: async () => await getDreamData(),
+  // })
+  //
+  // if (isPending) return 'Loading...'
+  // if (error) return 'An error has occurred: ' + error.message
+
   return (
     <div className={'flex flex-1 flex-col justify-center'}>
       {stepsValue < 1 && (
-        <p className={'text-muted mb-4 text-center'}>
-          Карл Юнг, основатель аналитической психологии, считал, что сны
-          связывают нас с коллективным бессознательным — древним слоем психики,
-          где хранятся общие для всех архетипы и символы.
+        <p className={'mb-4 text-center text-muted'}>
+          Карл Юнг считал, что сны связывают нас с бессознательным, где хранятся
+          общие архетипы и символы и до 160 символов или 4 строки текста в
+          декскрипторе, не больше
         </p>
       )}
       <DrawerDreamInput />
-      <div className="mt-10 flex flex-col gap-y-4">
-        {dreamsList.map((item) => (
-          <div
-            key={item.id}
-            className={cn(
-              'flex cursor-pointer flex-col gap-y-2 rounded-xl bg-white p-4 transition-opacity duration-500',
-              stepsValue > 0 ? 'hidden opacity-0' : 'opacity-100'
-            )}
-          >
-            <p className="text-muted text-xs">{item.date}</p>
-            <p className="font-semibold">{item.description}</p>
-          </div>
-        ))}
-      </div>
+      {stepsValue < 1 && (
+        <div className={'-z-10 mt-10 flex snap-center flex-col gap-y-4'}>
+          {dreamsList.map((item) => (
+            <div key={item.id} className={'text-center'}>
+              <p className="mb-4 text-sm font-semibold text-muted">
+                {item.date}
+              </p>
+              <div className={'relative'}>
+                <div
+                  className={
+                    'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
+                  }
+                >
+                  <p className="font-['Roslindale-medium'] text-xl">
+                    {item.description}
+                  </p>
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
+                </div>
+                <div
+                  className={
+                    'absolute -right-2 -top-2 -z-10 h-full w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-lg'
+                  }
+                ></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

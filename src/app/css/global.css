@@ -4,10 +4,14 @@
 
 @layer base {
   :root {
-    --background: #f7f4eb;
+    --background: #f4f4f4;
     --muted: #707579;
+    --muted-light: #a2acb0;
+    --muted-light-2: #fafafa;
     --radius: 0.5rem;
     --border: 240 5.9% 90%;
+    --line-thickness: 1px;
+    --main-line-color: #f7f7f7;
   }
 }
 
@@ -16,7 +20,21 @@
     @apply border-border;
   }
   body {
-    @apply overflow-x-hidden bg-background;
+    @apply no-scrollbar overflow-x-hidden bg-background;
+  }
+  @font-face {
+    font-family: 'Roslindale';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(public/fonts/roslindale-cyrillic-regular.otf) format('otf');
+  }
+  @font-face {
+    font-family: 'Roslindale-medium';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(public/fonts/roslindale-cyrillic-medium.otf) format('otf');
   }
 }
 
@@ -27,7 +45,7 @@
 
   .no-scrollbar {
     -ms-overflow-style: none;
-    scrollbar-width: none;
+    scrollbar-width: auto;
   }
 }
 
