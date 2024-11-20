@@ -16,9 +16,9 @@ export const DrawerDreamInput = () => {
 
   const nextStep = () => {
     if (!dreamValue.length) {
-      setIsEmpty(true) // Устанавливаем isEmpty в true
+      setIsEmpty(true)
       setTimeout(() => {
-        setIsEmpty(false) // Возвращаем isEmpty в false через 1 секунду
+        setIsEmpty(false)
       }, 2000)
     } else {
       setIsExpandedDream(false)
@@ -107,6 +107,7 @@ export const DrawerDreamInput = () => {
                       'col-span-1 col-start-4',
                       !dreamValue.length && 'opacity-50 hover:opacity-50'
                     )}
+                    disabled={dreamValue.length > 200}
                     onClick={nextStep}
                   >
                     Дальше

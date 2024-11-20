@@ -18,6 +18,26 @@ export const DreamPage = () => {
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error.message
 
+  const paragraphs = data.description.split('\n').map((paragraph, index) => {
+    // Используем регулярное выражение для извлечения заголовка
+    const match = paragraph.match(/^(.*?):/)
+    const title = match ? match[1] : null // Заголовок до двоеточия
+
+    return (
+      <div key={index} className={'flex items-start gap-x-4'}>
+        {index % 2 === 0 && <img src={'/img/Rainbow.png'} alt={'photo'} />}
+        <div className={'flex flex-col gap-y-3'}>
+          {title && (
+            <h1 className={"font-['Roslindale-medium'] text-2xl font-bold"}>
+              {title}
+            </h1>
+          )}{' '}
+          <p className={'text-lg'}>{paragraph}</p>
+        </div>
+      </div>
+    )
+  })
+
   return (
     <div className={'flex flex-col'}>
       <div className={'my-10 text-center'}>
@@ -39,18 +59,8 @@ export const DreamPage = () => {
           ></div>
         </div>
       </div>
-      <div className={'flex items-start gap-x-4'}>
-        <img src={'/img/Rainbow.png'} alt={'photo'} />
-        <div className={'flex flex-col gap-y-4'}>
-          <h1 className={"font-['Roslindale-medium'] text-xl font-bold"}>
-            {data.title}
-          </h1>
-          {data.textRequest.split('\n').map((paragraph, index) => (
-            <p key={index} className={'text-lg'}>
-              {paragraph}
-            </p>
-          ))}
-        </div>
+      <div className={'flex flex-col items-start gap-x-4 gap-y-4'}>
+        {paragraphs}
       </div>
     </div>
   )
