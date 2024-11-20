@@ -64,10 +64,12 @@ const LifeDescription = () => {
           <div className={'relative'}>
             <div
               className={
-                'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
+                'relative min-h-[100px] rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
               }
             >
-              <p className="font-['Roslindale-medium'] text-xl">{dreamValue}</p>
+              <p className="scan !bg-black font-['Roslindale-medium'] text-xl">
+                {dreamValue}
+              </p>
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
             </div>
             <div
@@ -104,7 +106,7 @@ const LifeDescription = () => {
       >
         <div
           className={cn(
-            'absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white bg-paper p-4',
+            'inset-0 z-10 flex items-center justify-center rounded-3xl bg-white p-4',
             stepsValue === 1 ? 'block' : 'hidden'
           )}
           onClick={() => setIsExpandedLife(true)}
@@ -125,7 +127,7 @@ const LifeDescription = () => {
                 'Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна'
               }
               className={
-                "h-full resize-none font-['Roslindale-medium'] text-xl font-bold"
+                "h-full resize-none px-4 font-['Roslindale-medium'] text-xl font-bold"
               }
               minLength={4}
             />

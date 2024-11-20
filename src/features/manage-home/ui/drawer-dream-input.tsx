@@ -12,13 +12,20 @@ export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
   const stepsValue = useStore(stepsStore)
   const [isExpandedDream, setIsExpandedDream] = useState(false)
+  const [isEmpty, setIsEmpty] = useState(false)
   const navigate = useNavigate()
 
   const nextStep = () => {
-    setIsExpandedDream(false)
-    stepsStore.set(stepsValue + 1)
-
-    setTimeout(() => navigate('/life'), 500)
+    if (!dreamValue.length) {
+      setIsEmpty(true) // Устанавливаем isEmpty в true
+      setTimeout(() => {
+        setIsEmpty(false) // Возвращаем isEmpty в false через 1 секунду
+      }, 2000)
+    } else {
+      setIsExpandedDream(false)
+      stepsStore.set(stepsValue + 1)
+      setTimeout(() => navigate('/life'), 500)
+    }
   }
 
   return (
@@ -58,7 +65,6 @@ export const DrawerDreamInput = () => {
         <AnimatedSheet top={'top-[-130px]'} isExpanded={isExpandedDream}>
           <div className={'relative h-[92%]'}>
             <Textarea
-              maxLength={MAX_INPUT_VALUE}
               value={dreamValue}
               onChange={(e) => dreamStore.set(e.target.value)}
               placeholder={'Опишите свой сон...'}
@@ -69,22 +75,45 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'absolute bottom-0 right-4 flex w-[89%] items-center justify-between transition-opacity duration-[500ms]',
+                'absolute bottom-0 right-4 grid w-[89%] grid-cols-4 items-center justify-between transition-opacity duration-[500ms]',
                 isExpandedDream ? 'opacity-100' : 'opacity-0'
               )}
             >
-              {200 - dreamValue.length < 0 ? (
-                <p className={'text-xs text-red-500'}>
-                  {200 - dreamValue.length}
-                </p>
-              ) : (
-                <p className={'text-xs text-muted'}>
-                  Осталось {200 - dreamValue.length} символов
-                </p>
+              {isEmpty && (
+                <div
+                  className={
+                    'col-span-4 flex items-center justify-between gap-4 rounded-xl bg-[#383838D9] p-2'
+                  }
+                >
+                  <img src={'/img/edit_28.png'} alt={'edit'} />
+                  <p className={'text-xs text-white'}>
+                    Нам нужно хотя бы несколько слов о вашем сне, чтобы сделать
+                    толкование
+                  </p>
+                </div>
               )}
-              <Button disabled={!dreamValue.length} onClick={nextStep}>
-                Дальше
-              </Button>
+              {!isEmpty && (
+                <>
+                  {200 - dreamValue.length < 0 ? (
+                    <p className={'col-span-2 text-xs text-red-500'}>
+                      {200 - dreamValue.length}
+                    </p>
+                  ) : (
+                    <p className={'col-span-2 text-xs text-muted'}>
+                      Осталось {200 - dreamValue.length} символов
+                    </p>
+                  )}
+                  <Button
+                    className={cn(
+                      'col-span-1 col-start-4',
+                      !dreamValue.length && 'opacity-50 hover:opacity-50'
+                    )}
+                    onClick={nextStep}
+                  >
+                    Дальше
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </AnimatedSheet>

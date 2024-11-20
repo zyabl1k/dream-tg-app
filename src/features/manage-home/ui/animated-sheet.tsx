@@ -25,7 +25,7 @@ export const AnimatedSheet: FC<AnimatedSheetProps> = ({
   return (
     <div
       className={cn(
-        'absolute inset-0 z-30 rounded-3xl bg-white bg-paper px-1 py-2 transition-all duration-[500ms]',
+        'absolute inset-0 z-30 rounded-3xl bg-white px-1 py-2 transition-all duration-[500ms]',
         isExpanded
           ? `${top} h-[80vh] scale-125 text-black`
           : 'invisible top-0 h-full text-muted-light'
