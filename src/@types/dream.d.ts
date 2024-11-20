@@ -3,3 +3,10 @@ export type DreamResponse = {
   date: string
   description: string
 }
+
+export type DreamResponse2 = {
+  id: number
+  textRequest: string
+  title: string
+  description: string
+}

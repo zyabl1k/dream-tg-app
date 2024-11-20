@@ -5,6 +5,8 @@ export const $api = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
+  },
+  params: {
     telegram_user_id: 1347606553,
   },
 })

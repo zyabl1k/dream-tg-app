@@ -1,30 +1,25 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-
-const dreamsList = [
-  {
-    id: 1,
-    date: 'сегодня',
-    description:
-      'Сон про берег моря, рыбок и старика. Ваша скрытая цель и талант',
-  },
-  {
-    id: 2,
-    date: 'вчера',
-    description: 'Сон про роботов и битву с ними лол',
-  },
-]
+import { getDreamData } from '@/entities'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
+  const navigate = useNavigate()
 
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ['dreams'],
-  //   queryFn: async () => await getDreamData(),
-  // })
-  //
-  // if (isPending) return 'Loading...'
-  // if (error) return 'An error has occurred: ' + error.message
+  useEffect(() => {
+    stepsStore.set(0)
+  }, [])
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ['dreams'],
+    queryFn: async () => await getDreamData(),
+  })
+
+  if (isPending) return 'Loading...'
+  if (error || !data) return 'An error has occurred: ' + error.message
 
   return (
     <div className={'flex flex-1 flex-col justify-center'}>
@@ -37,13 +32,16 @@ export const HomePage = () => {
       )}
       <DrawerDreamInput />
       {stepsValue < 1 && (
-        <div className={'-z-10 mt-10 flex snap-center flex-col gap-y-4'}>
-          {dreamsList.map((item) => (
+        <div className={'mt-10 flex snap-center flex-col gap-y-4'}>
+          {data.map((item) => (
             <div key={item.id} className={'text-center'}>
               <p className="mb-4 text-sm font-semibold text-muted">
                 {item.date}
               </p>
-              <div className={'relative'}>
+              <div
+                className={'relative cursor-pointer'}
+                onClick={() => navigate(`/dream/${item.id}`)}
+              >
                 <div
                   className={
                     'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'

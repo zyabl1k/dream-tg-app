@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react'
-import { lifeStore, dreamStore, stepsStore } from '../model/dream.store.ts'
+import { dreamStore, stepsStore } from '../model/dream.store.ts'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { useState } from 'react'
 import { AnimatedSheet } from './animated-sheet.tsx'
@@ -15,26 +15,19 @@ export const DrawerDreamInput = () => {
   const navigate = useNavigate()
 
   const nextStep = () => {
-    stepsStore.set(stepsValue + 1)
     setIsExpandedDream(false)
-    navigate('/life')
-  }
+    stepsStore.set(stepsValue + 1)
 
-  const handleCloseSheet = () => {
-    if (isExpandedDream) {
-      setIsExpandedDream(false)
-    } else {
-      setIsExpandedLife(false)
-    }
+    setTimeout(() => navigate('/life'), 500)
   }
 
   return (
     <>
-      {(isExpandedDream || isExpandedLife) && (
+      {isExpandedDream && (
         <div
           className={cn(
             'absolute inset-0 h-screen w-screen bg-black transition-opacity duration-[300ms]',
-            isExpandedDream || isExpandedLife
+            isExpandedDream
               ? 'pointer-events-auto opacity-50'
               : 'pointer-events-none opacity-0'
           )}
@@ -45,8 +38,7 @@ export const DrawerDreamInput = () => {
         className={cn(
           'relative h-96 cursor-pointer rounded-3xl bg-white text-start transition-all duration-[1.2s]',
           stepsValue === 1 ? '' : '',
-          (!isExpandedDream && stepsValue === 0 && 'animate-kick') ||
-            (!isExpandedLife && stepsValue === 1 && 'animate-kick')
+          !isExpandedDream && 'animate-kick'
         )}
       >
         <div
@@ -90,49 +82,7 @@ export const DrawerDreamInput = () => {
             </div>
           </div>
         </AnimatedSheet>
-        {/*{stepsValue === 1 && (*/}
-        {/*  <AnimatedSheet isExpanded={isExpandedLife}>*/}
-        {/*    <div className={'relative h-[92%]'}>*/}
-        {/*      <Textarea*/}
-        {/*        maxLength={MAX_INPUT_VALUE}*/}
-        {/*        value={lifeValue}*/}
-        {/*        onChange={(e) => lifeStore.set(e.target.value)}*/}
-        {/*        placeholder={*/}
-        {/*          'Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна'*/}
-        {/*        }*/}
-        {/*        className={*/}
-        {/*          "h-full resize-none font-['Roslindale-medium'] text-xl font-bold"*/}
-        {/*        }*/}
-        {/*        minLength={4}*/}
-        {/*      />*/}
-        {/*    </div>*/}
-        {/*  </AnimatedSheet>*/}
-        {/*)}*/}
-        {/*<div*/}
-        {/*  className={cn(*/}
-        {/*    'absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white bg-paper p-4',*/}
-        {/*    stepsValue === 1 ? 'block' : 'hidden'*/}
-        {/*  )}*/}
-        {/*  onClick={() => setIsExpandedLife(true)}*/}
-        {/*>*/}
-        {/*  <p className="font-['Roslindale-medium'] text-xl font-bold text-muted-light">*/}
-        {/*    Опишите, что сейчас происходит в вашей жизни — если считаете, что*/}
-        {/*    это может быть важно при толковании сна*/}
-        {/*  </p>*/}
-        {/*</div>*/}
       </div>
-      {/*{stepsValue === 1 && (*/}
-      {/*  <div*/}
-      {/*    className={*/}
-      {/*      'mt-6 flex w-full flex-col items-center justify-center gap-y-2'*/}
-      {/*    }*/}
-      {/*  >*/}
-      {/*    <Button onClick={nextStep}>Узнать значение сна</Button>*/}
-      {/*    <Button variant={'ghost'} onClick={prevStep}>*/}
-      {/*      Отмена*/}
-      {/*    </Button>*/}
-      {/*  </div>*/}
-      {/*)}*/}
     </>
   )
 }

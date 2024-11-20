@@ -1,9 +1,23 @@
 import { $api } from '@/shared/api/axios-build.api.ts'
-import { DreamResponse } from '@/@types/dream'
+import { DreamResponse, DreamResponse2 } from '@/@types/dream'
 
 export const getDreamData = async () => {
   const response = await $api.get('dream/list')
   return response.data as DreamResponse[]
+}
+
+export const getDream = async (id: string) => {
+  const response = await $api.get(`dream/${id}`)
+  return response.data as DreamResponse2
+}
+
+export const sendDream = async (desc: string, life: string) => {
+  const response = await $api.post(`dream/send`, {
+    telegram_user_id: 1347606553,
+    dreamDescription: desc,
+    lifeDescription: life,
+  })
+  return response.data as { id: number }
 }
 
 // const DataComponent = () => {
