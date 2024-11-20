@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend_dream:
+    container_name: frontend_dream
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '41499:41499'
+    stdin_open: true
+    environment:
+      - PORT=41499
+      - NODE_ENV=production
+    networks:
+      - ps
+
+networks:
+  ps:
+    driver: bridge

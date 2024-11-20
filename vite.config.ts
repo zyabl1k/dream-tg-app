@@ -18,11 +18,11 @@ export default defineConfig({
     },
     host: true,
     strictPort: true,
-    port: 5173,
+    port: 41499,
   },
   preview: {
     host: true,
-    port: 5173,
+    port: 41499,
   },
   build: {
     rollupOptions: {
