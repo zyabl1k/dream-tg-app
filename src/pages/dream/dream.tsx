@@ -8,7 +8,7 @@ import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 export const DreamPage = () => {
   const { id } = useParams()
   const { user } = useTelegram()
-  const [randomNumbers, setRandomNumbers] = useState([])
+  const [randomNumbers, setRandomNumbers] = useState<number[]>([])
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
