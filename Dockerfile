@@ -4,12 +4,12 @@ WORKDIR /usr/src/frontend_dream
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN npm run install
+RUN pnpm install
 
 COPY . .
 
 EXPOSE 41499
 
-RUN npm run build
+RUN pnpm build
 
-CMD ["npm", "run", "preview"]
+CMD ["pnpm", "preview"]
