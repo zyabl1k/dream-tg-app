@@ -2,7 +2,7 @@ FROM node:21
 
 WORKDIR /usr/src/frontend_dream
 
-COPY package.json yarn.lock ./
+COPY package.json pnpm-lock.yaml ./
 
 RUN yarn
 
