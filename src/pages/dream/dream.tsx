@@ -2,20 +2,34 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
 import { stepsStore } from '@/features/manage-home'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
 export const DreamPage = () => {
   const { id } = useParams()
   const { user } = useTelegram()
+  const [randomNumbers, setRandomNumbers] = useState([])
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
     queryFn: async () => await getDream(user?.id || 1347606553, id ?? '1'),
   })
 
+  const generateRandomNumbers = () => {
+    const numbers = Array.from({ length: 15 }, (_, i) => i + 1)
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[numbers[i], numbers[j]] = [numbers[j], numbers[i]] // Перемешивание
+    }
+    return numbers
+  }
+
   useEffect(() => {
     stepsStore.set(1)
+  }, [])
+
+  useEffect(() => {
+    setRandomNumbers(generateRandomNumbers())
   }, [])
 
   if (isPending) return 'Loading...'
@@ -25,17 +39,25 @@ export const DreamPage = () => {
     // Используем регулярное выражение для извлечения заголовка
     const match = paragraph.match(/^(.*?):/)
     const title = match ? match[1] : null // Заголовок до двоеточия
+    const textWithoutTitle = title
+      ? paragraph.replace(/^(.*?):\s*/, '')
+      : paragraph
 
     return (
       <div key={index} className={'flex items-start gap-x-4'}>
-        {index % 2 === 0 && <img src={'/img/Rainbow.png'} alt={'photo'} />}
+        {index % 2 === 0 && randomNumbers[index / 2] && (
+          <img
+            src={`/img/pack/${randomNumbers[index / 2]}.png`}
+            alt={'photo'}
+          />
+        )}
         <div className={'flex flex-col gap-y-3'}>
           {title && (
             <h1 className={"font-['Roslindale-medium'] text-2xl font-bold"}>
               {title}
             </h1>
-          )}{' '}
-          <p className={'text-lg'}>{paragraph}</p>
+          )}
+          <p className={'text-lg'}>{textWithoutTitle}</p>
         </div>
       </div>
     )
