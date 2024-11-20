@@ -33,7 +33,10 @@ const LifeDescription = () => {
             telegram_user_id: 1347606553,
           }),
         }
-      )
+      ).then(async (resp) => {
+        const response = await resp.json()
+        navigate(`/dream/${response.id}`)
+      })
     },
     onError: (err) => {
       console.error('Ошибка:', err)
