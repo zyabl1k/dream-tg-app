@@ -63,7 +63,7 @@ export const DrawerDreamInput = () => {
               onChange={(e) => dreamStore.set(e.target.value)}
               placeholder={'Опишите свой сон...'}
               className={
-                "h-full resize-none font-['Roslindale-medium'] text-xl font-bold"
+                "h-full resize-none px-4 font-['Roslindale-medium'] text-xl font-bold"
               }
               minLength={4}
             />
@@ -73,9 +73,15 @@ export const DrawerDreamInput = () => {
                 isExpandedDream ? 'opacity-100' : 'opacity-0'
               )}
             >
-              <p className={'text-xs text-muted'}>
-                Количество слов: {dreamValue.length}/200
-              </p>
+              {200 - dreamValue.length < 0 ? (
+                <p className={'text-xs text-red-500'}>
+                  {200 - dreamValue.length}
+                </p>
+              ) : (
+                <p className={'text-xs text-muted'}>
+                  Осталось {200 - dreamValue.length} символов
+                </p>
+              )}
               <Button disabled={!dreamValue.length} onClick={nextStep}>
                 Дальше
               </Button>

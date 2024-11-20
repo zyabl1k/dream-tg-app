@@ -34,7 +34,9 @@ export const UpWidget: FunctionComponent = () => {
       <Button
         className={cn(
           'flex items-center justify-center rounded-md transition-opacity duration-200',
-          isVisible ? 'opacity-100' : 'pointer-events-none opacity-0'
+          isVisible
+            ? 'flex opacity-100'
+            : 'pointer-events-none hidden opacity-0'
         )}
         onClick={scrollUp}
       >

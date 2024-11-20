@@ -39,13 +39,18 @@ export const DreamPage = () => {
           ></div>
         </div>
       </div>
-      <div className={'flex flex-col gap-y-4'}>
-        <h1 className={"font-['Roslindale-medium'] text-xl font-bold"}>
-          {data.title}
-        </h1>
-        <p className={"font-['Roslindale-medium'] text-lg"}>
-          {data.textRequest}
-        </p>
+      <div className={'flex items-start gap-x-4'}>
+        <img src={'/img/Rainbow.png'} alt={'photo'} />
+        <div className={'flex flex-col gap-y-4'}>
+          <h1 className={"font-['Roslindale-medium'] text-xl font-bold"}>
+            {data.title}
+          </h1>
+          {data.textRequest.split('\n').map((paragraph, index) => (
+            <p key={index} className={"font-['Roslindale-medium'] text-lg"}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   )

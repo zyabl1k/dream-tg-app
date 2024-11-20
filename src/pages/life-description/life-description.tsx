@@ -8,7 +8,7 @@ import { AnimatedSheet } from '@/features/manage-home/ui/animated-sheet.tsx'
 import { Textarea } from '@/shared/ui-shad-cn/ui/textarea.tsx'
 import { MAX_INPUT_VALUE } from '@/shared/config/constants/max-values.constant.tsx'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
-import { sendDream } from '@/entities'
+import { useMutation } from '@tanstack/react-query'
 
 const LifeDescription = () => {
   const dreamValue = useStore(dreamStore)
@@ -16,6 +16,29 @@ const LifeDescription = () => {
   const stepsValue = useStore(stepsStore)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { mutate: sendDream } = useMutation({
+    mutationFn: async () => {
+      await fetch(
+        'https://01112401.external.orders.typereturn.space/api/dream/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            dreamDescription: dreamValue,
+            lifeDescription: lifeValue,
+            telegram_user_id: 1347606553,
+          }),
+        }
+      )
+    },
+    onError: (err) => {
+      console.error('Ошибка:', err)
+    },
+  })
 
   const prevStep = () => {
     stepsStore.set(stepsValue - 1)
@@ -29,9 +52,33 @@ const LifeDescription = () => {
     }
   }, [])
 
-  const handleSend = async () => {
-    await sendDream(dreamValue, lifeValue).then((resp) =>
-      navigate(`/dream/${resp.id}`)
+  const handleSendDream = () => {
+    sendDream()
+    setIsLoading(true)
+  }
+
+  if (isLoading) {
+    return (
+      <div className={'flex flex-col'}>
+        <div className={'my-10 mt-24 text-center'}>
+          <div className={'relative'}>
+            <div
+              className={
+                'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
+              }
+            >
+              <p className="font-['Roslindale-medium'] text-xl">{dreamValue}</p>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
+            </div>
+            <div
+              className={
+                'absolute -right-2 -top-2 -z-10 h-full w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-lg'
+              }
+            ></div>
+          </div>
+        </div>
+        <h1 className={'text-center text-lg font-semibold'}>Анализируем...</h1>
+      </div>
     )
   }
 
@@ -90,7 +137,7 @@ const LifeDescription = () => {
           'mt-[7.5rem] flex w-full flex-col items-center justify-center gap-y-2'
         }
       >
-        <Button onClick={handleSend}>Узнать значение сна</Button>
+        <Button onClick={handleSendDream}>Узнать значение сна</Button>
         <Button variant={'ghost'} onClick={prevStep}>
           Отмена
         </Button>
