@@ -28,7 +28,7 @@ export const DreamPage = () => {
             }
           >
             <p className="font-['Roslindale-medium'] text-xl">
-              {data.description}
+              {data.textRequest}
             </p>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
           </div>
@@ -46,7 +46,7 @@ export const DreamPage = () => {
             {data.title}
           </h1>
           {data.textRequest.split('\n').map((paragraph, index) => (
-            <p key={index} className={"font-['Roslindale-medium'] text-lg"}>
+            <p key={index} className={'text-lg'}>
               {paragraph}
             </p>
           ))}
