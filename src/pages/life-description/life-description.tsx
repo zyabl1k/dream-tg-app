@@ -9,6 +9,7 @@ import { Textarea } from '@/shared/ui-shad-cn/ui/textarea.tsx'
 import { MAX_INPUT_VALUE } from '@/shared/config/constants/max-values.constant.tsx'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useMutation } from '@tanstack/react-query'
+import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
 const LifeDescription = () => {
   const dreamValue = useStore(dreamStore)
@@ -17,6 +18,7 @@ const LifeDescription = () => {
   const [isExpandedLife, setIsExpandedLife] = useState(false)
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+  const { user } = useTelegram()
 
   const { mutate: sendDream } = useMutation({
     mutationFn: async () => {
@@ -30,7 +32,7 @@ const LifeDescription = () => {
           body: JSON.stringify({
             dreamDescription: dreamValue,
             lifeDescription: lifeValue,
-            telegram_user_id: 1347606553,
+            telegram_user_id: user?.id || 1347606553,
           }),
         }
       ).then(async (resp) => {

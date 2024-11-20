@@ -1,5 +1,7 @@
 import axios from 'axios'
+import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
+const { user } = useTelegram()
 export const $api = axios.create({
   baseURL: `${import.meta.env.VITE_PUBLIC_URL}/api/`,
   timeout: 10000,
@@ -7,6 +9,6 @@ export const $api = axios.create({
     'Content-Type': 'application/json',
   },
   params: {
-    telegram_user_id: 1347606553,
+    telegram_user_id: user?.id || 1347606553,
   },
 })
