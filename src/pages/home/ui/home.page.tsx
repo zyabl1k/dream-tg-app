@@ -4,10 +4,12 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
   const navigate = useNavigate()
+  const { user } = useTelegram()
 
   useEffect(() => {
     stepsStore.set(0)
@@ -15,7 +17,7 @@ export const HomePage = () => {
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
-    queryFn: async () => await getDreamData(),
+    queryFn: async () => await getDreamData(user?.id || 1347606553),
   })
 
   if (isPending) return 'Loading...'

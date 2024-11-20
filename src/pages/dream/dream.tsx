@@ -3,12 +3,15 @@ import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
 import { stepsStore } from '@/features/manage-home'
 import { useEffect } from 'react'
+import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
 export const DreamPage = () => {
   const { id } = useParams()
+  const { user } = useTelegram()
+
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
-    queryFn: async () => await getDream(id ?? '1'),
+    queryFn: async () => await getDream(user?.id || 1347606553, id ?? '1'),
   })
 
   useEffect(() => {
