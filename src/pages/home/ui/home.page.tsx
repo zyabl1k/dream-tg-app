@@ -19,7 +19,7 @@ export const HomePage = () => {
   })
 
   if (isPending) return 'Loading...'
-  if (error || !data) return 'An error has occurred: ' + error.message
+  if (error || !data) return 'An error has occurred: ' + error
 
   return (
     <div className={'flex flex-1 flex-col justify-center'}>
