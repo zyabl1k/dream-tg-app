@@ -44,9 +44,15 @@ const LifeDescription = () => {
   })
 
   const prevStep = () => {
-    stepsStore.set(stepsValue - 1)
-    setIsExpandedLife(false)
-    navigate('/')
+    const userConfirmed = window.confirm(
+      'Вы уверены, что хотите отменить толкование?'
+    )
+
+    if (userConfirmed) {
+      stepsStore.set(stepsValue - 1)
+      setIsExpandedLife(false)
+      navigate('/')
+    }
   }
 
   useEffect(() => {
