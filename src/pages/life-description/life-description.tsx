@@ -69,7 +69,7 @@ const LifeDescription = () => {
   if (isLoading) {
     return (
       <div className={'flex flex-col'}>
-        <div className={'my-6 mt-24 text-center'}>
+        <div className={'my-6 mt-16 text-center'}>
           <div className={'relative'}>
             <div
               className={
