@@ -2,8 +2,21 @@ import { $api } from '@/shared/api/axios-build.api.ts'
 import { DreamResponse, DreamResponse2 } from '@/@types/dream'
 
 export const getDreamData = async () => {
-  const response = await $api.get('dream/list')
-  return response.data as DreamResponse[]
+  const response = await fetch(
+    'http://91.197.98.9:8081/api/dream/list?telegram_user_id=1347606553',
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`)
+  }
+
+  return (await response.json()) as DreamResponse[]
 }
 
 export const getDream = async (id: string) => {
