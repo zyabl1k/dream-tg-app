@@ -35,7 +35,10 @@ export const DreamPage = () => {
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error.message
 
-  const paragraphs = data.description.split('\n').map((paragraph, index) => {
+  const formattedParagraphs = []
+  let previousParagraph = null
+
+  data.description.split('\n').forEach((paragraph, index) => {
     // Используем регулярное выражение для извлечения заголовка
     const match = paragraph.match(/^(.*?):/)
     const title = match ? match[1] : null // Заголовок до двоеточия
@@ -43,25 +46,50 @@ export const DreamPage = () => {
       ? paragraph.replace(/^(.*?):\s*/, '')
       : paragraph
 
-    return (
-      <div key={index} className={'flex items-start gap-x-4'}>
-        {index % 2 === 0 && randomNumbers[index / 2] && (
-          <img
-            src={`/img/pack/${randomNumbers[index / 2]}.png`}
-            alt={'photo'}
-          />
-        )}
-        <div className={'flex flex-col gap-y-3'}>
-          {title && (
-            <h1 className={"font-['Roslindale-medium'] text-2xl font-bold"}>
-              {title}
-            </h1>
-          )}
-          <p className={'text-lg'}>{textWithoutTitle}</p>
-        </div>
-      </div>
-    )
+    if (title) {
+      // Если есть заголовок, сохраняем как новый параграф
+      if (previousParagraph) {
+        formattedParagraphs.push(previousParagraph)
+      }
+      previousParagraph = {
+        title,
+        text: textWithoutTitle,
+        index,
+      }
+    } else if (previousParagraph) {
+      // Если заголовка нет, добавляем текст к предыдущему параграфу
+      previousParagraph.text += ` ${textWithoutTitle}`
+    } else {
+      // Если предыдущего параграфа нет, просто создаем текст без заголовка
+      previousParagraph = {
+        title: null,
+        text: textWithoutTitle,
+        index,
+      }
+    }
   })
+
+  // Добавляем оставшийся параграф
+  if (previousParagraph) {
+    formattedParagraphs.push(previousParagraph)
+  }
+
+  // Генерация JSX
+  const paragraphs = formattedParagraphs.map(({ title, text, index }) => (
+    <div key={index} className={'flex items-start gap-x-4'}>
+      {index % 2 === 0 && randomNumbers[index / 2] && (
+        <img src={`/img/pack/${randomNumbers[index / 2]}.png`} alt={'photo'} />
+      )}
+      <div className={'flex flex-col gap-y-3'}>
+        {title && (
+          <h1 className={"font-['Roslindale-medium'] text-2xl font-bold"}>
+            {title}
+          </h1>
+        )}
+        <p className={'text-lg'}>{text}</p>
+      </div>
+    </div>
+  ))
 
   return (
     <div className={'flex flex-col'}>
