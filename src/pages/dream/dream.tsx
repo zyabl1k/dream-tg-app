@@ -1,13 +1,11 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
-import { useStore } from '@nanostores/react'
 import { stepsStore } from '@/features/manage-home'
 import { useEffect } from 'react'
 
 export const DreamPage = () => {
   const { id } = useParams()
-  const stepsValue = useStore(stepsStore)
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
     queryFn: async () => await getDream(id ?? '1'),

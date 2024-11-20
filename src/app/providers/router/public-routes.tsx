@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 import { ROUTER_PATHS } from '@/shared/config/routes'
 import { HomePage } from '@/pages/home'
-import { LifeDescription } from '@/pages/life-description/life-description.tsx'
+import LifeDescription from '@/pages/life-description/life-description.tsx'
 import { DreamPage } from '@/pages/dream/dream.tsx'
 
 const { NOT_FOUND, HOME, LIFE, DREAM } = ROUTER_PATHS

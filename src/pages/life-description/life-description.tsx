@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { dreamStore, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
@@ -10,7 +10,7 @@ import { MAX_INPUT_VALUE } from '@/shared/config/constants/max-values.constant.t
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { sendDream } from '@/entities'
 
-export const LifeDescription = () => {
+const LifeDescription = () => {
   const dreamValue = useStore(dreamStore)
   const lifeValue = useStore(lifeStore)
   const stepsValue = useStore(stepsStore)
@@ -23,12 +23,11 @@ export const LifeDescription = () => {
     navigate('/')
   }
 
-  const nextStep = () => {
-    stepsStore.set(stepsValue + 1)
-    setIsExpandedLife(false)
-  }
-
-  if (stepsValue !== 1) return navigate('/')
+  useEffect(() => {
+    if (stepsValue !== 1) {
+      navigate('/')
+    }
+  }, [])
 
   const handleSend = async () => {
     await sendDream(dreamValue, lifeValue).then((resp) =>
@@ -99,3 +98,5 @@ export const LifeDescription = () => {
     </>
   )
 }
+
+export default LifeDescription
