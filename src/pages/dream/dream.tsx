@@ -5,6 +5,12 @@ import { stepsStore } from '@/features/manage-home'
 import { useEffect, useState } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
+interface Paragraph {
+  title: string | null
+  text: string
+  index: number
+}
+
 export const DreamPage = () => {
   const { id } = useParams()
   const { user } = useTelegram()
@@ -35,19 +41,17 @@ export const DreamPage = () => {
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error.message
 
-  const formattedParagraphs = []
-  let previousParagraph = null
+  const formattedParagraphs: Paragraph[] = []
+  let previousParagraph: Paragraph | null = null
 
   data.description.split('\n').forEach((paragraph, index) => {
-    // Используем регулярное выражение для извлечения заголовка
     const match = paragraph.match(/^(.*?):/)
-    const title = match ? match[1] : null // Заголовок до двоеточия
+    const title = match ? match[1] : null
     const textWithoutTitle = title
       ? paragraph.replace(/^(.*?):\s*/, '')
       : paragraph
 
     if (title) {
-      // Если есть заголовок, сохраняем как новый параграф
       if (previousParagraph) {
         formattedParagraphs.push(previousParagraph)
       }
@@ -57,10 +61,8 @@ export const DreamPage = () => {
         index,
       }
     } else if (previousParagraph) {
-      // Если заголовка нет, добавляем текст к предыдущему параграфу
       previousParagraph.text += ` ${textWithoutTitle}`
     } else {
-      // Если предыдущего параграфа нет, просто создаем текст без заголовка
       previousParagraph = {
         title: null,
         text: textWithoutTitle,
@@ -69,12 +71,10 @@ export const DreamPage = () => {
     }
   })
 
-  // Добавляем оставшийся параграф
   if (previousParagraph) {
     formattedParagraphs.push(previousParagraph)
   }
 
-  // Генерация JSX
   const paragraphs = formattedParagraphs.map(({ title, text, index }) => (
     <div key={index} className={'flex items-start gap-x-4'}>
       {index % 2 === 0 && randomNumbers[index / 2] && (
