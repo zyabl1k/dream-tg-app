@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useStore } from '@nanostores/react'
 import { dreamStore, lifeStore, stepsStore } from '../model/dream.store.ts'
 import { cn } from '@/shared/lib/tailwind.ts'
-import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Backdrop } from '@/features/manage-home/ui/backdrop.tsx'
 import { LifeContent } from '@/features/manage-home/ui/life-contentInput.tsx'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
@@ -17,21 +17,12 @@ export const DrawerLifeInput = () => {
   const stepsValue = useStore(stepsStore)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const animateBlock = useRef(null)
-  const { user } = useTelegram()
+  const [isFlipped, setIsFlipped] = useState(false) // Состояние для переворота карточки
   const navigate = useNavigate()
+  const { user } = useTelegram()
 
   const handleCloseModal = () => {
     setIsExpanded(false)
-
-    //   if (animateBlock.current) {
-    //   // animateBlock.current.classList.add('animate-kick')
-    //   setIsExpanded(false)
-    //   // setTimeout(
-    //   //   () => animateBlock.current.classList.remove('animate-kick'),
-    //   //   500
-    //   // )
-    // }
   }
 
   const { mutate: sendDream } = useMutation({
@@ -50,6 +41,7 @@ export const DrawerLifeInput = () => {
           }),
         }
       ).then(async (resp) => {
+        document.body.style.overflow = ''
         const response = await resp.json()
         navigate(`/dream/${response.id}`)
       })
@@ -76,8 +68,44 @@ export const DrawerLifeInput = () => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
+    // Переворот карточки при первом рендере
+    setIsFlipped(true)
+    setTimeout(() => setIsFlipped(false), 1000) // Возвращаем обратно через 1 секунду
   }, [])
+
+  const cardFlipVariants = {
+    initial: {
+      rotateY: 0,
+    },
+    flipped: {
+      rotateY: 180,
+      transition: { duration: 1, ease: 'easeInOut' },
+    },
+  }
+
+  const drawerVariants = {
+    collapsed: {
+      width: 287,
+      height: 360,
+      borderRadius: '1.5rem',
+      top: '16vh',
+      left: 'calc(50% - 143.5px)',
+      transition: {
+        duration: 0.5,
+        ease: 'easeInOut',
+      },
+    },
+    expanded: {
+      width: '100vw',
+      height: '95vh',
+      top: '5vh',
+      left: '-24px',
+      transition: {
+        duration: 0.3,
+        ease: 'easeInOut',
+      },
+    },
+  }
 
   if (isLoading) {
     return (
@@ -97,18 +125,32 @@ export const DrawerLifeInput = () => {
       <Backdrop isExpanded={isExpanded} onClick={handleCloseModal} />
       <motion.div
         layout
-        ref={animateBlock}
-        transition={{
-          duration: 0.7,
-          ease: 'easeInOut',
-        }}
-        className={cn(
-          '-left-[24px] top-[5vh] z-50 mx-auto cursor-pointer rounded-3xl bg-white text-start transition-all',
-          isExpanded ? 'absolute h-[95vh] w-screen' : 'h-[360px] w-[287px]'
-        )}
+        variants={drawerVariants}
+        initial="collapsed"
+        animate={isExpanded ? 'expanded' : 'collapsed'}
+        className={cn('absolute top-0 z-50 bg-white text-start shadow-lg')}
         onClick={() => setIsExpanded(true)}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        onDragEnd={(_, info) => {
+          if (info.offset.y > 100) handleCloseModal()
+        }}
       >
-        <LifeContent isExpanded={isExpanded} lifeValue={lifeValue} />
+        <motion.div
+          className="relative flex h-full w-full items-center justify-center"
+          variants={cardFlipVariants}
+          initial="initial"
+          animate={isFlipped ? 'flipped' : 'initial'}
+        >
+          <div className="backface-hidden absolute h-full w-full">
+            <LifeContent isExpanded={isExpanded} lifeValue={lifeValue} />
+          </div>
+          <div className="backface-hidden rotateY-180 absolute flex h-full w-full items-center justify-center bg-gray-200">
+            <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
+              {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
+            </p>
+          </div>
+        </motion.div>
       </motion.div>
       <div
         className={

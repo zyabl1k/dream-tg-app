@@ -23,10 +23,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
   return (
     <motion.div
       layout
-      className={cn(
-        'h-full rounded-3xl p-[24px]',
-        isExpanded ? 'bg-white' : 'overflow-hidden bg-paper'
-      )}
+      className={cn('h-full p-[24px]', isExpanded ? '' : 'overflow-hidden')}
     >
       {!isExpanded ? (
         <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
@@ -38,13 +35,15 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             value={dreamValue}
             onChange={(e) => dreamStore.set(e.target.value)}
             placeholder="Опишите свой сон..."
-            className="h-full resize-none font-['Roslindale-medium'] text-xl font-bold"
+            className="h-[80vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
             minLength={4}
           />
+
           <FooterContent
             isEmpty={isEmpty}
             dreamValue={dreamValue}
             nextStep={nextStep}
+            isExpanded={isExpanded}
           />
         </>
       )}
@@ -56,18 +55,36 @@ interface FooterContentProps {
   isEmpty: boolean
   dreamValue: string
   nextStep: () => void
+  isExpanded: boolean
 }
 
 const FooterContent: FunctionComponent<FooterContentProps> = ({
   isEmpty,
   dreamValue,
   nextStep,
+  isExpanded,
 }) => {
+  const variants = {
+    hidden: {
+      translateY: '20%',
+      opacity: 0,
+      transition: { duration: 2, ease: 'easeInOut' },
+    },
+    visible: {
+      translateY: '0%',
+      opacity: 1,
+      transition: { duration: 0.5, ease: 'easeInOut' },
+    },
+  }
+
   return (
-    <div
+    <motion.div
       className={
-        'fixed bottom-4 right-0 grid w-full grid-cols-4 items-center justify-between px-4 transition-opacity duration-[500ms]'
+        'grid min-h-[48px] w-full grid-cols-4 items-center justify-between'
       }
+      variants={variants}
+      initial="hidden"
+      animate={isExpanded ? 'visible' : 'hidden'}
     >
       {isEmpty ? (
         <div className="col-span-4 flex items-center justify-between gap-4 rounded-xl bg-[#383838D9] p-2">
@@ -95,6 +112,6 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
           </Button>
         </>
       )}
-    </div>
+    </motion.div>
   )
 }

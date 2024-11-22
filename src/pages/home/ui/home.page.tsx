@@ -5,7 +5,6 @@ import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { DrawerLifeInput } from '@/features/manage-home/ui/drawer-life-input.tsx'
 import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
@@ -55,24 +54,39 @@ export const HomePage = () => {
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error
 
+  const variants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
+    invisible: {
+      opacity: 0,
+      y: -20,
+    },
+  }
+
   return (
     <div ref={ref} className={'flex flex-col justify-center'}>
       <motion.section
-        style={{ scale: firstSectionScale, opacity: firstSectionOpacity }} // Применяем анимацию масштаба первой секции
-        className={'relative flex h-[85vh] snap-center flex-col justify-start'}
+        style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
+        className={cn(
+          'relative flex h-[85vh] snap-center flex-col justify-start'
+        )}
       >
         <Header />
-        <p
-          className={cn(
-            'mb-[36px] mt-[20px] text-center text-muted opacity-100 transition-opacity',
-            stepsValue > 0 && 'hidden'
-          )}
+        <motion.p
+          key="paragraph"
+          className="mb-[36px] mt-[20px] text-center text-muted"
+          variants={variants}
+          initial="visible"
+          animate={stepsValue > 0 ? 'invisible' : 'visible'}
+          transition={{ duration: 0.5 }}
         >
           Карл Юнг считал, что сны связывают нас с бессознательным, где хранятся
           общие архетипы и символы и до 160 символов или 4 строки текста в
           декскрипторе, не больше
-        </p>
-        {stepsValue > 0 ? <DrawerLifeInput /> : <DrawerDreamInput />}
+        </motion.p>
+        <DrawerDreamInput />
       </motion.section>
       <motion.section
         className={cn(
