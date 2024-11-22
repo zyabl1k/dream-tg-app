@@ -19,6 +19,9 @@
   * {
     @apply border-border;
   }
+  html {
+    scroll-snap-type: y mandatory;
+  }
   body {
     @apply no-scrollbar overflow-x-hidden bg-background;
   }

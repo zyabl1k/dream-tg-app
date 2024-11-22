@@ -1,123 +1,61 @@
 import { useStore } from '@nanostores/react'
 import { dreamStore, stepsStore } from '../model/dream.store.ts'
 import { cn } from '@/shared/lib/tailwind.ts'
-import { useState } from 'react'
-import { AnimatedSheet } from './animated-sheet.tsx'
-import { Textarea } from '@/shared/ui-shad-cn/ui/textarea.tsx'
-import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useValidationCard } from '@/features/manage-home/model/use-validate-imput.ts'
+import { Backdrop } from '@/features/manage-home/ui/backdrop.tsx'
+import { DreamContent } from '@/features/manage-home/ui/dream-content.tsx'
 
 export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
   const stepsValue = useStore(stepsStore)
-  const [isExpandedDream, setIsExpandedDream] = useState(false)
-  const [isEmpty, setIsEmpty] = useState(false)
-  const navigate = useNavigate()
+  const { isEmpty, validateDream } = useValidationCard(dreamValue)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const animateBlock = useRef(null)
 
   const nextStep = () => {
-    if (!dreamValue.length) {
-      setIsEmpty(true)
-      setTimeout(() => {
-        setIsEmpty(false)
-      }, 2000)
-    } else {
-      setIsExpandedDream(false)
-      stepsStore.set(stepsValue + 1)
-      setTimeout(() => navigate('/life'), 500)
+    if (validateDream()) {
+      handleCloseModal()
+      setTimeout(() => stepsStore.set(stepsValue + 1), 500)
     }
   }
 
+  const handleCloseModal = () => {
+    setIsExpanded(false)
+    // setTimeout(() => animateBlock.current.classList.remove('animate-kick'), 500)
+  }
+
+  useEffect(() => {
+    document.body.style.overflow = isExpanded ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isExpanded])
+
   return (
     <>
-      {isExpandedDream && (
-        <div
-          className={cn(
-            'absolute inset-0 h-screen w-screen bg-black transition-opacity duration-[300ms]',
-            isExpandedDream
-              ? 'pointer-events-auto opacity-50'
-              : 'pointer-events-none opacity-0'
-          )}
-          onClick={() => setIsExpandedDream(false)}
-        ></div>
-      )}
-      <div
+      <Backdrop isExpanded={isExpanded} onClick={handleCloseModal} />
+      <motion.div
+        layout
+        ref={animateBlock}
+        transition={{
+          duration: 0.7,
+          ease: 'easeInOut',
+        }}
         className={cn(
-          'relative h-96 cursor-pointer rounded-3xl bg-white text-start transition-all duration-[1.2s]',
-          stepsValue === 1 ? '' : '',
-          !isExpandedDream && 'animate-kick'
+          '-left-[24px] top-[5vh] z-50 mx-auto cursor-pointer rounded-3xl bg-white text-start transition-all',
+          isExpanded ? 'absolute h-[95vh] w-screen' : 'h-[360px] w-[287px]'
         )}
+        onClick={() => setIsExpanded(true)}
       >
-        <div
-          className={cn(
-            'absolute inset-0 z-10 flex items-start justify-start rounded-3xl bg-paper bg-origin-content p-4',
-            stepsValue === 1 && 'hidden'
-          )}
-          onClick={() => setIsExpandedDream(true)}
-        >
-          <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
-            {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
-          </p>
-          {!!dreamValue && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent"></div>
-          )}
-        </div>
-        <AnimatedSheet top={'top-[-130px]'} isExpanded={isExpandedDream}>
-          <div className={'relative h-[92%]'}>
-            <Textarea
-              value={dreamValue}
-              onChange={(e) => dreamStore.set(e.target.value)}
-              placeholder={'Опишите свой сон...'}
-              className={
-                "h-full resize-none px-4 font-['Roslindale-medium'] text-xl font-bold"
-              }
-              minLength={4}
-            />
-            <div
-              className={cn(
-                'absolute bottom-0 right-4 grid w-[89%] grid-cols-4 items-center justify-between transition-opacity duration-[500ms]',
-                isExpandedDream ? 'opacity-100' : 'opacity-0'
-              )}
-            >
-              {isEmpty && (
-                <div
-                  className={
-                    'col-span-4 flex items-center justify-between gap-4 rounded-xl bg-[#383838D9] p-2'
-                  }
-                >
-                  <img src={'/img/edit_28.png'} alt={'edit'} />
-                  <p className={'text-xs text-white'}>
-                    Нам нужно хотя бы несколько слов о вашем сне, чтобы сделать
-                    толкование
-                  </p>
-                </div>
-              )}
-              {!isEmpty && (
-                <>
-                  {200 - dreamValue.length < 0 ? (
-                    <p className={'col-span-2 text-xs text-red-500'}>
-                      {200 - dreamValue.length}
-                    </p>
-                  ) : (
-                    <p className={'col-span-2 text-xs text-muted'}>
-                      Осталось {200 - dreamValue.length} символов
-                    </p>
-                  )}
-                  <Button
-                    className={cn(
-                      'col-span-1 col-start-4',
-                      !dreamValue.length && 'opacity-50 hover:opacity-50'
-                    )}
-                    disabled={dreamValue.length > 200}
-                    onClick={nextStep}
-                  >
-                    Дальше
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </AnimatedSheet>
-      </div>
+        <DreamContent
+          isExpanded={isExpanded}
+          dreamValue={dreamValue}
+          isEmpty={isEmpty}
+          nextStep={nextStep}
+        />
+      </motion.div>
     </>
   )
 }

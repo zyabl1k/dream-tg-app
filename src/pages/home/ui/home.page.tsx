@@ -1,69 +1,109 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
+import { useEffect, useRef } from 'react'
+import { Header } from '@/widgets/header'
+import { Card } from '@/shared/ui/card.tsx'
+import { cn } from '@/shared/lib/tailwind.ts'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { DrawerLifeInput } from '@/features/manage-home/ui/drawer-life-input.tsx'
 import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
+
+// const data = [
+//   {
+//     id: 1,
+//     date: 'Сегодня',
+//     description: 'Сон про вашу первую любовь и что-то еще для тестов',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+// ]
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
-  const navigate = useNavigate()
+  const ref = useRef(null)
   const { user } = useTelegram()
-
-  useEffect(() => {
-    stepsStore.set(0)
-  }, [])
-
+  const { scrollYProgress } = useScroll({ target: ref })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id || 1347606553),
   })
 
+  const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
+  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const secondSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.7, 0.99],
+    [0, 1]
+  )
+  const yText = useTransform(scrollYProgress, [0.7, 0.99], [10, 0])
+  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
+
+  useEffect(() => {
+    stepsStore.set(0)
+  }, [])
+
+  // useEffect(() => {
+  //   return scrollYProgress.onChange((latest) => {
+  //     console.log(latest)
+  //   })
+  // }, [scrollYProgress])
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error
 
   return (
-    <div className={'flex flex-1 flex-col justify-center'}>
-      {stepsValue < 1 && (
-        <p className={'mb-4 text-center text-muted'}>
+    <div ref={ref} className={'flex flex-col justify-center'}>
+      <motion.section
+        style={{ scale: firstSectionScale, opacity: firstSectionOpacity }} // Применяем анимацию масштаба первой секции
+        className={'relative flex h-[85vh] snap-center flex-col justify-start'}
+      >
+        <Header />
+        <p
+          className={cn(
+            'mb-[36px] mt-[20px] text-center text-muted opacity-100 transition-opacity',
+            stepsValue > 0 && 'hidden'
+          )}
+        >
           Карл Юнг считал, что сны связывают нас с бессознательным, где хранятся
           общие архетипы и символы и до 160 символов или 4 строки текста в
           декскрипторе, не больше
         </p>
-      )}
-      <DrawerDreamInput />
-      {stepsValue < 1 && (
-        <div className={'mt-10 flex snap-center flex-col gap-y-4'}>
+        {stepsValue > 0 ? <DrawerLifeInput /> : <DrawerDreamInput />}
+      </motion.section>
+      <motion.section
+        className={cn(
+          'relative flex h-screen snap-center flex-col gap-y-4 opacity-100 transition-opacity',
+          stepsValue > 0 && 'pointer-events-none opacity-0'
+        )}
+      >
+        <motion.h1
+          style={{
+            y: yText,
+            opacity: secondSectionOpacity,
+          }}
+          className={"mt-4 text-center font-['Roslindale-medium'] text-[36px]"}
+        >
+          Коллекция снов
+        </motion.h1>
+        <motion.div className={'flex flex-col gap-y-4'} style={{ y: yBlocks }}>
           {data.map((item) => (
-            <div key={item.id} className={'text-center'}>
-              <p className="mb-4 text-sm font-semibold text-muted">
+            <div className={'flex flex-col gap-y-6'} key={item.id}>
+              <p className="text-center text-sm font-semibold text-muted">
                 {item.date}
               </p>
-              <div
-                className={'relative cursor-pointer'}
-                onClick={() => navigate(`/dream/${item.id}`)}
-              >
-                <div
-                  className={
-                    'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
-                  }
-                >
-                  <p className="font-['Roslindale-medium'] text-xl">
-                    {item.description}
-                  </p>
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
-                </div>
-                <div
-                  className={
-                    'absolute -right-2 -top-2 -z-10 h-full w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-lg'
-                  }
-                ></div>
-              </div>
+              <Card
+                layoutId={`card-${item.id}`}
+                id={item.id}
+                description={item.description}
+              />
             </div>
           ))}
-        </div>
-      )}
+        </motion.div>
+      </motion.section>
     </div>
   )
 }

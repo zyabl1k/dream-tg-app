@@ -4,117 +4,80 @@ import { getDream } from '@/entities'
 import { stepsStore } from '@/features/manage-home'
 import { useEffect, useState } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
+import { generateRandomNumbers } from '@/shared/lib/generate-number.ts'
+import { parseDescription } from '@/shared/lib/parse-paragraph.ts'
+import { Card } from '@/shared/ui/card.tsx'
+import { motion } from 'framer-motion'
+import { useCardPosition } from '@/shared/lib/use-position.provider.tsx'
 
-interface Paragraph {
-  title: string | null
-  text: string
-  index: number
-}
+// const data = {
+//   textRequest: 'Любовь ко всем',
+//   description: `Большой текст: я люблю всех на этой планетет
+//
+//   ДА: lol`,
+// }
 
 export const DreamPage = () => {
   const { id } = useParams()
   const { user } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
+  const { position } = useCardPosition()
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
     queryFn: async () => await getDream(user?.id || 1347606553, id ?? '1'),
   })
 
-  const generateRandomNumbers = () => {
-    const numbers = Array.from({ length: 15 }, (_, i) => i + 1)
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[numbers[i], numbers[j]] = [numbers[j], numbers[i]] // Перемешивание
-    }
-    return numbers
-  }
-
   useEffect(() => {
-    stepsStore.set(1)
-  }, [])
-
-  useEffect(() => {
+    stepsStore.set(0)
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
   if (isPending) return 'Loading...'
   if (error || !data) return 'An error has occurred: ' + error.message
 
-  const formattedParagraphs: Paragraph[] = []
-  let previousParagraph: Paragraph | null = null
-
-  data.description.split('\n').forEach((paragraph, index) => {
-    const match = paragraph.match(/^(.*?):/)
-    const title = match ? match[1] : null
-    const textWithoutTitle = title
-      ? paragraph.replace(/^(.*?):\s*/, '')
-      : paragraph
-
-    if (title) {
-      if (previousParagraph) {
-        formattedParagraphs.push(previousParagraph)
-      }
-      previousParagraph = {
-        title,
-        text: textWithoutTitle,
-        index,
-      }
-    } else if (previousParagraph) {
-      previousParagraph.text += ` ${textWithoutTitle}`
-    } else {
-      previousParagraph = {
-        title: null,
-        text: textWithoutTitle,
-        index,
-      }
-    }
-  })
-
-  if (previousParagraph) {
-    formattedParagraphs.push(previousParagraph)
-  }
-
-  const paragraphs = formattedParagraphs.map(({ title, text, index }) => (
-    <div key={index} className={'flex items-start gap-x-4'}>
-      {index % 2 === 0 && randomNumbers[index / 2] && (
-        <img src={`/img/pack/${randomNumbers[index / 2]}.png`} alt={'photo'} />
-      )}
-      <div className={'flex flex-col gap-y-3'}>
-        {title && (
-          <h1 className={"font-['Roslindale-medium'] text-2xl font-bold"}>
-            {title}
-          </h1>
+  const paragraphs = parseDescription(data.description).map(
+    ({ title, text, index }) => (
+      <div key={index} className="flex items-start gap-x-4">
+        {randomNumbers[Math.floor(index / 2)] && (
+          <img
+            src={`/img/pack/${randomNumbers[Math.floor(index / 2)]}.png`}
+            alt="photo"
+          />
         )}
-        <p className={'text-lg'}>{text}</p>
-      </div>
-    </div>
-  ))
-
-  return (
-    <div className={'flex flex-col'}>
-      <div className={'my-10 text-center'}>
-        <div className={'relative'}>
-          <div
-            className={
-              'relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 text-left shadow-lg'
-            }
-          >
-            <p className="font-['Roslindale-medium'] text-xl">
-              {data.textRequest}
-            </p>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
-          </div>
-          <div
-            className={
-              'absolute -right-2 -top-2 -z-10 h-full w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-lg'
-            }
-          ></div>
+        <div className="flex flex-col gap-y-3">
+          {title && (
+            <h1 className="font-['Roslindale-medium'] text-2xl font-bold">
+              {title}
+            </h1>
+          )}
+          <p className="text-lg">{text}</p>
         </div>
       </div>
-      <div className={'flex flex-col items-start gap-x-4 gap-y-4'}>
+    )
+  )
+
+  return (
+    <motion.div className={'flex flex-col'}>
+      <motion.div
+        initial={{
+          x: 0,
+          y: (position?.y && position?.y + window.innerHeight - 64) || 0,
+        }}
+        animate={{ x: 0, y: 0 }}
+        transition={{ duration: 0.7, ease: 'easeInOut' }}
+        className={'my-10'}
+      >
+        <Card description={data.textRequest} />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5, ease: 'easeInOut' }}
+        className={'flex flex-col items-start gap-x-4 gap-y-4'}
+      >
         {paragraphs}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }

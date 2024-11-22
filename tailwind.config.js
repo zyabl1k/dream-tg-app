@@ -6,6 +6,8 @@ export default {
     extend: {
       animation: {
         kick: 'kick .5s linear',
+        'transform-card': 'transform-card .5s linear',
+
         'scale-down': 'scale-down .5s linear',
         'scale-up': 'scale-up .5s linear',
         'scan-text': 'scan-text .5s linear',
@@ -23,9 +25,8 @@ export default {
         border: 'var(--border)',
       },
       boxShadow: {
-        'insert-bottom': 'inset 0px -200px 181px -100px rgba(255,255,255,1)',
-        'insert-bottom-small':
-          'inset 0px 10px 181px -100px rgba(255,255,255,1)',
+        card: '0px -4px 36px 0px #07070712',
+        'card-back': '0px 4px 36px 0px #2F536012',
       },
       backgroundImage: {
         paper:
