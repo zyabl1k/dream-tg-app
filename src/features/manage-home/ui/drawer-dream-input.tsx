@@ -43,7 +43,7 @@ export const DrawerDreamInput = () => {
           body: JSON.stringify({
             dreamDescription: dreamValue,
             lifeDescription: lifeValue,
-            telegram_user_id: user?.id || 1347606553,
+            telegram_user_id: user?.id ?? 0,
           }),
         }
       ).then(async (resp) => {

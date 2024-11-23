@@ -29,7 +29,7 @@ export const HomePage = () => {
   const { scrollYProgress } = useScroll({ target: ref })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
-    queryFn: async () => await getDreamData(user?.id || 1347606553),
+    queryFn: async () => await getDreamData(user?.id ?? 0),
   })
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])

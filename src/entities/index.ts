@@ -15,7 +15,7 @@ export const getDream = async (userId: number, id: string) => {
 export const sendDream = async (desc: string, life: string) => {
   const { user } = useTelegram()
   const response = await $api.post(`dream/send`, {
-    telegram_user_id: user?.id || 1347606553,
+    telegram_user_id: user?.id,
     dreamDescription: desc,
     lifeDescription: life,
   })
