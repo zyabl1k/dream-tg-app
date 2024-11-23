@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
 import { stepsStore } from '@/features/manage-home'
@@ -22,6 +22,15 @@ export const DreamPage = () => {
   const { user } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
   const { position } = useCardPosition()
+  const tg = window.Telegram.WebApp
+  const BackButton = tg.BackButton
+  const navigate = useNavigate()
+  BackButton.show()
+
+  BackButton.onClick(function () {
+    navigate('/')
+    BackButton.hide()
+  })
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
