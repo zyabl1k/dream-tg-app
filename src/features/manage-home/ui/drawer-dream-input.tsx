@@ -261,7 +261,7 @@ export const DrawerDreamInput = () => {
           animate={isLoading ? 'visible' : 'invisible'}
           transition={{ duration: 0.5, delay: 0.5 }}
           className={
-            'fixed left-1/2 top-[100%] text-nowrap text-center text-lg font-semibold'
+            'fixed left-1/2 top-[80%] text-nowrap text-center text-lg font-semibold'
           }
         >
           Анализируем сон...
