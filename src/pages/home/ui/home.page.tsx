@@ -85,7 +85,7 @@ export const HomePage = () => {
       </motion.section>
       <motion.section
         className={cn(
-          'relative flex h-screen snap-center flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
+          'relative flex h-screen flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
       >
