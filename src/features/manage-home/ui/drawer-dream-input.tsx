@@ -127,9 +127,9 @@ export const DrawerDreamInput = () => {
   if (isLoading) {
     return (
       <motion.div className={'flex flex-col'}>
-        <div className={'my-6 mt-16'}>
+        <motion.div className={'my-6 mt-16'}>
           <Card textClassName={'scan !bg-black'} description={dreamValue} />
-        </div>
+        </motion.div>
         <h1 className={'text-center text-lg font-semibold'}>
           Анализируем сон...
         </h1>
@@ -151,7 +151,8 @@ export const DrawerDreamInput = () => {
         className={cn(
           'relative top-0 z-50 cursor-pointer bg-white text-start shadow-lg',
           stepsValue > 0 && !isExpandedLife && '!-top-[20vh]',
-          (isExpandedLife || isExpandedDream) && 'absolute'
+          (isExpandedLife || isExpandedDream) && 'absolute',
+          isLoading && 'hidden'
         )}
         onClick={() => {
           if (!isExpandedDream && stepsValue === 0) setIsExpandedDream(true)
@@ -170,7 +171,7 @@ export const DrawerDreamInput = () => {
           className={cn(
             'relative h-full cursor-pointer text-start transition-transform duration-1000',
             stepsValue > 0 ? 'rotate-y-180' : '',
-            !isExpandedDream && 'bg-paper'
+            !isExpandedDream && stepsValue < 1 && 'bg-paper'
           )}
         >
           {/* Лицевая сторона */}
@@ -198,13 +199,27 @@ export const DrawerDreamInput = () => {
           </div>
         </div>
       </motion.div>
+
+      <motion.div
+        className={cn(
+          'relative !-top-[20vh] z-50 hidden cursor-pointer bg-white p-4 text-start shadow-lg',
+          isLoading && 'block'
+        )}
+        variants={variants}
+        initial="collapsed"
+      >
+        <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
+          {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
+        </p>
+      </motion.div>
+
       <motion.div
         className={
           'absolute bottom-4 mt-6 flex w-full flex-col items-center justify-center gap-y-2'
         }
         variants={variantsButtons}
         initial="invisible"
-        animate={stepsValue === 0 ? 'invisible' : 'visible'}
+        animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
         <Button onClick={handleSendDream}>Узнать значение сна</Button>

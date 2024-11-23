@@ -106,7 +106,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
       transition: { duration: 2, ease: 'easeInOut' },
     },
     visible: {
-      translateY: isKeyboardVisible ? '-600%' : '0%', // Поднимаем панель при видимой клавиатуре
+      translateY: isKeyboardVisible ? '-750%' : '0%',
       opacity: 1,
       transition: { duration: 0.5, ease: 'easeInOut' },
     },
