@@ -12,7 +12,6 @@ import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useMutation } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 import { useNavigate } from 'react-router-dom'
-import { Card } from '@/shared/ui/card.tsx'
 
 export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
