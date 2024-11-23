@@ -99,9 +99,7 @@ export const HomePage = () => {
           Коллекция снов
         </motion.h1>
         <motion.div
-          className={
-            'no-scrollbar flex flex-col gap-y-4 overflow-y-scroll pb-10'
-          }
+          className={'no-scrollbar flex flex-col gap-y-4 overflow-y-auto pb-10'}
           style={{ y: yBlocks }}
         >
           {data.map((item) => (
