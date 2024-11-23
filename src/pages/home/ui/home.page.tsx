@@ -69,6 +69,7 @@ export const HomePage = () => {
         )}
       >
         <Header />
+        {user?.id}
         <motion.p
           key="paragraph"
           className="my-4 text-center text-muted"
