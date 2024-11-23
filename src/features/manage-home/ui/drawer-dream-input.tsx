@@ -22,8 +22,9 @@ export const DrawerDreamInput = () => {
   const [isExpandedDream, setIsExpandedDream] = useState(false)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { user, tg } = useTelegram()
+  const { user } = useTelegram()
   const navigate = useNavigate()
+  const tg = window.Telegram.WebApp
 
   const nextStep = () => {
     if (validateDream()) {
