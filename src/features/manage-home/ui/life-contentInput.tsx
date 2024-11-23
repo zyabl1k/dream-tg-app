@@ -18,7 +18,7 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
       className={cn('rounded-3xl p-[24px]', isExpanded ? 'bg-white' : '')}
     >
       {!isExpanded ? (
-        <p className="rotate-y-180 max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
+        <p className="rotate-y-180 max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
           {!!lifeValue
             ? lifeValue
             : 'Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна'}

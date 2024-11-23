@@ -181,7 +181,7 @@ export const DrawerDreamInput = () => {
           if (!isExpandedDream && stepsValue === 0) setIsExpandedDream(true)
           if (!isExpandedLife && stepsValue === 1) setIsExpandedLife(true)
         }}
-        drag="y"
+        drag={(isExpandedDream || isExpandedLife) && 'y'}
         dragConstraints={{ top: 0, bottom: 0 }}
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) handleCloseModal()
@@ -210,12 +210,17 @@ export const DrawerDreamInput = () => {
               isEmpty={isEmpty}
               nextStep={nextStep}
             />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent"></div>
+            <div
+              className={cn(
+                'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                (isExpandedDream || isExpandedLife) && 'hidden'
+              )}
+            ></div>
           </div>
 
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-3xl bg-white',
+              'inset-0 z-10 rounded-3xl bg-white',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
