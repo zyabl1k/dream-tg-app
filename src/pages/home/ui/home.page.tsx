@@ -65,7 +65,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[95vh] snap-center flex-col justify-start'
+          'relative flex h-[95vh] snap-center flex-col justify-start px-6 pt-6'
         )}
       >
         <Header />
@@ -85,7 +85,7 @@ export const HomePage = () => {
       </motion.section>
       <motion.section
         className={cn(
-          'relative flex h-screen flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
+          'relative flex h-screen snap-start flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
       >
@@ -94,11 +94,16 @@ export const HomePage = () => {
             y: yText,
             opacity: secondSectionOpacity,
           }}
-          className={"mt-4 text-center font-['Roslindale-medium'] text-[36px]"}
+          className={"my-4 text-center font-['Roslindale-medium'] text-[36px]"}
         >
           Коллекция снов
         </motion.h1>
-        <motion.div className={'flex flex-col gap-y-4'} style={{ y: yBlocks }}>
+        <motion.div
+          className={
+            'no-scrollbar flex flex-col gap-y-4 overflow-y-scroll px-6 pb-10'
+          }
+          style={{ y: yBlocks }}
+        >
           {data.map((item) => (
             <div className={'flex flex-col gap-y-6'} key={item.id}>
               <p className="text-center text-sm font-semibold text-muted">
