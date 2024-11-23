@@ -22,7 +22,7 @@ export const DrawerDreamInput = () => {
   const [isExpandedDream, setIsExpandedDream] = useState(false)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { user } = useTelegram()
+  const { user, tg } = useTelegram()
   const navigate = useNavigate()
 
   const nextStep = () => {
@@ -66,6 +66,11 @@ export const DrawerDreamInput = () => {
   useEffect(() => {
     document.body.style.overflow =
       isExpandedDream || isExpandedLife || stepsValue > 0 ? 'hidden' : ''
+    if (isExpandedDream || isExpandedLife) {
+      tg.disableSwipeBack()
+    } else {
+      tg.enableSwipeBack()
+    }
     return () => {
       document.body.style.overflow = ''
     }
@@ -159,7 +164,7 @@ export const DrawerDreamInput = () => {
           if (!isExpandedLife && stepsValue === 1) setIsExpandedLife(true)
         }}
         drag="y"
-        dragConstraints={{ top: 0, bottom: 0 }}
+        dragConstraints={{ top: 0, bottom: 0, height: 100 }}
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) handleCloseModal()
         }}
