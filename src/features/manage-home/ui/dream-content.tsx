@@ -32,13 +32,11 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
       setIsKeyboardVisible(isKeyboardNowVisible)
     }
 
-    // Обработчики событий
     window.addEventListener('resize', handleResize)
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', handleResize)
     }
 
-    // Очистка обработчиков
     return () => {
       window.removeEventListener('resize', handleResize)
       if (window.visualViewport) {
@@ -67,8 +65,6 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             placeholder="Опишите свой сон..."
             className="h-[50vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
             minLength={4}
-            onFocus={() => setIsKeyboardVisible(true)}
-            onBlur={() => setIsKeyboardVisible(false)}
           />
 
           <FooterContent
