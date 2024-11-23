@@ -9,28 +9,28 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
-const data = [
-  {
-    id: 1,
-    date: 'Сегодня',
-    description: 'Сон про вашу первую любовь и что-то еще для тестов',
-  },
-  {
-    id: 2,
-    date: 'Вчера',
-    description: 'Сон про вашу собаку и маму',
-  },
-]
+// const data = [
+//   {
+//     id: 1,
+//     date: 'Сегодня',
+//     description: 'Сон про вашу первую любовь и что-то еще для тестов',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+// ]
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
   const ref = useRef(null)
   const { user } = useTelegram()
   const { scrollYProgress } = useScroll({ target: ref })
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ['dreams'],
-  //   queryFn: async () => await getDreamData(user?.id || 1347606553),
-  // })
+  const { isPending, error, data } = useQuery({
+    queryKey: ['dreams'],
+    queryFn: async () => await getDreamData(user?.id || 1347606553),
+  })
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
@@ -57,8 +57,8 @@ export const HomePage = () => {
     },
   }
 
-  // if (isPending) return 'Loading...'
-  // if (error || !data) return 'An error has occurred: ' + error
+  if (isPending) return 'Loading...'
+  if (error || !data) return 'An error has occurred: ' + error
 
   return (
     <div ref={ref} className={'flex flex-col justify-center'}>
