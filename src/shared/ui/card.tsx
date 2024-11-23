@@ -36,7 +36,7 @@ export const Card: FunctionComponent<CardProps> = ({
     >
       <div
         className={
-          'shadow-card relative rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4'
+          'relative min-h-[160px] rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 shadow-card'
         }
       >
         <p className={`${textClassName} font-['Roslindale-medium'] text-xl`}>
@@ -46,7 +46,7 @@ export const Card: FunctionComponent<CardProps> = ({
       </div>
       <div
         className={
-          'shadow-card-back absolute -right-2 bottom-0 -z-10 h-[120%] w-full rounded-b-md rounded-t-3xl bg-muted-light-2'
+          'absolute -right-2 bottom-0 -z-10 h-[110%] w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-card-back'
         }
       ></div>
     </motion.div>

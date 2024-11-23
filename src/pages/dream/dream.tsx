@@ -43,7 +43,23 @@ export const DreamPage = () => {
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
-  if (isPending) return 'Loading...'
+  if (isPending)
+    return (
+      <div
+        className={'absolute'}
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <img
+          className={'size-8 animate-spin'}
+          src={'img/loader.png'}
+          alt={'loader'}
+        />
+      </div>
+    )
   if (error || !data) return 'An error has occurred: ' + error.message
 
   const paragraphs = parseDescription(data.description).map(
@@ -51,7 +67,7 @@ export const DreamPage = () => {
       <div key={index} className="flex items-start gap-x-4">
         {randomNumbers[Math.floor(index / 2)] && (
           <img
-            src={`/img/pack/${randomNumbers[Math.floor(index / 2)]}.png`}
+            src={`/img/pack/${randomNumbers[Math.floor(index / 2)]}.svg`}
             alt="photo"
           />
         )}
@@ -76,7 +92,7 @@ export const DreamPage = () => {
         }}
         animate={{ x: 0, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeInOut' }}
-        className={'my-10'}
+        className={'mb-[60px] mt-6'}
       >
         <Card description={data.textRequest} />
       </motion.div>

@@ -57,7 +57,23 @@ export const HomePage = () => {
     },
   }
 
-  if (isPending) return 'Loading...'
+  if (isPending)
+    return (
+      <div
+        className={'absolute'}
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <img
+          className={'size-8 animate-spin'}
+          src={'img/loader.png'}
+          alt={'loader'}
+        />
+      </div>
+    )
   if (error || !data) return 'An error has occurred: ' + error
 
   return (
@@ -65,7 +81,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex max-h-screen snap-center flex-col justify-start'
+          'relative flex h-screen snap-center flex-col justify-start'
         )}
       >
         <Header />
