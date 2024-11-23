@@ -99,12 +99,12 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
     hidden: {
       translateY: '20%',
       opacity: 0,
-      transition: { duration: 2, ease: 'easeInOut' },
+      transition: { duration: 0.2, ease: 'easeInOut' },
     },
     visible: {
       translateY: isKeyboardVisible ? '-700%' : '0%',
       opacity: 1,
-      transition: { duration: 0.5, ease: 'easeInOut' },
+      transition: { duration: 0.2, ease: 'easeInOut' },
     },
   }
 
