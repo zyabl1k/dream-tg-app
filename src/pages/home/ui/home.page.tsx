@@ -65,7 +65,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[85vh] snap-center flex-col justify-start'
+          'relative flex h-[95vh] snap-center flex-col justify-start'
         )}
       >
         <Header />
@@ -85,7 +85,7 @@ export const HomePage = () => {
       </motion.section>
       <motion.section
         className={cn(
-          'relative flex h-screen snap-center flex-col gap-y-4 opacity-100 transition-opacity',
+          'relative flex h-screen snap-center flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
       >
