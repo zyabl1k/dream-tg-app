@@ -261,7 +261,7 @@ export const DrawerDreamInput = () => {
           animate={isLoading ? 'visible' : 'invisible'}
           transition={{ duration: 0.5, delay: 0.5 }}
           className={
-            'fixed left-1/2 top-1/2 text-nowrap text-center text-lg font-semibold'
+            'fixed left-1/2 top-[100%] text-nowrap text-center text-lg font-semibold'
           }
         >
           Анализируем сон...
@@ -270,7 +270,7 @@ export const DrawerDreamInput = () => {
 
       <motion.div
         className={
-          'absolute bottom-4 flex w-full flex-col items-center justify-center gap-y-2'
+          'absolute bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2'
         }
         variants={variantsButtons}
         initial="invisible"
