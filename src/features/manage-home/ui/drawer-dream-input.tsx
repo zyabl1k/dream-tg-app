@@ -261,7 +261,7 @@ export const DrawerDreamInput = () => {
           animate={isLoading ? 'visible' : 'invisible'}
           transition={{ duration: 0.5, delay: 0.5 }}
           className={
-            'fixed left-1/2 top-[80%] text-nowrap text-center text-lg font-semibold'
+            'relative left-1/2 top-10 text-nowrap text-center text-lg font-semibold'
           }
         >
           Анализируем сон...
@@ -270,14 +270,16 @@ export const DrawerDreamInput = () => {
 
       <motion.div
         className={
-          'absolute bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2'
+          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2'
         }
         variants={variantsButtons}
         initial="invisible"
         animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Button onClick={handleSendDream}>Узнать значение сна</Button>
+        <Button className={'text-md p-6'} onClick={handleSendDream}>
+          Узнать значение сна
+        </Button>
         <Button onClick={prevStep} variant={'ghost'}>
           Отмена
         </Button>
