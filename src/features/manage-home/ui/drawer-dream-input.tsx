@@ -124,18 +124,42 @@ export const DrawerDreamInput = () => {
     },
   }
 
-  if (isLoading) {
-    return (
-      <motion.div className={'flex flex-col'}>
-        <motion.div className={'my-6 mt-16'}>
-          <Card textClassName={'scan !bg-black'} description={dreamValue} />
-        </motion.div>
-        <h1 className={'text-center text-lg font-semibold'}>
-          Анализируем сон...
-        </h1>
-      </motion.div>
-    )
+  const analiz = {
+    visible: {
+      opacity: 1,
+    },
+    invisible: {
+      opacity: 0,
+    },
   }
+
+  const blockVariants = {
+    collapsed: { opacity: 1, height: '50%' },
+    expanded: { opacity: 1, height: 0 },
+  }
+
+  const containerVariants = {
+    collapsed: { opacity: 0 },
+    expanded: { opacity: 1 },
+  }
+
+  const test = {
+    collapsed: { right: 0, height: '100%' },
+    expanded: { right: '-1rem', height: '110%' },
+  }
+
+  // if (isLoading) {
+  //   return (
+  //     <motion.div className={'flex flex-col'}>
+  //       <motion.div className={'my-6 mt-16'}>
+  //         <Card textClassName={'scan !bg-black'} description={dreamValue} />
+  //       </motion.div>
+  //       <h1 className={'text-center text-lg font-semibold'}>
+  //         Анализируем сон...
+  //       </h1>
+  //     </motion.div>
+  //   )
+  // }
 
   return (
     <>
@@ -202,15 +226,45 @@ export const DrawerDreamInput = () => {
 
       <motion.div
         className={cn(
-          'relative !-top-[20vh] z-50 hidden cursor-pointer bg-white p-4 text-start shadow-lg',
+          'relative !-top-[18vh] z-50 hidden h-[360px] w-[287px] text-start',
           isLoading && 'block'
         )}
-        variants={variants}
         initial="collapsed"
+        animate={isLoading ? 'expanded' : 'collapsed'}
+        variants={containerVariants}
+        style={{
+          left: 'calc(50% - 143.5px)',
+        }}
       >
-        <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
-          {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
-        </p>
+        <div className="relative h-1/2 rounded-b-xl rounded-t-3xl bg-white p-4">
+          <p className="scan !bg-black font-['Roslindale-medium'] text-xl">
+            {dreamValue}
+          </p>
+          <motion.div
+            variants={test}
+            transition={{ duration: 1, ease: 'easeInOut', delay: 0.5 }}
+            className={
+              'absolute -right-4 bottom-0 -z-10 w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-card-back'
+            }
+          ></motion.div>
+        </div>
+        <motion.div
+          className="h-1/2 rounded-b-3xl bg-white"
+          variants={blockVariants}
+          transition={{ duration: 1, ease: 'easeOut', delay: 0.1 }}
+        />
+        <motion.h1
+          style={{
+            transform: 'translate(-50%, -50%)',
+          }}
+          variants={analiz}
+          initial="invisible"
+          animate={isLoading ? 'visible' : 'invisible'}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className={'fixed left-1/2 top-1/2 text-center text-lg font-semibold'}
+        >
+          Анализируем сон...
+        </motion.h1>
       </motion.div>
 
       <motion.div

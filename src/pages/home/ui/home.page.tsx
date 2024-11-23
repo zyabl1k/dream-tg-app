@@ -9,18 +9,18 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
-// const data = [
-//   {
-//     id: 1,
-//     date: 'Сегодня',
-//     description: 'Сон про вашу первую любовь и что-то еще для тестов',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-// ]
+const data = [
+  {
+    id: 1,
+    date: 'Сегодня',
+    description: 'Сон про вашу первую любовь и что-то еще для тестов',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+]
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
