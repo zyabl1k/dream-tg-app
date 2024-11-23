@@ -24,7 +24,6 @@ export const DrawerDreamInput = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useTelegram()
   const navigate = useNavigate()
-  const tg = window.Telegram.WebApp
 
   const nextStep = () => {
     if (validateDream()) {
@@ -67,11 +66,6 @@ export const DrawerDreamInput = () => {
   useEffect(() => {
     document.body.style.overflow =
       isExpandedDream || isExpandedLife || stepsValue > 0 ? 'hidden' : ''
-    if (isExpandedDream || isExpandedLife) {
-      tg.disableSwipeBack()
-    } else {
-      tg.enableSwipeBack()
-    }
     return () => {
       document.body.style.overflow = ''
     }
