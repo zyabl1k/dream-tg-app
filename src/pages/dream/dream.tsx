@@ -29,6 +29,7 @@ export const DreamPage = () => {
   })
 
   useEffect(() => {
+    document.body.style.overflow = ''
     stepsStore.set(0)
     setRandomNumbers(generateRandomNumbers())
   }, [])

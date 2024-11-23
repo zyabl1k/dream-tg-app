@@ -64,11 +64,12 @@ export const DrawerDreamInput = () => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = isExpandedDream ? 'hidden' : ''
+    document.body.style.overflow =
+      isExpandedDream || isExpandedLife || stepsValue > 0 ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
-  }, [isExpandedDream])
+  }, [isExpandedDream, isExpandedLife, stepsValue])
 
   const variants = {
     collapsed: {

@@ -25,25 +25,35 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
 
   useEffect(() => {
     const handleResize = () => {
-      // Проверяем изменение высоты экрана
-      if (window.innerHeight < document.documentElement.clientHeight) {
-        setIsKeyboardVisible(true) // Клавиатура поднялась
-      } else {
-        setIsKeyboardVisible(false) // Клавиатура опустилась
-      }
+      const viewportHeight = window.visualViewport
+        ? window.visualViewport.height
+        : window.innerHeight
+      const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85 // Проверка на уменьшение высоты
+      setIsKeyboardVisible(isKeyboardNowVisible)
     }
 
+    // Обработчики событий
     window.addEventListener('resize', handleResize)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize)
+    }
 
+    // Очистка обработчиков
     return () => {
       window.removeEventListener('resize', handleResize)
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize)
+      }
     }
   }, [])
 
   return (
     <motion.div
       layout
-      className={cn('h-full p-[24px]', isExpanded ? '' : 'overflow-hidden')}
+      className={cn(
+        'flex h-full flex-col justify-between p-[24px] pb-[36px]',
+        isExpanded ? '' : 'overflow-hidden'
+      )}
     >
       {!isExpanded ? (
         <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
@@ -55,7 +65,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             value={dreamValue}
             onChange={(e) => dreamStore.set(e.target.value)}
             placeholder="Опишите свой сон..."
-            className="h-[80vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
+            className="h-[50vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
             minLength={4}
             onFocus={() => setIsKeyboardVisible(true)}
             onBlur={() => setIsKeyboardVisible(false)}
@@ -96,7 +106,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
       transition: { duration: 2, ease: 'easeInOut' },
     },
     visible: {
-      translateY: isKeyboardVisible ? '-20%' : '0%', // Поднимаем панель при видимой клавиатуре
+      translateY: isKeyboardVisible ? '-600%' : '0%', // Поднимаем панель при видимой клавиатуре
       opacity: 1,
       transition: { duration: 0.5, ease: 'easeInOut' },
     },
