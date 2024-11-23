@@ -75,7 +75,7 @@ export const DrawerDreamInput = () => {
       width: 287,
       height: 360,
       borderRadius: '1.5rem',
-      top: '32vh',
+      top: '0',
       left: 'calc(50% - 143.5px)',
       transition: {
         duration: 0.5,
@@ -148,9 +148,9 @@ export const DrawerDreamInput = () => {
         initial="collapsed"
         animate={isExpandedDream || isExpandedLife ? 'expanded' : 'collapsed'}
         className={cn(
-          'absolute top-0 z-50 cursor-pointer bg-white text-start shadow-lg',
-          stepsValue > 0 && '!top-[15vh]',
-          isExpandedLife && '!top-[5vh]'
+          'relative top-0 z-50 cursor-pointer bg-white text-start shadow-lg',
+          stepsValue > 0 && !isExpandedLife && '!-top-[20vh]',
+          (isExpandedLife || isExpandedDream) && 'absolute'
         )}
         onClick={() => {
           if (!isExpandedDream && stepsValue === 0) setIsExpandedDream(true)
@@ -167,14 +167,15 @@ export const DrawerDreamInput = () => {
         )}
         <div
           className={cn(
-            'relative cursor-pointer text-start transition-transform duration-1000',
-            stepsValue > 0 ? 'rotate-y-180' : ''
+            'relative h-full cursor-pointer text-start transition-transform duration-1000',
+            stepsValue > 0 ? 'rotate-y-180' : '',
+            !isExpandedDream && 'bg-paper'
           )}
         >
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-xl bg-paper',
+              'absolute inset-0 z-10 rounded-xl',
               stepsValue > 0 && 'hidden'
             )}
           >

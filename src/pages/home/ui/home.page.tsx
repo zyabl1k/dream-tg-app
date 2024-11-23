@@ -46,14 +46,6 @@ export const HomePage = () => {
     stepsStore.set(0)
   }, [])
 
-  // useEffect(() => {
-  //   return scrollYProgress.onChange((latest) => {
-  //     console.log(latest)
-  //   })
-  // }, [scrollYProgress])
-  if (isPending) return 'Loading...'
-  if (error || !data) return 'An error has occurred: ' + error
-
   const variants = {
     visible: {
       opacity: 1,
@@ -64,6 +56,9 @@ export const HomePage = () => {
       y: -20,
     },
   }
+
+  if (isPending) return 'Loading...'
+  if (error || !data) return 'An error has occurred: ' + error
 
   return (
     <div ref={ref} className={'flex flex-col justify-center'}>
@@ -76,7 +71,7 @@ export const HomePage = () => {
         <Header />
         <motion.p
           key="paragraph"
-          className="mb-[36px] mt-[20px] text-center text-muted"
+          className="my-4 text-center text-muted"
           variants={variants}
           initial="visible"
           animate={stepsValue > 0 ? 'invisible' : 'visible'}

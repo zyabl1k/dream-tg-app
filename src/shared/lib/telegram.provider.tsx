@@ -34,6 +34,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
         if (app) {
           app.ready()
           setWebApp(app)
+          app.expand()
         }
       }
       document.body.appendChild(script)

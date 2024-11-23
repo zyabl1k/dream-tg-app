@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { FunctionComponent } from 'react'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { dreamStore } from '@/features/manage-home'
@@ -20,6 +21,25 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
   isEmpty,
   nextStep,
 }) => {
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Проверяем изменение высоты экрана
+      if (window.innerHeight < document.documentElement.clientHeight) {
+        setIsKeyboardVisible(true) // Клавиатура поднялась
+      } else {
+        setIsKeyboardVisible(false) // Клавиатура опустилась
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <motion.div
       layout
@@ -37,6 +57,8 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             placeholder="Опишите свой сон..."
             className="h-[80vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
             minLength={4}
+            onFocus={() => setIsKeyboardVisible(true)}
+            onBlur={() => setIsKeyboardVisible(false)}
           />
 
           <FooterContent
@@ -44,6 +66,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             dreamValue={dreamValue}
             nextStep={nextStep}
             isExpanded={isExpanded}
+            isKeyboardVisible={isKeyboardVisible}
           />
         </>
       )}
@@ -56,6 +79,7 @@ interface FooterContentProps {
   dreamValue: string
   nextStep: () => void
   isExpanded: boolean
+  isKeyboardVisible: boolean
 }
 
 const FooterContent: FunctionComponent<FooterContentProps> = ({
@@ -63,6 +87,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
   dreamValue,
   nextStep,
   isExpanded,
+  isKeyboardVisible,
 }) => {
   const variants = {
     hidden: {
@@ -71,7 +96,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
       transition: { duration: 2, ease: 'easeInOut' },
     },
     visible: {
-      translateY: '0%',
+      translateY: isKeyboardVisible ? '-20%' : '0%', // Поднимаем панель при видимой клавиатуре
       opacity: 1,
       transition: { duration: 0.5, ease: 'easeInOut' },
     },
