@@ -210,6 +210,7 @@ export const DrawerDreamInput = () => {
               isEmpty={isEmpty}
               nextStep={nextStep}
             />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent"></div>
           </div>
 
           <div

@@ -49,12 +49,12 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
     <motion.div
       layout
       className={cn(
-        'flex h-full flex-col justify-between p-[24px] pb-[36px]',
+        'flex h-full flex-col justify-between p-[24px]',
         isExpanded ? '' : 'overflow-hidden'
       )}
     >
       {!isExpanded ? (
-        <p className="max-h-[345px] overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
+        <p className="max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words font-['Roslindale-medium'] text-xl font-bold text-muted-light">
           {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
         </p>
       ) : (
@@ -63,7 +63,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             value={dreamValue}
             onChange={(e) => dreamStore.set(e.target.value)}
             placeholder="Опишите свой сон..."
-            className="h-[50vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
+            className="no-scrollbar h-[50vh] resize-none font-['Roslindale-medium'] text-xl font-bold"
             minLength={4}
           />
 
