@@ -9,7 +9,7 @@ export const RootLayout = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.8 }}
-      className={'flex min-h-screen flex-col'}
+      className={'flex min-h-screen flex-col p-6'}
     >
       <Outlet />
       <UpWidget />

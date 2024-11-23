@@ -65,7 +65,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[95vh] snap-center flex-col justify-start px-6 pt-6'
+          'relative flex h-[95vh] snap-center flex-col justify-start'
         )}
       >
         <Header />
@@ -100,7 +100,7 @@ export const HomePage = () => {
         </motion.h1>
         <motion.div
           className={
-            'no-scrollbar flex flex-col gap-y-4 overflow-y-scroll px-6 pb-10'
+            'no-scrollbar flex flex-col gap-y-4 overflow-y-scroll pb-10'
           }
           style={{ y: yBlocks }}
         >
