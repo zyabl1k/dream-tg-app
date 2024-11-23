@@ -62,8 +62,9 @@ export const DrawerDreamInput = () => {
   }
 
   useEffect(() => {
-    document.body.style.overflow =
-      isExpandedDream || isExpandedLife || stepsValue > 0 ? 'hidden' : ''
+    if (isExpandedDream || isExpandedLife || stepsValue > 0) {
+      document.body.style.overflow = 'hidden'
+    }
     return () => {
       document.body.style.overflow = ''
     }
@@ -147,25 +148,8 @@ export const DrawerDreamInput = () => {
     expanded: { right: '-1rem', height: '110%' },
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <motion.div className={'flex flex-col'}>
-  //       <motion.div className={'my-6 mt-16'}>
-  //         <Card textClassName={'scan !bg-black'} description={dreamValue} />
-  //       </motion.div>
-  //       <h1 className={'text-center text-lg font-semibold'}>
-  //         Анализируем сон...
-  //       </h1>
-  //     </motion.div>
-  //   )
-  // }
-
   return (
     <>
-      {/*<Backdrop*/}
-      {/*  isExpanded={isExpandedDream || isExpandedLife}*/}
-      {/*  onClick={handleCloseModal}*/}
-      {/*/>*/}
       <motion.div
         layout
         variants={variants}
@@ -182,7 +166,7 @@ export const DrawerDreamInput = () => {
           if (!isExpandedLife && stepsValue === 1) setIsExpandedLife(true)
         }}
         drag={(isExpandedDream || isExpandedLife) && 'y'}
-        dragConstraints={{ top: 0, bottom: 0 }}
+        dragConstraints={{ top: 0, bottom: window.innerHeight - 345 }}
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) handleCloseModal()
         }}
