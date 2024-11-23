@@ -166,7 +166,7 @@ export const DrawerDreamInput = () => {
           if (!isExpandedLife && stepsValue === 1) setIsExpandedLife(true)
         }}
         drag={(isExpandedDream || isExpandedLife) && 'y'}
-        dragConstraints={{ top: 0, bottom: window.innerHeight - 345 }}
+        dragConstraints={{ top: 0, bottom: 0 }}
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) handleCloseModal()
         }}

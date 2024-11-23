@@ -35,6 +35,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           app.ready()
           setWebApp(app)
           app.expand()
+          app.disableVerticalSwipes()
         }
       }
       document.body.appendChild(script)

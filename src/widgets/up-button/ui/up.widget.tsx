@@ -31,7 +31,10 @@ export const UpWidget: FunctionComponent = () => {
           'flex items-center justify-center rounded-md transition-opacity duration-300',
           isVisible ? 'opacity-100' : 'pointer-events-none -z-10 opacity-0'
         )}
-        onClick={scrollUp}
+        onClick={() => {
+          scrollUp()
+          setIsVisible(false)
+        }}
       >
         <ArrowUpIcon className="!size-3" />
         <span>Назад</span>
