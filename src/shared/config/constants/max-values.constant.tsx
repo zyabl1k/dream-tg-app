@@ -1,1 +1,1 @@
-export const MAX_INPUT_VALUE = 200
+export const MAX_INPUT_VALUE = 160

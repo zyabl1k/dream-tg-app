@@ -4,6 +4,10 @@ export default {
   darkMode: ['class'],
   theme: {
     extend: {
+      fontFamily: {
+        roslindale: ['Roslindale', 'sans-serif'],
+        'roslindale-medium': ['Roslindale-medium', 'sans-serif'],
+      },
       animation: {
         kick: 'kick .5s linear',
         'transform-card': 'transform-card .5s linear',

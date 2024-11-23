@@ -4,7 +4,6 @@ import { cn } from '@/shared/lib/tailwind.ts'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useValidationCard } from '@/features/manage-home/model/use-validate-imput.ts'
-import { Backdrop } from '@/features/manage-home/ui/backdrop.tsx'
 import { DreamContent } from '@/features/manage-home/ui/dream-content.tsx'
 import { DragPilIcon } from '@/shared/ui/icons'
 import { LifeContent } from '@/features/manage-home/ui/life-contentInput.tsx'
@@ -85,9 +84,10 @@ export const DrawerDreamInput = () => {
     },
     expanded: {
       width: '100vw',
-      height: '95vh',
-      top: '5vh',
-      left: '-24px',
+      height: '97vh',
+      top: '3vh',
+      left: '0',
+      borderRadius: '1.5rem 1.5rem 0 0',
       transition: {
         duration: 0.3,
         ease: 'easeInOut',
@@ -162,17 +162,17 @@ export const DrawerDreamInput = () => {
 
   return (
     <>
-      <Backdrop
-        isExpanded={isExpandedDream || isExpandedLife}
-        onClick={handleCloseModal}
-      />
+      {/*<Backdrop*/}
+      {/*  isExpanded={isExpandedDream || isExpandedLife}*/}
+      {/*  onClick={handleCloseModal}*/}
+      {/*/>*/}
       <motion.div
         layout
         variants={variants}
         initial="collapsed"
         animate={isExpandedDream || isExpandedLife ? 'expanded' : 'collapsed'}
         className={cn(
-          'relative top-0 z-50 cursor-pointer bg-white text-start shadow-lg',
+          'relative top-0 z-50 cursor-pointer text-start',
           stepsValue > 0 && !isExpandedLife && '!-top-[20vh]',
           (isExpandedLife || isExpandedDream) && 'absolute',
           isLoading && 'hidden'
@@ -194,13 +194,13 @@ export const DrawerDreamInput = () => {
           className={cn(
             'relative h-full cursor-pointer text-start transition-transform duration-1000',
             stepsValue > 0 ? 'rotate-y-180' : '',
-            !isExpandedDream && stepsValue < 1 && 'bg-paper'
+            !isExpandedDream && stepsValue < 1 && 'rounded-b-3xl bg-paper'
           )}
         >
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-xl',
+              'absolute inset-0 z-10 rounded-xl bg-white shadow-lg',
               stepsValue > 0 && 'hidden'
             )}
           >
@@ -212,7 +212,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -220,11 +220,17 @@ export const DrawerDreamInput = () => {
 
           <div
             className={cn(
-              'inset-0 z-10 rounded-3xl bg-white',
+              'absolute inset-0 z-10 rounded-xl bg-white shadow-lg',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
             <LifeContent isExpanded={isExpandedLife} lifeValue={lifeValue} />
+            <div
+              className={cn(
+                'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                (isExpandedDream || isExpandedLife) && 'hidden'
+              )}
+            ></div>
           </div>
         </div>
       </motion.div>
@@ -283,10 +289,17 @@ export const DrawerDreamInput = () => {
         animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Button className={'text-md p-6'} onClick={handleSendDream}>
+        <Button
+          className={'text-md rounded-[16px] p-6 font-semibold'}
+          onClick={handleSendDream}
+        >
           Узнать значение сна
         </Button>
-        <Button onClick={prevStep} variant={'ghost'}>
+        <Button
+          className={'text-md font-semibold'}
+          onClick={prevStep}
+          variant={'ghost'}
+        >
           Отмена
         </Button>
       </motion.div>

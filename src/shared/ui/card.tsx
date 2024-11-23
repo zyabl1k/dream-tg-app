@@ -36,13 +36,13 @@ export const Card: FunctionComponent<CardProps> = ({
     >
       <div
         className={
-          'relative min-h-[160px] rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 shadow-card'
+          'relative h-[144px] overflow-hidden rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 shadow-card'
         }
       >
-        <p className={`${textClassName} font-['Roslindale-medium'] text-xl`}>
+        <p className={`${textClassName} font-roslindale-medium text-[20px]`}>
           {description}
         </p>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-md bg-gradient-to-t from-white to-transparent"></div>
       </div>
       <div
         className={

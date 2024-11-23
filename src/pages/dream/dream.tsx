@@ -54,8 +54,8 @@ export const DreamPage = () => {
         }}
       >
         <img
-          className={'size-8 animate-spin'}
-          src={'img/loader.png'}
+          className={'size-10 animate-spin'}
+          src={'../img/loader.png'}
           alt={'loader'}
         />
       </div>
@@ -71,11 +71,9 @@ export const DreamPage = () => {
             alt="photo"
           />
         )}
-        <div className="flex flex-col gap-y-3">
+        <div className="flex flex-col gap-y-4">
           {title && (
-            <h1 className="font-['Roslindale-medium'] text-2xl font-bold">
-              {title}
-            </h1>
+            <h1 className="font-roslindale-medium text-[20px]">{title}</h1>
           )}
           <p className="text-lg">{text}</p>
         </div>
@@ -84,7 +82,7 @@ export const DreamPage = () => {
   )
 
   return (
-    <motion.div className={'flex flex-col'}>
+    <motion.div className={'flex flex-col p-6'}>
       <motion.div
         initial={{
           x: 0,

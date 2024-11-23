@@ -68,7 +68,7 @@ export const HomePage = () => {
         }}
       >
         <img
-          className={'size-8 animate-spin'}
+          className={'size-10 animate-spin'}
           src={'img/loader.png'}
           alt={'loader'}
         />
@@ -81,7 +81,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-screen snap-center flex-col justify-start'
+          'relative flex h-screen snap-center flex-col justify-start p-6 pt-6'
         )}
       >
         <Header />
@@ -110,7 +110,7 @@ export const HomePage = () => {
             y: yText,
             opacity: secondSectionOpacity,
           }}
-          className={"my-4 text-center font-['Roslindale-medium'] text-[36px]"}
+          className={'font-roslindale my-4 text-center text-[36px]'}
         >
           Коллекция снов
         </motion.h1>
@@ -119,7 +119,7 @@ export const HomePage = () => {
           style={{ y: yBlocks }}
         >
           {data.map((item) => (
-            <div className={'flex flex-col gap-y-6'} key={item.id}>
+            <div className={'mx-6 flex flex-col gap-y-6'} key={item.id}>
               <p className="text-center text-sm font-semibold text-muted">
                 {item.date}
               </p>

@@ -29,15 +29,13 @@
     font-family: 'Roslindale';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
-    src: url(public/fonts/roslindale-cyrillic-regular.otf) format('otf');
+    src: url(public/fonts/roslindale-cyrillic-regular.otf) format('opentype');
   }
   @font-face {
     font-family: 'Roslindale-medium';
     font-style: normal;
     font-weight: 500;
-    font-display: swap;
-    src: url(public/fonts/roslindale-cyrillic-medium.otf) format('otf');
+    src: url(public/fonts/roslindale-cyrillic-medium.otf) format('opentype');
   }
 }
 

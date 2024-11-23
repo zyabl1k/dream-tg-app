@@ -25,7 +25,7 @@ export const Header = () => {
       transition={{ duration: 0.5 }}
       className={'relative w-full text-center'}
     >
-      <h1 className={"font-['Roslindale-medium'] text-4xl"}>
+      <h1 className={'font-roslindale text-4xl font-[400]'}>
         Толкователь
         <br />
         Снов
