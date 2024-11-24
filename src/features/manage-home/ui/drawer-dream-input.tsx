@@ -178,13 +178,13 @@ export const DrawerDreamInput = () => {
           className={cn(
             'relative h-full cursor-pointer text-start transition-transform duration-1000',
             stepsValue > 0 ? 'rotate-y-180' : '',
-            !isExpandedDream && stepsValue < 1 && 'rounded-b-3xl bg-paper'
+            !isExpandedDream && stepsValue < 1 && 'rounded-b-3xl'
           )}
         >
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-xl bg-white shadow-lg',
+              'absolute inset-0 z-10 rounded-3xl bg-white shadow-lg',
               stepsValue > 0 && 'hidden'
             )}
           >
@@ -196,7 +196,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                'pointer-events-none absolute inset-x-0 bottom-[24px] h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -204,7 +204,7 @@ export const DrawerDreamInput = () => {
 
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-xl bg-white shadow-lg',
+              'absolute inset-0 z-10 rounded-3xl bg-white shadow-lg',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
@@ -273,9 +273,10 @@ export const DrawerDreamInput = () => {
       </motion.div>
 
       <motion.div
-        className={
-          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2'
-        }
+        className={cn(
+          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2',
+          (stepsValue === 0 || isLoading) && 'pointer-events-none'
+        )}
         variants={variantsButtons}
         initial="invisible"
         animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
