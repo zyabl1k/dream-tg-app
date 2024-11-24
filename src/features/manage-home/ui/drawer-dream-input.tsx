@@ -19,7 +19,7 @@ export const DrawerDreamInput = () => {
   const { isEmpty, validateDream } = useValidationCard(dreamValue)
   const [isExpandedDream, setIsExpandedDream] = useState(false)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { user } = useTelegram()
   const navigate = useNavigate()
 
@@ -145,7 +145,7 @@ export const DrawerDreamInput = () => {
 
   const test = {
     collapsed: { right: 0, height: '100%' },
-    expanded: { right: '-1rem', height: '110%' },
+    expanded: { right: '-0.5rem', height: '110%' },
   }
 
   return (
@@ -232,21 +232,29 @@ export const DrawerDreamInput = () => {
         }}
       >
         <div className="relative h-1/2 rounded-b-xl rounded-t-3xl bg-white p-4">
-          <p className="scan !bg-black font-['Roslindale-medium'] text-xl">
-            {dreamValue}
-          </p>
+          <div className={'h-[140px] overflow-hidden'}>
+            <p className="scan font-roslindale-medium overflow-hidden text-ellipsis break-words !bg-black text-xl">
+              {dreamValue}
+            </p>
+          </div>
           <motion.div
             variants={test}
-            transition={{ duration: 1, ease: 'easeInOut', delay: 0.5 }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.3 }}
             className={
               'absolute -right-4 bottom-0 -z-10 w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-card-back'
             }
-          ></motion.div>
+          />
+          <div
+            className={cn(
+              'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+              (isExpandedDream || isExpandedLife) && 'hidden'
+            )}
+          ></div>
         </div>
         <motion.div
           className="h-1/2 rounded-b-3xl bg-white"
           variants={blockVariants}
-          transition={{ duration: 1, ease: 'easeOut', delay: 0.1 }}
+          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         />
         <motion.h1
           style={{
