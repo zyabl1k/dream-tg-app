@@ -19,7 +19,7 @@ export const DrawerDreamInput = () => {
   const { isEmpty, validateDream } = useValidationCard(dreamValue)
   const [isExpandedDream, setIsExpandedDream] = useState(false)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const { user } = useTelegram()
   const navigate = useNavigate()
 
