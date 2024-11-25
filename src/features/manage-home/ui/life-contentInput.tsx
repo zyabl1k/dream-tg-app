@@ -119,10 +119,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
           maxLength={MAX_INPUT_VALUE}
         />
         <Button
-          className={cn(
-            'col-span-1 col-start-4',
-            !lifeValue.length && 'opacity-50 hover:opacity-50'
-          )}
+          className={'col-span-1 col-start-4'}
           disabled={lifeValue.length > MAX_INPUT_VALUE}
           onClick={nextStep}
         >
