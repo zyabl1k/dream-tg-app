@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-export const useValidationCard = (value: string) => {
+export const useValidationCard = () => {
   const [isEmpty, setIsEmpty] = useState(false)
-  const validateDream = () => {
+  const validateDream = (value: string) => {
     if (!value.length) {
       setIsEmpty(true)
       setTimeout(() => setIsEmpty(false), 2000)

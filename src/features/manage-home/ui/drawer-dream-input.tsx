@@ -16,7 +16,7 @@ export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
   const lifeValue = useStore(lifeStore)
   const stepsValue = useStore(stepsStore)
-  const { isEmpty, validateDream } = useValidationCard(dreamValue)
+  const { isEmpty, validateDream } = useValidationCard()
   const [isExpandedDream, setIsExpandedDream] = useState(false)
   const [isExpandedLife, setIsExpandedLife] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -24,7 +24,7 @@ export const DrawerDreamInput = () => {
   const navigate = useNavigate()
 
   const nextStep = () => {
-    if (validateDream()) {
+    if (validateDream(dreamValue)) {
       handleCloseModal()
       stepsStore.set(stepsValue + 1)
     }
@@ -208,7 +208,12 @@ export const DrawerDreamInput = () => {
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
-            <LifeContent isExpanded={isExpandedLife} lifeValue={lifeValue} />
+            <LifeContent
+              isEmpty={isEmpty}
+              nextStep={nextStep}
+              isExpanded={isExpandedLife}
+              lifeValue={lifeValue}
+            />
             <div
               className={cn(
                 'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
