@@ -109,6 +109,7 @@ export const DrawerDreamInput = () => {
   }
 
   const handleSendDream = () => {
+    setIsExpandedLife(false)
     sendDream()
     setIsLoading(true)
   }
@@ -210,7 +211,7 @@ export const DrawerDreamInput = () => {
           >
             <LifeContent
               isEmpty={isEmpty}
-              nextStep={nextStep}
+              nextStep={handleSendDream}
               isExpanded={isExpandedLife}
               lifeValue={lifeValue}
             />

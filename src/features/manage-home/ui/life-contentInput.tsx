@@ -18,7 +18,6 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
   isExpanded,
   lifeValue,
   nextStep,
-  isEmpty,
 }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
 
@@ -68,7 +67,6 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
             maxLength={MAX_INPUT_VALUE}
           />
           <FooterContent
-            isEmpty={isEmpty}
             lifeValue={lifeValue}
             nextStep={nextStep}
             isExpanded={isExpanded}
@@ -81,7 +79,6 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
 }
 
 interface FooterContentProps {
-  isEmpty: boolean
   lifeValue: string
   nextStep: () => void
   isExpanded: boolean
@@ -89,7 +86,6 @@ interface FooterContentProps {
 }
 
 const FooterContent: FunctionComponent<FooterContentProps> = ({
-  isEmpty,
   lifeValue,
   nextStep,
   isExpanded,
@@ -117,32 +113,22 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
       initial="hidden"
       animate={isExpanded ? 'visible' : 'hidden'}
     >
-      {isEmpty ? (
-        <div className="col-span-4 flex items-center justify-between gap-4 rounded-xl bg-[#383838D9] p-2">
-          <img src="/img/edit_28.png" alt="edit" />
-          <p className="text-xs text-white">
-            Нам нужно хотя бы несколько слов о вашем сне, чтобы сделать
-            толкование
-          </p>
-        </div>
-      ) : (
-        <div className={'rotate-y-180 col-span-4 grid grid-cols-4'}>
-          <CharacterCounter
-            currentLength={lifeValue.length}
-            maxLength={MAX_INPUT_VALUE}
-          />
-          <Button
-            className={cn(
-              'col-span-1 col-start-4',
-              !lifeValue.length && 'opacity-50 hover:opacity-50'
-            )}
-            disabled={lifeValue.length > MAX_INPUT_VALUE}
-            onClick={nextStep}
-          >
-            Дальше
-          </Button>
-        </div>
-      )}
+      <div className={'rotate-y-180 col-span-4 grid grid-cols-4 items-center'}>
+        <CharacterCounter
+          currentLength={lifeValue.length}
+          maxLength={MAX_INPUT_VALUE}
+        />
+        <Button
+          className={cn(
+            'col-span-1 col-start-4',
+            !lifeValue.length && 'opacity-50 hover:opacity-50'
+          )}
+          disabled={lifeValue.length > MAX_INPUT_VALUE}
+          onClick={nextStep}
+        >
+          Дальше
+        </Button>
+      </div>
     </motion.div>
   )
 }
