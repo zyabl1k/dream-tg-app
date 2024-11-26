@@ -65,7 +65,7 @@ export const HomePage = () => {
     [0, 1]
   )
   const yText = useTransform(scrollYProgress, [0.7, 0.99], [30, 0])
-  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-200, 0])
+  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
 
   useEffect(() => {
     stepsStore.set(0)

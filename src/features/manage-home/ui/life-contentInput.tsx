@@ -51,7 +51,8 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
       )}
     >
       {!isExpanded ? (
-        <p className="rotate-y-180 font-roslindale-medium max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words text-[20px] text-muted-light">
+        <p className="rotate-y-180 max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words font-roslindale-medium text-[20px] text-muted-light">
+          <span className={'flashing-text text-[#007AFF]'}>|</span>
           {!!lifeValue
             ? lifeValue
             : 'Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна'}
@@ -62,7 +63,7 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
             value={lifeValue}
             onChange={(e) => lifeStore.set(e.target.value)}
             placeholder="Опишите, что сейчас происходит в вашей жизни — если считаете, что это может быть важно при толковании сна"
-            className="rotate-y-180 font-roslindale-medium h-screen resize-none text-[20px]"
+            className="rotate-y-180 h-screen resize-none font-roslindale-medium text-[20px]"
             minLength={4}
             maxLength={MAX_INPUT_VALUE}
           />

@@ -23,32 +23,32 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
 }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
 
-  useEffect(() => {
-    const handleResize = () => {
-      const viewportHeight = window.visualViewport
-        ? window.visualViewport.height
-        : window.innerHeight
-      const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85 // Проверка на уменьшение высоты
-      setIsKeyboardVisible(isKeyboardNowVisible)
-      if (isKeyboardNowVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = ''
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize)
-    }
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize)
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     const viewportHeight = window.visualViewport
+  //       ? window.visualViewport.height
+  //       : window.innerHeight
+  //     const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85 // Проверка на уменьшение высоты
+  //     setIsKeyboardVisible(isKeyboardNowVisible)
+  //     if (isKeyboardNowVisible) {
+  //       document.body.style.overflow = 'hidden'
+  //     } else {
+  //       document.body.style.overflow = ''
+  //     }
+  //   }
+  //
+  //   window.addEventListener('resize', handleResize)
+  //   if (window.visualViewport) {
+  //     window.visualViewport.addEventListener('resize', handleResize)
+  //   }
+  //
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize)
+  //     if (window.visualViewport) {
+  //       window.visualViewport.removeEventListener('resize', handleResize)
+  //     }
+  //   }
+  // }, [])
 
   return (
     <motion.div
