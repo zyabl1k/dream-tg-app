@@ -68,6 +68,17 @@ export const DreamPage = () => {
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
+  useEffect(() => {
+    if (clicked) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [clicked])
+
   if (isPending) return null
   if (error || !data) return 'An error has occurred: ' + error.message
 
@@ -91,17 +102,6 @@ export const DreamPage = () => {
   )
 
   if (!paragraphs) return 'Данные не загружены'
-
-  useEffect(() => {
-    if (clicked) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [clicked])
 
   return (
     <motion.div className={'flex snap-start flex-col px-6 pb-6'}>
