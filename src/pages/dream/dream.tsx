@@ -69,6 +69,7 @@ export const DreamPage = () => {
   }, [])
 
   if (isPending) return null
+  if (error || !data) return 'An error has occurred: ' + error.message
 
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (
@@ -90,7 +91,6 @@ export const DreamPage = () => {
   )
 
   if (!paragraphs) return 'Данные не загружены'
-  if (error || !data) return 'An error has occurred: ' + error.message
 
   useEffect(() => {
     if (clicked) {
