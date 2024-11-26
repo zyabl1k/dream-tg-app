@@ -60,25 +60,6 @@ export const DreamPage = () => {
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
-  if (isPending)
-    return (
-      <div
-        className={'absolute'}
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <img
-          className={'size-10 animate-spin'}
-          src={'../img/loader.png'}
-          alt={'loader'}
-        />
-      </div>
-    )
-  if (error || !data) return 'An error has occurred: ' + error.message
-
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (
       <div key={index} className="flex items-start gap-x-4">
@@ -97,6 +78,25 @@ export const DreamPage = () => {
       </div>
     )
   )
+
+  if (isPending || !paragraphs)
+    return (
+      <div
+        className={'absolute'}
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <img
+          className={'size-10 animate-spin'}
+          src={'../img/loader.png'}
+          alt={'loader'}
+        />
+      </div>
+    )
+  if (error || !data) return 'An error has occurred: ' + error.message
 
   return (
     <motion.div className={'flex snap-start flex-col p-6'}>

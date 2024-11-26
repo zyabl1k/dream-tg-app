@@ -64,8 +64,9 @@ export const HomePage = () => {
     [0.7, 0.99],
     [0, 1]
   )
-  const yText = useTransform(scrollYProgress, [0.7, 0.99], [30, 0])
-  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
+  const yText = useTransform(scrollYProgress, [0.7, 0.99], [-150, 0])
+  const yTextHeight = useTransform(scrollYProgress, [0.7, 0.99], [0, 54])
+  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-130, 0])
 
   useEffect(() => {
     stepsStore.set(0)
@@ -129,12 +130,12 @@ export const HomePage = () => {
           'relative flex h-screen snap-center flex-col pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
-        style={{ y: yBlocks }}
       >
         <motion.h1
           style={{
             opacity: secondSectionOpacity,
             y: yText,
+            height: yTextHeight,
           }}
           className={
             'mb-[40px] mt-[32px] text-center font-roslindale text-[36px]'
@@ -146,6 +147,7 @@ export const HomePage = () => {
           className={
             'no-scrollbar flex flex-col items-center gap-y-4 overflow-y-auto pb-10'
           }
+          style={{ y: yBlocks }}
         >
           {data.map((item) => (
             <div className={'flex flex-col gap-y-6'} key={item.id}>
