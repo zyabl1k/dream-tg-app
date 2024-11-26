@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
-import { stepsStore } from '@/features/manage-home'
+import { dreamStore, stepsStore } from '@/features/manage-home'
 import { useEffect, useState } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 import { generateRandomNumbers } from '@/shared/lib/generate-number.ts'
@@ -9,6 +9,7 @@ import { parseDescription } from '@/shared/lib/parse-paragraph.ts'
 import { motion } from 'framer-motion'
 import { useCardPosition } from '@/shared/lib/use-position.provider.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
+import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 
 // const data = {
 //   textRequest: 'Любовь ко всем',
@@ -50,6 +51,8 @@ export const DreamPage = () => {
 
   BackButton.onClick(function () {
     navigate('/')
+    dreamStore.set('')
+    lifeStore.set('')
     BackButton.hide()
   })
 
@@ -65,23 +68,7 @@ export const DreamPage = () => {
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
-  if (isPending || !data)
-    return (
-      <div
-        className={'absolute'}
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <img
-          className={'size-10 animate-spin'}
-          src={'../img/loader.png'}
-          alt={'loader'}
-        />
-      </div>
-    )
+  if (isPending) return null
 
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (
@@ -102,38 +89,29 @@ export const DreamPage = () => {
     )
   )
 
-  if (!paragraphs)
-    return (
-      <div
-        className={'absolute'}
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <img
-          className={'size-10 animate-spin'}
-          src={'../img/loader.png'}
-          alt={'loader'}
-        />
-      </div>
-    )
+  if (!paragraphs) return 'Данные не загружены'
   if (error || !data) return 'An error has occurred: ' + error.message
 
+  useEffect(() => {
+    if (clicked) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [clicked])
+
   return (
-    <motion.div className={'flex snap-start flex-col p-6'}>
+    <motion.div className={'flex snap-start flex-col px-6 pb-6'}>
       <motion.div
         initial={{
           x: 0,
           y: (position?.y && position?.y + window.innerHeight - 64) || 0,
         }}
-        animate={{
-          x: 0,
-          y: clicked ? '40%' : 0,
-        }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
-        className={'z-50 mx-auto mb-[60px] mt-6'}
+        className={'z-50 mx-auto my-[60px]'}
         onClick={handleCardClick}
       >
         <motion.div

@@ -4,6 +4,8 @@ import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useScroll, useTransform, motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { dreamStore } from '@/features/manage-home'
+import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 
 interface Props {
   refContainer: any
@@ -19,6 +21,8 @@ export const UpWidget: FunctionComponent<Props> = ({ refContainer }) => {
 
   const handleClick = () => {
     if (isSpecialPage) {
+      dreamStore.set('')
+      lifeStore.set('')
       navigate('/')
     } else {
       scrollUp()

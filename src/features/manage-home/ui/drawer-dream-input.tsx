@@ -113,6 +113,8 @@ export const DrawerDreamInput = () => {
         abortController.abort()
       }
       stepsStore.set(stepsValue - 1)
+      dreamStore.set('')
+      lifeStore.set('')
       setIsExpandedLife(false)
       setIsLoading(false)
     }
