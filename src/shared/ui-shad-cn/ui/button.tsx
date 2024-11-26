@@ -5,12 +5,12 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/shared/lib/tailwind'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center transition-all active:scale-95 active:opacity-80 justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         default:
-          'bg-gradient-to-b from-[#414040] to-[#292929] text-white hover:opacity-95 transition',
+          'bg-gradient-to-b from-[#414040] to-[#292929] text-white hover:opacity-95',
         ghost: 'text-muted-light hover:text-muted-light',
         link: 'text-primary underline-offset-4 hover:underline',
       },
