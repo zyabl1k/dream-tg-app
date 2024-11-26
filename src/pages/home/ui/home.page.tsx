@@ -9,53 +9,53 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
-// const data = [
-//   {
-//     id: 1,
-//     date: 'Сегодня',
-//     description: 'Сон про вашу первую любовь и что-то еще для тестов',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-// ]
+const data = [
+  {
+    id: 1,
+    date: 'Сегодня',
+    description: 'Сон про вашу первую любовь и что-то еще для тестов',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+  {
+    id: 2,
+    date: 'Вчера',
+    description: 'Сон про вашу собаку и маму',
+  },
+]
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
   const ref = useRef(null)
   const { user } = useTelegram()
   const { scrollYProgress } = useScroll({ target: ref })
-  const { isPending, error, data } = useQuery({
-    queryKey: ['dreams'],
-    queryFn: async () => await getDreamData(user?.id ?? 0),
-  })
+  // const { isPending, error, data } = useQuery({
+  //   queryKey: ['dreams'],
+  //   queryFn: async () => await getDreamData(user?.id ?? 0),
+  // })
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
@@ -64,7 +64,7 @@ export const HomePage = () => {
     [0.7, 0.99],
     [0, 1]
   )
-  const yText = useTransform(scrollYProgress, [0.7, 0.99], [-180, 0])
+  const yText = useTransform(scrollYProgress, [0.7, 0.99], [30, 0])
   const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-200, 0])
 
   useEffect(() => {
@@ -82,24 +82,24 @@ export const HomePage = () => {
     },
   }
 
-  if (isPending)
-    return (
-      <div
-        className={'absolute'}
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <img
-          className={'size-10 animate-spin'}
-          src={'img/loader.png'}
-          alt={'loader'}
-        />
-      </div>
-    )
-  if (error || !data) return 'An error has occurred: ' + error
+  // if (isPending)
+  //   return (
+  //     <div
+  //       className={'absolute'}
+  //       style={{
+  //         top: '50%',
+  //         left: '50%',
+  //         transform: 'translate(-50%, -50%)',
+  //       }}
+  //     >
+  //       <img
+  //         className={'size-10 animate-spin'}
+  //         src={'img/loader.png'}
+  //         alt={'loader'}
+  //       />
+  //     </div>
+  //   )
+  // if (error || !data) return 'An error has occurred: ' + error
 
   return (
     <div ref={ref} className={'flex flex-col justify-center'}>
@@ -129,6 +129,7 @@ export const HomePage = () => {
           'relative flex h-screen snap-center flex-col pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
+        style={{ y: yBlocks }}
       >
         <motion.h1
           style={{
@@ -145,7 +146,6 @@ export const HomePage = () => {
           className={
             'no-scrollbar flex flex-col items-center gap-y-4 overflow-y-auto pb-10'
           }
-          style={{ y: yBlocks }}
         >
           {data.map((item) => (
             <div className={'flex flex-col gap-y-6'} key={item.id}>

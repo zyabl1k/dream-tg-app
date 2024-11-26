@@ -30,6 +30,11 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
         : window.innerHeight
       const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85 // Проверка на уменьшение высоты
       setIsKeyboardVisible(isKeyboardNowVisible)
+      if (isKeyboardNowVisible) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
     }
 
     window.addEventListener('resize', handleResize)

@@ -22,6 +22,8 @@ export const DrawerDreamInput = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useTelegram()
   const navigate = useNavigate()
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null)
 
   const nextStep = () => {
     if (validateDream(dreamValue)) {
@@ -32,6 +34,9 @@ export const DrawerDreamInput = () => {
 
   const { mutate: sendDream } = useMutation({
     mutationFn: async () => {
+      const controller = new AbortController()
+      setAbortController(controller)
+
       await fetch(
         'https://01112401.customerserver.orders.typereturn.space/api/dream/send',
         {
@@ -44,6 +49,7 @@ export const DrawerDreamInput = () => {
             lifeDescription: lifeValue,
             telegram_user_id: user?.id ?? 0,
           }),
+          signal: controller.signal,
         }
       ).then(async (resp) => {
         document.body.style.overflow = ''
@@ -103,8 +109,12 @@ export const DrawerDreamInput = () => {
     )
 
     if (userConfirmed) {
+      if (abortController) {
+        abortController.abort()
+      }
       stepsStore.set(stepsValue - 1)
       setIsExpandedLife(false)
+      setIsLoading(false)
     }
   }
 
@@ -278,32 +288,43 @@ export const DrawerDreamInput = () => {
         </motion.h1>
       </motion.div>
 
-      <motion.div
+      <div
         className={cn(
           'fixed bottom-0 left-0 z-50 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
-          (stepsValue === 0 || isLoading) && 'pointer-events-none'
+          stepsValue === 0 && 'pointer-events-none'
         )}
-        variants={variantsButtons}
-        initial="invisible"
-        animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
-        transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Button
-          className={
-            'text-md h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold'
-          }
-          onClick={handleSendDream}
+        <motion.div
+          transition={{ duration: 0.5, delay: 0.5 }}
+          variants={variantsButtons}
+          initial="invisible"
+          animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
         >
-          Узнать значение сна
-        </Button>
-        <Button
-          className={'text-md font-semibold'}
-          onClick={prevStep}
-          variant={'ghost'}
+          <Button
+            className={cn(
+              'text-md h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold',
+              (stepsValue === 0 || isLoading) && 'pointer-events-none'
+            )}
+            onClick={handleSendDream}
+          >
+            Узнать значение сна
+          </Button>
+        </motion.div>
+        <motion.div
+          transition={{ duration: 0.5, delay: 0.5 }}
+          variants={variantsButtons}
+          initial="invisible"
+          animate={stepsValue === 0 ? 'invisible' : 'visible'}
         >
-          Отменить
-        </Button>
-      </motion.div>
+          <Button
+            className={'text-md font-semibold'}
+            onClick={prevStep}
+            variant={'ghost'}
+          >
+            Отменить
+          </Button>
+        </motion.div>
+      </div>
     </>
   )
 }
