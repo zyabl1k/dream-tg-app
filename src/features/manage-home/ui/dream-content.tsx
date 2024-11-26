@@ -50,11 +50,12 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
       layout
       className={cn(
         'flex h-full flex-col justify-between p-[24px]',
-        isExpanded ? '' : 'overflow-hidden'
+        isExpanded ? '' : 'overflow-hidden rounded-3xl bg-paper'
       )}
     >
       {!isExpanded ? (
-        <p className="font-roslindale-medium max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words text-[20px] text-muted-light">
+        <p className="max-h-[345px] overflow-hidden overflow-x-hidden text-ellipsis break-words font-roslindale-medium text-[20px] text-muted-light">
+          <span className={'flashing-text text-[#007AFF]'}>|</span>
           {!!dreamValue ? dreamValue : 'Опишите свой сон...'}
         </p>
       ) : (
@@ -63,7 +64,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
             value={dreamValue}
             onChange={(e) => dreamStore.set(e.target.value)}
             placeholder="Опишите свой сон..."
-            className="no-scrollbar font-roslindale-medium h-[50vh] resize-none text-[20px]"
+            className="no-scrollbar h-[50vh] resize-none font-roslindale-medium text-[20px]"
             minLength={4}
           />
 
@@ -132,10 +133,7 @@ const FooterContent: FunctionComponent<FooterContentProps> = ({
             maxLength={MAX_INPUT_VALUE}
           />
           <Button
-            className={cn(
-              'col-span-1 col-start-4',
-              !dreamValue.length && 'opacity-50 hover:opacity-50'
-            )}
+            className={cn('col-span-1 col-start-4')}
             disabled={dreamValue.length > MAX_INPUT_VALUE}
             onClick={nextStep}
           >

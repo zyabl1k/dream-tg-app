@@ -31,6 +31,7 @@ export default {
       boxShadow: {
         card: '0px -4px 36px 0px #07070712',
         'card-back': '0px 4px 36px 0px #2F536012',
+        'card-box': '0px 4px 36px 0px #00000012',
       },
       backgroundImage: {
         paper:

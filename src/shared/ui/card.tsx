@@ -31,12 +31,12 @@ export const Card: FunctionComponent<CardProps> = ({
   return (
     <motion.div
       transition={{ duration: 0.5, ease: 'easeInOut' }}
-      className={cn('relative', id?.valueOf() && 'cursor-pointer')}
+      className={cn('relative w-[307px]', id?.valueOf() && 'cursor-pointer')}
       onClick={handleNavigate}
     >
       <div
         className={
-          'relative h-[144px] overflow-hidden rounded-b-md rounded-t-3xl bg-white px-4 pb-1 pt-4 shadow-card'
+          'relative h-[144px] overflow-hidden rounded-b-md rounded-t-3xl bg-white px-[28px] pb-1 pt-[20px] shadow-card'
         }
       >
         <p className={`${textClassName} font-roslindale-medium text-[20px]`}>

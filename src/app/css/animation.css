@@ -45,6 +45,10 @@
   -webkit-text-fill-color: rgba(255, 255, 255, 0);
 }
 
+.flashing-text {
+  animation: flashing 1.5s step-end infinite;
+}
+
 .motion-layout {
   position: relative;
   overflow: hidden;
@@ -65,5 +69,17 @@
   }
   100% {
     width: 100%;
+  }
+}
+
+@keyframes flashing {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

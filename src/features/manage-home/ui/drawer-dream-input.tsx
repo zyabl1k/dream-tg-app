@@ -173,11 +173,11 @@ export const DrawerDreamInput = () => {
         }}
       >
         {(isExpandedDream || isExpandedLife) && (
-          <DragPilIcon className={'relative top-4 z-50 mx-auto'} />
+          <DragPilIcon className={'relative top-[14px] z-50 mx-auto'} />
         )}
         <div
           className={cn(
-            'relative h-full cursor-pointer text-start transition-transform duration-1000',
+            'relative h-full cursor-pointer text-start transition-transform delay-300 duration-1000',
             stepsValue > 0 ? 'rotate-y-180' : '',
             !isExpandedDream && stepsValue < 1 && 'rounded-b-3xl'
           )}
@@ -185,7 +185,7 @@ export const DrawerDreamInput = () => {
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-3xl bg-white shadow-lg',
+              'shadow-card-box absolute inset-0 z-10 rounded-3xl bg-white',
               stepsValue > 0 && 'hidden'
             )}
           >
@@ -197,7 +197,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'pointer-events-none absolute inset-x-0 bottom-[24px] h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -205,7 +205,7 @@ export const DrawerDreamInput = () => {
 
           <div
             className={cn(
-              'absolute inset-0 z-10 rounded-3xl bg-white shadow-lg',
+              'shadow-card-box absolute inset-0 z-10 rounded-3xl bg-white',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
@@ -239,7 +239,7 @@ export const DrawerDreamInput = () => {
       >
         <div className="relative h-1/2 rounded-b-xl rounded-t-3xl bg-white p-4">
           <div className={'h-[140px] overflow-hidden'}>
-            <p className="scan font-roslindale-medium overflow-hidden text-ellipsis break-words !bg-black text-xl">
+            <p className="scan overflow-hidden text-ellipsis break-words !bg-black font-roslindale-medium text-xl">
               {dreamValue}
             </p>
           </div>
@@ -280,7 +280,7 @@ export const DrawerDreamInput = () => {
 
       <motion.div
         className={cn(
-          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-2',
+          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
           (stepsValue === 0 || isLoading) && 'pointer-events-none'
         )}
         variants={variantsButtons}
@@ -289,7 +289,9 @@ export const DrawerDreamInput = () => {
         transition={{ duration: 0.5, delay: 0.5 }}
       >
         <Button
-          className={'text-md rounded-[16px] p-6 font-semibold'}
+          className={
+            'text-md h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold'
+          }
           onClick={handleSendDream}
         >
           Узнать значение сна
@@ -299,7 +301,7 @@ export const DrawerDreamInput = () => {
           onClick={prevStep}
           variant={'ghost'}
         >
-          Отмена
+          Отменить
         </Button>
       </motion.div>
     </>

@@ -36,6 +36,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
           setWebApp(app)
           app.expand()
           app.disableVerticalSwipes()
+          app.setHeaderColor('#f4f4f4')
         }
       }
       document.body.appendChild(script)

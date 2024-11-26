@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default:
           'bg-gradient-to-b from-[#414040] to-[#292929] text-white hover:opacity-95 transition',
-        ghost: 'text-muted hover:text-muted-light',
+        ghost: 'text-muted-light hover:text-muted-light',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {

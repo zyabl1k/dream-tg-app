@@ -1,21 +1,29 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import { ArrowUpIcon } from '@/shared/ui/icons'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
+import { useScroll, useTransform, motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export const UpWidget: FunctionComponent = () => {
+interface Props {
+  refContainer: any
+}
+
+export const UpWidget: FunctionComponent<Props> = ({ refContainer }) => {
+  const { scrollYProgress } = useScroll({ target: refContainer })
+  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
   const [isVisible, setIsVisible] = useState(false)
+  const location = useLocation() // Получение текущего пути
+  const isSpecialPage = location.pathname.includes('dream')
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      setIsVisible(currentScrollY > 100)
+  const handleClick = () => {
+    if (isSpecialPage) {
+      navigate('/')
+    } else {
+      scrollUp()
     }
-
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Проверяем сразу при монтировании
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }
 
   const scrollUp = () => {
     window.scrollTo({
@@ -24,21 +32,39 @@ export const UpWidget: FunctionComponent = () => {
     })
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      setIsVisible(currentScrollY > 100 || isSpecialPage) // Видимость кнопки зависит от положения и уникальности страницы
+    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Проверяем сразу при монтировании
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isSpecialPage])
+
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-20 flex items-center justify-end gap-x-2">
+    <motion.div
+      style={{ opacity: isSpecialPage ? 1 : firstSectionOpacity }}
+      className={cn(
+        'fixed bottom-4 left-4 right-4 z-50 flex items-center justify-end gap-x-2',
+        isVisible ? '' : 'pointer-events-none -z-10'
+      )}
+    >
       <Button
-        className={cn(
-          'flex items-center justify-center rounded-md transition-opacity duration-300',
-          isVisible ? 'opacity-100' : 'pointer-events-none -z-10 opacity-0'
-        )}
-        onClick={() => {
-          scrollUp()
-          setIsVisible(false)
-        }}
+        className={
+          'flex h-[44px] items-center justify-center rounded-[12px] px-[18px] py-[10px] text-[17px]'
+        }
+        onClick={handleClick}
       >
-        <ArrowUpIcon className="!size-3" />
-        <span>Назад</span>
+        {isSpecialPage ? (
+          <span>X</span> // Специальное поведение для уникальной страницы
+        ) : (
+          <>
+            <ArrowUpIcon className="!size-3" />
+            <span>Назад</span>
+          </>
+        )}
       </Button>
-    </div>
+    </motion.div>
   )
 }

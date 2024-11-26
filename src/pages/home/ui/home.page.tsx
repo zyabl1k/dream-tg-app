@@ -20,6 +20,31 @@ import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 //     date: 'Вчера',
 //     description: 'Сон про вашу собаку и маму',
 //   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
+//   {
+//     id: 2,
+//     date: 'Вчера',
+//     description: 'Сон про вашу собаку и маму',
+//   },
 // ]
 
 export const HomePage = () => {
@@ -39,7 +64,6 @@ export const HomePage = () => {
     [0.7, 0.99],
     [0, 1]
   )
-  const yText = useTransform(scrollYProgress, [0.7, 0.99], [10, 0])
   const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
 
   useEffect(() => {
@@ -81,13 +105,13 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-screen snap-center flex-col justify-start p-6 pt-6'
+          'relative flex h-[87vh] snap-center flex-col justify-start p-6 pt-6'
         )}
       >
         <Header />
         <motion.p
           key="paragraph"
-          className="my-4 text-center text-muted"
+          className="mb-[32px] mt-[20px] text-center text-muted"
           variants={variants}
           initial="visible"
           animate={stepsValue > 0 ? 'invisible' : 'visible'}
@@ -101,26 +125,29 @@ export const HomePage = () => {
       </motion.section>
       <motion.section
         className={cn(
-          'relative flex h-screen snap-center flex-col gap-y-4 pb-8 opacity-100 transition-opacity',
+          'relative flex h-screen snap-center flex-col pb-8 opacity-100 transition-opacity',
           stepsValue > 0 && 'pointer-events-none opacity-0'
         )}
       >
         <motion.h1
           style={{
-            y: yText,
             opacity: secondSectionOpacity,
           }}
-          className={'font-roslindale my-4 text-center text-[36px]'}
+          className={
+            'mb-[40px] mt-[32px] text-center font-roslindale text-[36px]'
+          }
         >
           Коллекция снов
         </motion.h1>
         <motion.div
-          className={'no-scrollbar flex flex-col gap-y-4 overflow-y-auto pb-10'}
+          className={
+            'no-scrollbar flex flex-col items-center gap-y-4 overflow-y-auto pb-10'
+          }
           style={{ y: yBlocks }}
         >
           {data.map((item) => (
-            <div className={'mx-6 flex flex-col gap-y-6'} key={item.id}>
-              <p className="text-center text-sm font-semibold text-muted">
+            <div className={'flex flex-col gap-y-6'} key={item.id}>
+              <p className="text-center text-sm font-semibold text-muted-light">
                 {item.date}
               </p>
               <Card
@@ -131,6 +158,11 @@ export const HomePage = () => {
             </div>
           ))}
         </motion.div>
+        <motion.div
+          className={
+            'absolute bottom-0 h-[200px] w-screen bg-gradient-to-t from-white to-transparent'
+          }
+        ></motion.div>
       </motion.section>
     </div>
   )
