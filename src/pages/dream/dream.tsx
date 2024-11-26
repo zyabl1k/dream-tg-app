@@ -60,6 +60,24 @@ export const DreamPage = () => {
     setRandomNumbers(generateRandomNumbers())
   }, [])
 
+  if (isPending || !data)
+    return (
+      <div
+        className={'absolute'}
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <img
+          className={'size-10 animate-spin'}
+          src={'../img/loader.png'}
+          alt={'loader'}
+        />
+      </div>
+    )
+
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (
       <div key={index} className="flex items-start gap-x-4">
@@ -79,7 +97,7 @@ export const DreamPage = () => {
     )
   )
 
-  if (isPending || !paragraphs)
+  if (!paragraphs)
     return (
       <div
         className={'absolute'}
