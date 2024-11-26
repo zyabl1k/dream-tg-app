@@ -65,7 +65,7 @@ export const HomePage = () => {
     [0, 1]
   )
   const yText = useTransform(scrollYProgress, [0.7, 0.99], [-150, 0])
-  const yTextHeight = useTransform(scrollYProgress, [0.7], [0, 54])
+  const yTextHeight = useTransform(scrollYProgress, [0.7, 0.8], [0, 54])
   const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-130, 0])
 
   useEffect(() => {
