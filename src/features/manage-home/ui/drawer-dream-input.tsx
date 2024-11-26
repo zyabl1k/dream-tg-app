@@ -290,7 +290,7 @@ export const DrawerDreamInput = () => {
 
       <div
         className={cn(
-          'fixed bottom-0 left-0 z-50 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
+          'fixed bottom-0 left-0 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
           stepsValue === 0 && 'pointer-events-none'
         )}
       >
