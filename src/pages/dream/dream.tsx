@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react'
 import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 import { generateRandomNumbers } from '@/shared/lib/generate-number.ts'
 import { parseDescription } from '@/shared/lib/parse-paragraph.ts'
-import { Card } from '@/shared/ui/card.tsx'
 import { motion } from 'framer-motion'
 import { useCardPosition } from '@/shared/lib/use-position.provider.tsx'
+import { cn } from '@/shared/lib/tailwind.ts'
 
 // const data = {
 //   textRequest: 'Любовь ко всем',
@@ -41,6 +41,11 @@ export const DreamPage = () => {
   const tg = window.Telegram.WebApp
   const BackButton = tg.BackButton
   const navigate = useNavigate()
+  const [clicked, setClicked] = useState(false)
+
+  const handleCardClick = () => {
+    setClicked(!clicked)
+  }
   BackButton.show()
 
   BackButton.onClick(function () {
@@ -123,16 +128,60 @@ export const DreamPage = () => {
           x: 0,
           y: (position?.y && position?.y + window.innerHeight - 64) || 0,
         }}
-        animate={{ x: 0, y: 0 }}
-        transition={{ duration: 0.7, ease: 'easeInOut' }}
-        className={'mx-auto mb-[60px] mt-6'}
+        animate={{
+          x: 0,
+          y: clicked ? '40%' : 0,
+        }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        className={'z-50 mx-auto mb-[60px] mt-6'}
+        onClick={handleCardClick}
       >
-        <Card description={data.textRequest} />
+        <motion.div
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          className={cn(
+            'relative w-[307px]',
+            id?.valueOf() && 'cursor-pointer'
+          )}
+        >
+          <motion.div
+            animate={{
+              height: clicked ? '360px' : '144px',
+              borderBottomRightRadius: clicked
+                ? '1.5rem'
+                : 'calc(0.5rem - 2px)',
+              borderBottomLeftRadius: clicked
+                ? '1.5rem'
+                : 'calc(var(--radius) - 2px)',
+            }}
+            className={
+              'relative h-[144px] overflow-hidden rounded-b-md rounded-t-3xl bg-white px-[28px] pb-1 pt-[20px] shadow-card'
+            }
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
+          >
+            <p className={`font-roslindale-medium text-[20px]`}>
+              {data.textRequest}
+            </p>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent"></div>
+          </motion.div>
+          <motion.div
+            animate={{
+              height: clicked ? 0 : '110%',
+              right: clicked ? '0' : '-0.5rem',
+            }}
+            className={
+              'absolute bottom-0 -z-10 w-full rounded-b-md rounded-t-3xl bg-muted-light-2 shadow-card-back'
+            }
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
+          ></motion.div>
+        </motion.div>
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.5, ease: 'easeInOut' }}
+        initial={{ opacity: 1, y: 0 }}
+        animate={{
+          opacity: clicked ? 0 : 1,
+          y: clicked ? -20 : 0,
+        }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
         className={'flex flex-col items-start gap-x-4 gap-y-4'}
       >
         {paragraphs}
