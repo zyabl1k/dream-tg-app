@@ -110,6 +110,10 @@ export const DreamPage = () => {
           x: 0,
           y: (position?.y && position?.y + window.innerHeight - 64) || 0,
         }}
+        animate={{
+          x: 0,
+          y: 0,
+        }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
         className={'z-50 mx-auto my-[60px]'}
         onClick={handleCardClick}
