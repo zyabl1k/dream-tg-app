@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { FunctionComponent } from 'react'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { dreamStore } from '@/features/manage-home'
@@ -21,7 +20,7 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
   isEmpty,
   nextStep,
 }) => {
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+  const isKeyboardVisible = false
 
   // useEffect(() => {
   //   const handleResize = () => {

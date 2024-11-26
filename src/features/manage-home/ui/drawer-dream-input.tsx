@@ -307,10 +307,12 @@ export const DrawerDreamInput = () => {
             )}
             onClick={handleSendDream}
             style={{
-              boxShadow: '0px 4px 10px 0px #23150126',
-              boxShadow: '0px 18px 18px 0px #2315011C',
-              boxShadow: '0px 40px 24px 0px #23150112',
-              boxShadow: '0px 71px 29px 0px #23150108',
+              boxShadow: `
+    0px 4px 10px 0px #23150126,
+    0px 18px 18px 0px #2315011C,
+    0px 40px 24px 0px #23150112,
+    0px 71px 29px 0px #23150108
+  `,
             }}
           >
             Узнать значение сна
