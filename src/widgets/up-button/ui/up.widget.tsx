@@ -46,8 +46,9 @@ export const UpWidget: FunctionComponent<Props> = ({ refContainer }) => {
     <motion.div
       style={{ opacity: isSpecialPage ? 1 : firstSectionOpacity }}
       className={cn(
-        'fixed bottom-4 left-4 right-4 z-50 flex items-center justify-end gap-x-2',
-        isVisible ? '' : 'pointer-events-none -z-10'
+        'fixed right-4 z-50 flex items-center justify-end gap-x-2',
+        isVisible ? '' : 'pointer-events-none -z-10',
+        isSpecialPage ? 'bottom-6 left-6' : 'bottom-4 left-4'
       )}
     >
       <Button

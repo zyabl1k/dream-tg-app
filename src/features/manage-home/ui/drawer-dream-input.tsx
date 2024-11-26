@@ -280,7 +280,7 @@ export const DrawerDreamInput = () => {
 
       <motion.div
         className={cn(
-          'bottom-4 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
+          'fixed bottom-0 left-0 z-50 mb-6 flex w-full flex-col items-center justify-center gap-y-[32px]',
           (stepsValue === 0 || isLoading) && 'pointer-events-none'
         )}
         variants={variantsButtons}

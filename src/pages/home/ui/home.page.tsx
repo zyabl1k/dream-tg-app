@@ -64,7 +64,8 @@ export const HomePage = () => {
     [0.7, 0.99],
     [0, 1]
   )
-  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
+  const yText = useTransform(scrollYProgress, [0.7, 0.99], [-180, 0])
+  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-200, 0])
 
   useEffect(() => {
     stepsStore.set(0)
@@ -105,7 +106,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[87vh] snap-center flex-col justify-start p-6 pt-6'
+          'relative flex h-screen snap-center flex-col justify-start p-6 pt-6'
         )}
       >
         <Header />
@@ -132,6 +133,7 @@ export const HomePage = () => {
         <motion.h1
           style={{
             opacity: secondSectionOpacity,
+            y: yText,
           }}
           className={
             'mb-[40px] mt-[32px] text-center font-roslindale text-[36px]'
