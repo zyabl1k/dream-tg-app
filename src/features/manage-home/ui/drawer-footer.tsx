@@ -48,7 +48,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   const KeyboardUp = {
     open: {
-      y: -300,
+      y: -350,
     },
     close: {
       y: 0,
