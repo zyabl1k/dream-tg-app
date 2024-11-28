@@ -61,12 +61,12 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
-  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
-  const bottomShadowOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
-  const textY = useTransform(scrollYProgress, [0, 0.3], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0, 0.3], [-20, 0])
+  const firstSectionScale = useTransform(scrollYProgress, [0, 0.04], [1, 0.8])
+  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.04], [1, 0])
+  const textOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1])
+  const bottomShadowOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1])
+  const textY = useTransform(scrollYProgress, [0, 0.05], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0, 0.05], [-20, 0])
 
   useEffect(() => {
     stepsStore.set(0)

@@ -27,7 +27,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
       const viewportHeight = window.visualViewport
         ? window.visualViewport.height
         : window.innerHeight
-      const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.5
+      const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85
       setIsKeyboardVisible(isKeyboardNowVisible)
     }
 
