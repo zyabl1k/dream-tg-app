@@ -24,11 +24,11 @@ export const DreamPage = () => {
 
   const { isPending, error } = useQuery({
     queryKey: ['dream'],
-    queryFn: async () =>
-      await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
-        setData(resp)
-        setIsPageLoaded(true)
-      }),
+    queryFn: async () => {
+      const resp = await getDream(user?.id ?? 0, id ?? '1')
+      setData(resp)
+      setIsPageLoaded(true)
+    },
   })
 
   useEffect(() => {
