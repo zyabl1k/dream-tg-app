@@ -9,10 +9,8 @@ import { motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { usePosition, useTelegram } from '@/shared/lib/context'
-import { useQueryClient } from 'react-query'
 
 export const DreamPage = () => {
-  const queryClient = useQueryClient()
   const { id } = useParams()
   const { user, webApp } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
@@ -27,12 +25,11 @@ export const DreamPage = () => {
   })
 
   useEffect(() => {
-    queryClient.clear()
     window.scrollTo(0, 0)
     document.body.style.overflow = ''
     stepsStore.set(0)
     setRandomNumbers(generateRandomNumbers())
-  }, [queryClient])
+  }, [])
 
   useEffect(() => {
     if (clicked) {
