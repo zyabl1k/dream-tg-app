@@ -71,6 +71,7 @@ export const HomePage = () => {
     [0.01, 0.08],
     [1, 0]
   )
+
   const textOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,

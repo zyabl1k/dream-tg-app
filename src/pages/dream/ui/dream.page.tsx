@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { usePosition, useTelegram } from '@/shared/lib/context'
+import { DreamResponse2 } from '@/@types/dream'
 
 export const DreamPage = () => {
   const { id } = useParams()
@@ -19,12 +20,14 @@ export const DreamPage = () => {
   const navigate = useNavigate()
   const [clicked, setClicked] = useState(false)
   const [isPageLoaded, setIsPageLoaded] = useState(false)
+  const [data, setData] = useState<DreamResponse2 | undefined>(undefined)
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error } = useQuery({
     queryKey: ['dream'],
     queryFn: async () =>
       await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
         if (resp.id === parseInt(id as string, 10)) {
+          setData(resp)
           setIsPageLoaded(true)
         }
       }),
@@ -49,7 +52,7 @@ export const DreamPage = () => {
   }, [clicked])
 
   if (isPending || !isPageLoaded) return null
-  if (error || !data) return 'An error has occurred: ' + error.message
+  if (error || !data) return 'An error has occurred: ' + error?.message
   if (!BackButton) return null
 
   const handleCardClick = () => {
