@@ -61,8 +61,16 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(scrollYProgress, [0, 0.04], [1, 0.8])
-  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.04], [1, 0])
+  const firstSectionScale = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0.8]
+  )
+  const firstSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0]
+  )
   const textOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,

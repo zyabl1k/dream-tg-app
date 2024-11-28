@@ -10,29 +10,6 @@ import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { usePosition, useTelegram } from '@/shared/lib/context'
 
-// const data = {
-//   textRequest: 'Любовь ко всем',
-//   description: `Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планететБольшой текст: я люблю всех на этой планететБольшой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планететБольшой текст: я люблю всех на этой планететvБольшой текст: я люблю всех на этой планететБольшой текст: я люблю всех на этой планетет
-//
-// Большой текст: я люблю всех на этой планететБольшой текст: я люблю всех на этой планетет
-// vБольшой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-// Большой текст: я люблю всех на этой планетет
-//
-// Большой текст: я люблю всех на этой планетет
-//   ДА: lol`,
-// }
-
 export const DreamPage = () => {
   const { id } = useParams()
   const { user, webApp } = useTelegram()
@@ -41,10 +18,16 @@ export const DreamPage = () => {
   const BackButton = webApp?.BackButton
   const navigate = useNavigate()
   const [clicked, setClicked] = useState(false)
+  const [isPageLoaded, setIsPageLoaded] = useState(false)
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
-    queryFn: async () => await getDream(user?.id ?? 0, id ?? '1'),
+    queryFn: async () =>
+      await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
+        if (resp.id === parseInt(id as string, 10)) {
+          setIsPageLoaded(true)
+        }
+      }),
   })
 
   useEffect(() => {
@@ -65,7 +48,7 @@ export const DreamPage = () => {
     }
   }, [clicked])
 
-  if (isPending) return null
+  if (isPending || !isPageLoaded) return null
   if (error || !data) return 'An error has occurred: ' + error.message
   if (!BackButton) return null
 
