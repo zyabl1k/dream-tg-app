@@ -10,13 +10,11 @@ import { stepsStore } from '@/features/manage-home'
 
 interface DrawerFooterContentProps {
   isEmpty?: boolean
-  isExpanded: boolean
   contentLength: number
   nextStep: () => void
 }
 
 export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
-  isExpanded,
   isEmpty,
   contentLength,
   nextStep,

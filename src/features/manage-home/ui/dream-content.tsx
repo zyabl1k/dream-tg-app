@@ -44,7 +44,6 @@ export const DreamContent: FunctionComponent<DreamContentProps> = ({
           <DrawerFooter
             contentLength={dreamValue.length}
             nextStep={nextStep}
-            isExpanded={isExpanded}
             isEmpty={isEmpty}
           />
         </>

@@ -39,11 +39,7 @@ export const LifeContent: FunctionComponent<LifeContentProps> = ({
             className="rotate-y-180 h-screen resize-none font-roslindale-medium text-[20px]"
             minLength={4}
           />
-          <DrawerFooter
-            contentLength={lifeValue.length}
-            nextStep={nextStep}
-            isExpanded={isExpanded}
-          />
+          <DrawerFooter contentLength={lifeValue.length} nextStep={nextStep} />
         </>
       )}
     </motion.div>
