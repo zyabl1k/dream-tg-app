@@ -9,9 +9,10 @@ import { motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { usePosition, useTelegram } from '@/shared/lib/context'
-import { DreamResponse2 } from '@/@types/dream'
+import { useQueryClient } from 'react-query'
 
 export const DreamPage = () => {
+  const queryClient = useQueryClient()
   const { id } = useParams()
   const { user, webApp } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
@@ -20,23 +21,24 @@ export const DreamPage = () => {
   const navigate = useNavigate()
   const [clicked, setClicked] = useState(false)
   const [isPageLoaded, setIsPageLoaded] = useState(false)
-  const [data, setData] = useState<DreamResponse2 | undefined>(undefined)
 
-  const { isPending, error } = useQuery({
+  const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
-    queryFn: async () => {
-      const resp = await getDream(user?.id ?? 0, id ?? '1')
-      setData(resp)
-      setIsPageLoaded(true)
-    },
+    queryFn: async () =>
+      await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
+        if (resp) {
+          setIsPageLoaded(true)
+        }
+      }),
   })
 
   useEffect(() => {
+    queryClient.clear()
     window.scrollTo(0, 0)
     document.body.style.overflow = ''
     stepsStore.set(0)
     setRandomNumbers(generateRandomNumbers())
-  }, [])
+  }, [queryClient])
 
   useEffect(() => {
     if (clicked) {
@@ -49,8 +51,9 @@ export const DreamPage = () => {
     }
   }, [clicked])
 
-  if (isPending || !isPageLoaded || !data || !BackButton) return null
-  if (error) return 'Error: ' + error?.message
+  if (isPending || !isPageLoaded) return null
+  if (error || !data) return 'An error has occurred: ' + error.message
+  if (!BackButton) return null
 
   const handleCardClick = () => {
     setClicked(!clicked)
