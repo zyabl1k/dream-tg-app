@@ -1,9 +1,9 @@
 import type { RouteObject } from 'react-router-dom'
-import { ROUTER_PATHS } from '@/shared/config/routes'
 import { HomePage } from '@/pages/home'
-import { DreamPage } from '@/pages/dream/dream.tsx'
+import { DreamPage } from '@/pages/dream'
+import { __APPLICATION__ } from '@/shared/config'
 
-const { NOT_FOUND, HOME, DREAM } = ROUTER_PATHS
+const { NOT_FOUND, HOME, DREAM } = __APPLICATION__.routes
 
 export const publicRoutes: RouteObject[] = [
   {

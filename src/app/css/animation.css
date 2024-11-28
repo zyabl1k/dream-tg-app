@@ -36,22 +36,12 @@
 
 .scan {
   position: relative;
-  overflow: hidden;
   background: linear-gradient(90deg, #690077, #ac00bf, #690077);
   background-repeat: no-repeat;
   background-size: 80%;
   animation: scan-text 3s linear infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: rgba(255, 255, 255, 0);
-}
-
-.flashing-text {
-  animation: flashing 1.5s step-end infinite;
-}
-
-.motion-layout {
-  position: relative;
-  overflow: hidden;
 }
 
 @keyframes scan-text {
@@ -61,6 +51,15 @@
   100% {
     background-position: 500%;
   }
+}
+
+.flashing-text {
+  animation: flashing 1.5s step-end infinite;
+}
+
+.motion-layout {
+  position: relative;
+  overflow: hidden;
 }
 
 @keyframes transform-card {

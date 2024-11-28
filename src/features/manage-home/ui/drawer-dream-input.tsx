@@ -6,11 +6,17 @@ import { motion } from 'framer-motion'
 import { useValidationCard } from '@/features/manage-home/model/use-validate-imput.ts'
 import { DreamContent } from '@/features/manage-home/ui/dream-content.tsx'
 import { DragPilIcon } from '@/shared/ui/icons'
-import { LifeContent } from '@/features/manage-home/ui/life-contentInput.tsx'
+import { LifeContent } from '@/features/manage-home/ui/life-content.tsx'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useMutation } from '@tanstack/react-query'
-import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 import { useNavigate } from 'react-router-dom'
+import { useTelegram } from '@/shared/lib/context'
+import { sendDream } from '@/entities'
+import {
+  CollapseDrawerCard,
+  containerVariants,
+  FadeInOut,
+} from '@/shared/ui/animations'
 
 export const DrawerDreamInput = () => {
   const dreamValue = useStore(dreamStore)
@@ -22,50 +28,40 @@ export const DrawerDreamInput = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useTelegram()
   const navigate = useNavigate()
+
   const [abortController, setAbortController] =
     useState<AbortController | null>(null)
 
-  const nextStep = () => {
-    if (validateDream(dreamValue)) {
-      handleCloseModal()
-      stepsStore.set(stepsValue + 1)
-    }
-  }
-
-  const { mutate: sendDream } = useMutation({
+  const { mutate: sendDreamRequest } = useMutation({
     mutationFn: async () => {
       const controller = new AbortController()
       setAbortController(controller)
 
-      await fetch(
-        'https://01112401.customerserver.orders.typereturn.space/api/dream/send',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            dreamDescription: dreamValue,
-            lifeDescription: lifeValue,
-            telegram_user_id: user?.id ?? 0,
-          }),
-          signal: controller.signal,
-        }
-      ).then(async (resp) => {
+      try {
+        const response = await sendDream(
+          dreamValue,
+          lifeValue,
+          user?.id,
+          controller.signal
+        )
+        setIsLoading(false)
         document.body.style.overflow = ''
-        const response = await resp.json()
         navigate(`/dream/${response.id}`)
-      })
+      } catch (error) {
+        // @ts-ignore
+        if (error.name === 'AbortError') {
+          console.log('Запрос отменен')
+        } else {
+          throw error
+        }
+      }
     },
     onError: (err) => {
+      setIsLoading(false)
+      stepsStore.set(0)
       console.error('Ошибка:', err)
     },
   })
-
-  const handleCloseModal = () => {
-    setIsExpandedDream(false)
-    setIsExpandedLife(false)
-  }
 
   useEffect(() => {
     if (isExpandedDream || isExpandedLife || stepsValue > 0) {
@@ -76,31 +72,16 @@ export const DrawerDreamInput = () => {
     }
   }, [isExpandedDream, isExpandedLife, stepsValue])
 
-  const variants = {
-    collapsed: {
-      width: 287,
-      height: 360,
-      borderRadius: '1.5rem',
-      top: '0',
-      left: 'calc(50% - 143.5px)',
-      transition: {
-        duration: 0.5,
-        ease: 'easeInOut',
-      },
-      scale: [1, 0.6, 1],
-    },
-    expanded: {
-      width: '100vw',
-      height: '97vh',
-      top: '3vh',
-      left: '0',
-      borderRadius: '1.5rem 1.5rem 0 0',
-      transition: {
-        duration: 0.3,
-        ease: 'easeInOut',
-      },
-      scale: [1],
-    },
+  const nextStep = () => {
+    if (validateDream()) {
+      handleCloseModal()
+      stepsStore.set(stepsValue + 1)
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsExpandedDream(false)
+    setIsExpandedLife(false)
   }
 
   const prevStep = () => {
@@ -111,49 +92,25 @@ export const DrawerDreamInput = () => {
     if (userConfirmed) {
       if (abortController) {
         abortController.abort()
+        setAbortController(null)
       }
-      stepsStore.set(stepsValue - 1)
+      setIsLoading(false)
       dreamStore.set('')
       lifeStore.set('')
-      setIsExpandedLife(false)
-      setIsLoading(false)
+      handleCloseModal()
+      stepsStore.set(stepsValue - 1)
     }
   }
 
   const handleSendDream = () => {
-    setIsExpandedLife(false)
-    sendDream()
+    handleCloseModal()
+    sendDreamRequest()
     setIsLoading(true)
-  }
-
-  const variantsButtons = {
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-    invisible: {
-      opacity: 0,
-      y: 0,
-    },
-  }
-
-  const analiz = {
-    visible: {
-      opacity: 1,
-    },
-    invisible: {
-      opacity: 0,
-    },
   }
 
   const blockVariants = {
     collapsed: { opacity: 1, height: '50%' },
     expanded: { opacity: 1, height: 0 },
-  }
-
-  const containerVariants = {
-    collapsed: { opacity: 0 },
-    expanded: { opacity: 1 },
   }
 
   const test = {
@@ -165,7 +122,7 @@ export const DrawerDreamInput = () => {
     <>
       <motion.div
         layout
-        variants={variants}
+        variants={CollapseDrawerCard}
         initial="collapsed"
         animate={isExpandedDream || isExpandedLife ? 'expanded' : 'collapsed'}
         className={cn(
@@ -185,19 +142,19 @@ export const DrawerDreamInput = () => {
         }}
       >
         {(isExpandedDream || isExpandedLife) && (
-          <DragPilIcon className={'relative top-[14px] z-50 mx-auto'} />
+          <DragPilIcon className={'relative top-3.5 z-50 mx-auto'} />
         )}
         <div
           className={cn(
-            'relative h-full cursor-pointer text-start transition-transform delay-300 duration-1000',
-            stepsValue > 0 ? 'rotate-y-180' : '',
-            !isExpandedDream && stepsValue < 1 && 'rounded-b-3xl'
+            'relative h-full cursor-pointer text-start transition-transform delay-500 duration-1000',
+            stepsValue > 0 && 'rotate-y-180',
+            !isExpandedDream && stepsValue < 1 && 'rounded-b-4xl'
           )}
         >
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'shadow-card-box absolute inset-0 z-10 rounded-3xl bg-white',
+              'rounded-4xl absolute inset-0 z-10 bg-white shadow-card-box',
               stepsValue > 0 && 'hidden'
             )}
           >
@@ -209,7 +166,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                'rounded-b-4xl pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -217,19 +174,18 @@ export const DrawerDreamInput = () => {
 
           <div
             className={cn(
-              'shadow-card-box absolute inset-0 z-10 rounded-3xl bg-white',
+              'rounded-4xl absolute inset-0 z-10 bg-white shadow-card-box',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
             <LifeContent
-              isEmpty={isEmpty}
               nextStep={handleSendDream}
               isExpanded={isExpandedLife}
               lifeValue={lifeValue}
             />
             <div
               className={cn(
-                'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-3xl bg-gradient-to-t from-white to-transparent',
+                'rounded-b-4xl pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -278,7 +234,7 @@ export const DrawerDreamInput = () => {
           style={{
             transform: 'translate(-50%, -50%)',
           }}
-          variants={analiz}
+          variants={FadeInOut}
           initial="invisible"
           animate={isLoading ? 'visible' : 'invisible'}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -297,32 +253,24 @@ export const DrawerDreamInput = () => {
         )}
       >
         <motion.div
-          transition={{ duration: 0.5 }}
-          variants={variantsButtons}
+          variants={FadeInOut}
           initial="invisible"
           animate={stepsValue === 0 || isLoading ? 'invisible' : 'visible'}
+          transition={{ duration: 0.5 }}
         >
           <Button
             className={cn(
-              'text-md h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold',
+              'text-md shadow-send-dream-btn h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold',
               (stepsValue === 0 || isLoading) && 'pointer-events-none'
             )}
             onClick={handleSendDream}
-            style={{
-              boxShadow: `
-    0px 4px 10px 0px #23150126,
-    0px 18px 18px 0px #2315011C,
-    0px 40px 24px 0px #23150112,
-    0px 71px 29px 0px #23150108
-  `,
-            }}
           >
             Узнать значение сна
           </Button>
         </motion.div>
         <motion.div
           transition={{ duration: 0.5, delay: 0.5 }}
-          variants={variantsButtons}
+          variants={FadeInOut}
           initial="invisible"
           animate={stepsValue === 0 ? 'invisible' : 'visible'}
         >

@@ -1,13 +1,16 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
-import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
+import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
+import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
+import { useRootContainer } from '@/shared/lib/context'
+import { PreloaderWidget } from '@/widgets/preloader'
 
 // const data = [
 //   {
@@ -49,9 +52,9 @@ import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
-  const ref = useRef(null)
+  const rootContainerRef = useRootContainer()
   const { user } = useTelegram()
-  const { scrollYProgress } = useScroll({ target: ref })
+  const { scrollYProgress } = useScroll({ target: rootContainerRef })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id ?? 0),
@@ -59,61 +62,44 @@ export const HomePage = () => {
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const secondSectionOpacity = useTransform(
-    scrollYProgress,
-    [0.7, 0.99],
-    [0, 1]
-  )
-  const yText = useTransform(scrollYProgress, [0.7, 0.99], [30, 0])
-  const yBlocks = useTransform(scrollYProgress, [0.7, 0.99], [-30, 0])
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const bottomShadowOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const textY = useTransform(scrollYProgress, [0, 0.3], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0, 0.3], [-20, 0])
 
   useEffect(() => {
     stepsStore.set(0)
   }, [])
 
-  const variants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-    invisible: {
-      opacity: 0,
-      y: -20,
-    },
-  }
-
-  if (isPending)
-    return (
-      <div
-        className={'absolute'}
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <img
-          className={'size-10 animate-spin'}
-          src={'img/loader.png'}
-          alt={'loader'}
-        />
-      </div>
-    )
+  if (isPending) return <PreloaderWidget />
   if (error || !data) return 'An error has occurred: ' + error
 
+  // FOR LOG SCROLL POSITION:
+  // useEffect(() => {
+  //   return scrollYProgress.onChange((latest) => {
+  //     console.log(latest)
+  //   })
+  // }, [scrollYProgress])
+
   return (
-    <div ref={ref} className={'flex flex-col justify-center'}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.8 }}
+      className={'flex flex-col justify-center'}
+    >
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[80vh] snap-center flex-col justify-start p-6 pt-6'
+          'relative flex h-[80vh] snap-center flex-col justify-start px-5 pt-8'
         )}
       >
         <Header />
         <motion.p
           key="paragraph"
-          className="mb-[32px] mt-[20px] text-center text-muted"
-          variants={variants}
+          className="mb-8 mt-5 text-center text-muted"
+          variants={FadeInOutBottom}
           initial="visible"
           animate={stepsValue > 0 ? 'invisible' : 'visible'}
           transition={{ duration: 0.5 }}
@@ -124,28 +110,31 @@ export const HomePage = () => {
         </motion.p>
         <DrawerDreamInput />
       </motion.section>
+
       <motion.section
+        variants={FadeInOut}
+        initial="visible"
+        animate={stepsValue > 0 ? 'invisible' : 'visible'}
+        transition={{ duration: 0.5 }}
         className={cn(
-          'relative flex h-screen snap-center flex-col pb-8 opacity-100 transition-opacity',
-          stepsValue > 0 && 'pointer-events-none opacity-0'
+          'relative flex h-full snap-center flex-col pb-14',
+          stepsValue > 0 && 'pointer-events-none'
         )}
       >
         <motion.h1
           style={{
-            opacity: secondSectionOpacity,
-            y: yText,
+            opacity: textOpacity,
+            y: textY,
           }}
           className={
-            'mb-[40px] mt-[32px] text-center font-roslindale text-[36px]'
+            'pointer-events-none mb-10 mt-8 text-center font-roslindale text-4xl'
           }
         >
           Коллекция снов
         </motion.h1>
         <motion.div
-          className={
-            'no-scrollbar flex flex-col items-center gap-y-4 overflow-y-auto pb-10'
-          }
-          style={{ y: yBlocks }}
+          className={'no-scrollbar flex flex-col items-center gap-y-8 pb-10'}
+          style={{ y: blocksY }}
         >
           {data.map((item) => (
             <div className={'flex flex-col gap-y-6'} key={item.id}>
@@ -161,11 +150,14 @@ export const HomePage = () => {
           ))}
         </motion.div>
         <motion.div
+          style={{
+            opacity: bottomShadowOpacity,
+          }}
           className={
-            'absolute bottom-0 h-[200px] w-screen bg-gradient-to-t from-white to-transparent'
+            'fixed bottom-0 h-20 w-screen bg-gradient-to-t from-white to-transparent'
           }
         ></motion.div>
       </motion.section>
-    </div>
+    </motion.div>
   )
 }

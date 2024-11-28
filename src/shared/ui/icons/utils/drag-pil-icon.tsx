@@ -8,13 +8,13 @@ const SvgDragPilIcon = (
     {...props}
     ref={ref}
     xmlns="http://www.w3.org/2000/svg"
-    width="36"
-    height="4"
+    width={36}
+    height={4}
     viewBox="0 0 36 4"
     fill="none"
   >
     <g filter="url(#filter0_b_198_3344)">
-      <rect width="36" height="4" rx="2" fill="black" fill-opacity="0.15" />
+      <rect width={36} height={4} rx="2" fill="black" fill-opacity="0.15" />
     </g>
     <defs>
       <filter

@@ -1,22 +1,17 @@
 import { Outlet } from 'react-router-dom'
-import { UpWidget } from '@/widgets/up-button'
-import { motion } from 'framer-motion'
+import { BottomButtonWidget } from '@/widgets/bottom-button'
 import { useRef } from 'react'
+import { RootContainerProvider } from '@/shared/lib/context'
 
 export const RootLayout = () => {
-  const ref = useRef(null)
+  const rootContainerRef = useRef<HTMLDivElement | null>(null)
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.8 }}
-      className={'flex min-h-screen flex-col'}
-    >
-      <Outlet />
-      <UpWidget refContainer={ref} />
-    </motion.div>
+    <RootContainerProvider rootRef={rootContainerRef}>
+      <div ref={rootContainerRef} className={'flex min-h-screen flex-col'}>
+        <Outlet />
+        <BottomButtonWidget containerRef={rootContainerRef} />
+      </div>
+    </RootContainerProvider>
   )
 }

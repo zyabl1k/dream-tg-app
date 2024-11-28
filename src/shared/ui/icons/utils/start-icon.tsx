@@ -1,5 +1,4 @@
-import type { SVGProps } from 'react'
-import { Ref, forwardRef, memo } from 'react'
+import { Ref, forwardRef, memo, type SVGProps } from 'react'
 
 const SvgStartIcon = (
   props: SVGProps<SVGSVGElement>,

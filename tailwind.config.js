@@ -20,6 +20,7 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        '4xl': '28px',
       },
       colors: {
         background: 'var(--background)',
@@ -30,6 +31,13 @@ export default {
       },
       boxShadow: {
         card: '0px -4px 36px 0px #07070712',
+        'send-dream-btn': `
+          0px 4px 10px 0px #23150126,
+          0px 18px 18px 0px #2315011C,
+          0px 40px 24px 0px #23150112,
+          0px 71px 29px 0px #23150108
+        `,
+
         'card-back': '0px 4px 36px 0px #2F536012',
         'card-box': '0px 4px 36px 0px #00000012',
       },

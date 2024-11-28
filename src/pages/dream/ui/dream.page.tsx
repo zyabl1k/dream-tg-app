@@ -3,13 +3,12 @@ import { useQuery } from '@tanstack/react-query'
 import { getDream } from '@/entities'
 import { dreamStore, stepsStore } from '@/features/manage-home'
 import { useEffect, useState } from 'react'
-import { useTelegram } from '@/shared/lib/telegram.provider.tsx'
 import { generateRandomNumbers } from '@/shared/lib/generate-number.ts'
 import { parseDescription } from '@/shared/lib/parse-paragraph.ts'
 import { motion } from 'framer-motion'
-import { useCardPosition } from '@/shared/lib/use-position.provider.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
+import { usePosition, useTelegram } from '@/shared/lib/context'
 
 // const data = {
 //   textRequest: 'Любовь ко всем',
@@ -38,7 +37,7 @@ export const DreamPage = () => {
   const { id } = useParams()
   const { user } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
-  const { position } = useCardPosition()
+  const { position } = usePosition()
   const tg = window.Telegram.WebApp
   const BackButton = tg.BackButton
   const navigate = useNavigate()

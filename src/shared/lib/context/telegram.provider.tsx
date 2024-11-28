@@ -11,12 +11,6 @@ import { ITelegramUser, IWebApp } from '@/@types/telegram'
 interface ITelegramContext {
   webApp?: IWebApp
   user?: ITelegramUser
-  unsafeData?: {
-    query_id: string
-    user: ITelegramUser
-    auth_date: string
-    hash: string
-  }
 }
 
 export const TelegramContext = createContext<ITelegramContext>({})
@@ -53,7 +47,6 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     return webApp
       ? {
           webApp,
-          unsafeData: webApp.initDataUnsafe,
           user: webApp.initDataUnsafe.user,
         }
       : {}

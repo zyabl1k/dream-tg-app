@@ -6,30 +6,30 @@ import {
   useState,
 } from 'react'
 
-interface CardPositionContextProps {
+interface PositionContextProps {
   position: { x: number; y: number } | null
   setPosition: (pos: { x: number; y: number }) => void
 }
 
-const CardPositionContext = createContext<CardPositionContextProps | undefined>(
+const PositionContext = createContext<PositionContextProps | undefined>(
   undefined
 )
 
-export const CardPositionProvider: FunctionComponent<{
+export const PositionProvider: FunctionComponent<{
   children: ReactNode
 }> = ({ children }) => {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
     null
   )
   return (
-    <CardPositionContext.Provider value={{ position, setPosition }}>
+    <PositionContext.Provider value={{ position, setPosition }}>
       {children}
-    </CardPositionContext.Provider>
+    </PositionContext.Provider>
   )
 }
 
-export const useCardPosition = () => {
-  const context = useContext(CardPositionContext)
+export const usePosition = () => {
+  const context = useContext(PositionContext)
   if (!context) {
     throw new Error(
       'useCardPosition must be used within a CardPositionProvider'
