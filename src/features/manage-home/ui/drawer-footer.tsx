@@ -36,6 +36,8 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
       window.visualViewport.addEventListener('resize', handleResize)
     }
 
+    handleResize()
+
     return () => {
       window.removeEventListener('resize', handleResize)
       if (window.visualViewport) {
@@ -46,10 +48,10 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   const KeyboardUp = {
     open: {
-      y: -200,
+      y: 0,
     },
     close: {
-      y: 0,
+      y: 300,
     },
   }
 
@@ -62,7 +64,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
       variants={KeyboardUp}
       initial="close"
       animate={isKeyboardVisible ? 'open' : 'close'}
-      transition={{ duration: 0.1, ease: 'easeInOut' }}
+      transition={{ duration: 0.2, ease: 'easeInOut' }}
     >
       {isEmpty ? (
         <div className="flex items-center justify-between gap-3 rounded-xl bg-[#383838D9] px-3.5 py-2.5">

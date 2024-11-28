@@ -67,7 +67,6 @@ export const DrawerDreamInput = () => {
     if (isExpandedDream || isExpandedLife || stepsValue > 0) {
       document.body.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
-      document.body.style.width = '100%'
     } else {
       document.body.style.overflow = 'auto'
       document.body.style.position = ''
@@ -76,7 +75,6 @@ export const DrawerDreamInput = () => {
     return () => {
       document.body.style.overflow = ''
       document.body.style.position = ''
-      document.body.style.width = ''
     }
   }, [isExpandedDream, isExpandedLife, stepsValue])
 
