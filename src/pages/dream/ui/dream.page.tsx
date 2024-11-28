@@ -26,10 +26,8 @@ export const DreamPage = () => {
     queryKey: ['dream'],
     queryFn: async () =>
       await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
-        if (resp.id === parseInt(id as string, 10)) {
-          setData(resp)
-          setIsPageLoaded(true)
-        }
+        setData(resp)
+        setIsPageLoaded(true)
       }),
   })
 
@@ -51,8 +49,8 @@ export const DreamPage = () => {
     }
   }, [clicked])
 
-  if (isPending || !isPageLoaded) return JSON.stringify(data)
-  if (error || !data) return JSON.stringify(data)
+  if (isPending || !isPageLoaded) return null
+  if (error || !data) return 'Error: ' + error?.message
   if (!BackButton) return null
 
   const handleCardClick = () => {
