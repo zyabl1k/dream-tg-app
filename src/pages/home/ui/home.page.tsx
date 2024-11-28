@@ -53,12 +53,13 @@ import { PreloaderWidget } from '@/widgets/preloader'
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
   const rootContainerRef = useRootContainer()
-  const { user } = useTelegram()
+  const { user, webApp } = useTelegram()
   const { scrollYProgress } = useScroll({ target: rootContainerRef })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
+  const BackButton = webApp?.BackButton
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
@@ -69,6 +70,9 @@ export const HomePage = () => {
 
   useEffect(() => {
     stepsStore.set(0)
+    if (BackButton) {
+      BackButton.hide()
+    }
   }, [])
 
   if (isPending) return <PreloaderWidget />
@@ -127,13 +131,13 @@ export const HomePage = () => {
             y: textY,
           }}
           className={
-            'pointer-events-none mb-10 mt-8 text-center font-roslindale text-4xl'
+            'pointer-events-none mt-8 text-center font-roslindale text-4xl'
           }
         >
           Коллекция снов
         </motion.h1>
         <motion.div
-          className={'no-scrollbar flex flex-col items-center gap-y-8 pb-10'}
+          className={'no-scrollbar flex flex-col items-center gap-y-8 py-10'}
           style={{ y: blocksY }}
         >
           {data.map((item) => (

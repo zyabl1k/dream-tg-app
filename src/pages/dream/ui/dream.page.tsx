@@ -35,25 +35,12 @@ import { usePosition, useTelegram } from '@/shared/lib/context'
 
 export const DreamPage = () => {
   const { id } = useParams()
-  const { user } = useTelegram()
+  const { user, webApp } = useTelegram()
   const [randomNumbers, setRandomNumbers] = useState<number[]>([])
   const { position } = usePosition()
-  const tg = window.Telegram.WebApp
-  const BackButton = tg.BackButton
+  const BackButton = webApp?.BackButton
   const navigate = useNavigate()
   const [clicked, setClicked] = useState(false)
-
-  const handleCardClick = () => {
-    setClicked(!clicked)
-  }
-  BackButton.show()
-
-  BackButton.onClick(function () {
-    navigate('/')
-    dreamStore.set('')
-    lifeStore.set('')
-    BackButton.hide()
-  })
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
@@ -80,6 +67,20 @@ export const DreamPage = () => {
 
   if (isPending) return null
   if (error || !data) return 'An error has occurred: ' + error.message
+  if (!BackButton) return null
+
+  const handleCardClick = () => {
+    setClicked(!clicked)
+  }
+
+  BackButton.show()
+
+  BackButton.onClick(function () {
+    navigate('/')
+    dreamStore.set('')
+    lifeStore.set('')
+    BackButton.hide()
+  })
 
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (

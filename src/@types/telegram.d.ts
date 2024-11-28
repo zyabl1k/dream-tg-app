@@ -16,4 +16,9 @@ export interface IWebApp {
     auth_date: string
     hash: string
   }
+  BackButton: {
+    show: () => void
+    hide: () => void
+    onClick: (p: () => void) => void
+  }
 }
