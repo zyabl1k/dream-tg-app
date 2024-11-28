@@ -20,16 +20,10 @@ export const DreamPage = () => {
   const BackButton = webApp?.BackButton
   const navigate = useNavigate()
   const [clicked, setClicked] = useState(false)
-  const [isPageLoaded, setIsPageLoaded] = useState(false)
 
   const { isPending, error, data } = useQuery({
     queryKey: ['dream'],
-    queryFn: async () =>
-      await getDream(user?.id ?? 0, id ?? '1').then((resp) => {
-        if (resp) {
-          setIsPageLoaded(true)
-        }
-      }),
+    queryFn: async () => await getDream(user?.id ?? 0, id ?? '1'),
   })
 
   useEffect(() => {
@@ -51,7 +45,7 @@ export const DreamPage = () => {
     }
   }, [clicked])
 
-  if (isPending || !isPageLoaded) return null
+  if (isPending) return null
   if (error || !data) return 'An error has occurred: ' + error.message
   if (!BackButton) return null
 
