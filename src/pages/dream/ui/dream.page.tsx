@@ -51,8 +51,8 @@ export const DreamPage = () => {
     }
   }, [clicked])
 
-  if (isPending || !isPageLoaded) return null
-  if (error || !data) return 'An error has occurred: ' + error?.message
+  if (isPending || !isPageLoaded) return JSON.stringify(data)
+  if (error || !data) return JSON.stringify(data)
   if (!BackButton) return null
 
   const handleCardClick = () => {
