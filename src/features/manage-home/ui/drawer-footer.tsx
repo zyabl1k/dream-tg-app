@@ -48,10 +48,10 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   const KeyboardUp = {
     open: {
-      y: 0,
+      y: -300,
     },
     close: {
-      y: 300,
+      y: 0,
     },
   }
 
