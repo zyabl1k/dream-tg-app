@@ -46,7 +46,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   const KeyboardUp = {
     open: {
-      y: -400,
+      y: -200,
     },
     close: {
       y: 0,
@@ -62,7 +62,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
       variants={KeyboardUp}
       initial="close"
       animate={isKeyboardVisible ? 'open' : 'close'}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      transition={{ duration: 0.1, ease: 'easeInOut' }}
     >
       {isEmpty ? (
         <div className="flex items-center justify-between gap-3 rounded-xl bg-[#383838D9] px-3.5 py-2.5">
