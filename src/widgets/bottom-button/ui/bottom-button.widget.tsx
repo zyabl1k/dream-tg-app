@@ -16,7 +16,7 @@ export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
   containerRef,
 }) => {
   const { scrollYProgress } = useScroll({ target: containerRef })
-  const upButtonOpacity = useTransform(scrollYProgress, [0.03, 0.05], [0, 1])
+  const upButtonOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
   const location = useLocation()
   const navigate = useNavigate()
   const isSpecialPage = __APPLICATION__.specialPaths.some((path) =>

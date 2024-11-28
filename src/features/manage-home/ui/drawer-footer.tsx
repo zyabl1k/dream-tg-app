@@ -24,11 +24,13 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   useEffect(() => {
     const handleResize = () => {
-      const viewportHeight = window.visualViewport
-        ? window.visualViewport.height
-        : window.innerHeight
-      const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85
-      setIsKeyboardVisible(isKeyboardNowVisible)
+      requestAnimationFrame(() => {
+        const viewportHeight = window.visualViewport
+          ? window.visualViewport.height
+          : window.innerHeight
+        const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85
+        setIsKeyboardVisible(isKeyboardNowVisible)
+      })
     }
 
     window.addEventListener('resize', handleResize)
@@ -48,7 +50,7 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
   const KeyboardUp = {
     open: {
-      y: -350,
+      y: -330,
     },
     close: {
       y: 0,
