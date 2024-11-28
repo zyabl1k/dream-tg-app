@@ -66,7 +66,10 @@ export const DrawerDreamInput = () => {
   useEffect(() => {
     if (isExpandedDream || isExpandedLife || stepsValue > 0) {
       document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
     }
+
     return () => {
       document.body.style.overflow = ''
     }

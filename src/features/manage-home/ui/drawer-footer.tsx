@@ -31,11 +31,6 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
         : window.innerHeight
       const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.1
       setIsKeyboardVisible(isKeyboardNowVisible)
-      if (isKeyboardNowVisible) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = ''
-      }
     }
 
     window.addEventListener('resize', handleResize)
@@ -52,13 +47,11 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
   }, [])
 
   const KeyboardUp = {
-    visible: {
-      y: isKeyboardVisible ? '-600%' : 0,
-      opacity: 1,
+    open: {
+      y: '-600%',
     },
-    invisible: {
-      y: '20%',
-      opacity: 0,
+    close: {
+      y: 0,
     },
   }
 
@@ -69,8 +62,8 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
         stepsValue > 0 && '!rotate-y-180'
       )}
       variants={KeyboardUp}
-      initial="invisible"
-      animate={isExpanded ? 'visible' : 'invisible'}
+      initial="close"
+      animate={isKeyboardVisible ? 'open' : 'invisible'}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
       {isEmpty ? (
