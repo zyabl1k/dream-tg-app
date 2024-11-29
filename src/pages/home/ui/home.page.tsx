@@ -9,7 +9,6 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
-import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
 
 // const data = [
