@@ -38,18 +38,36 @@
   position: relative;
   background: linear-gradient(90deg, #690077, #ac00bf, #690077);
   background-repeat: no-repeat;
-  background-size: 80%;
-  animation: scan-text 3s linear infinite;
+  background-size: 50% 25px;
+  animation: scan-text 15s linear infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: rgba(255, 255, 255, 0);
 }
 
 @keyframes scan-text {
   0% {
-    background-position: -500%;
+    background-position: -250% 3%;
+  }
+  25% {
+    background-position: 250% 3%;
+  }
+  26% {
+    background-position: -250% 20%;
+  }
+  50% {
+    background-position: 250% 20%;
+  }
+  51% {
+    background-position: -250% 40%;
+  }
+  75% {
+    background-position: 250% 40%;
+  }
+  76% {
+    background-position: -250% 45%;
   }
   100% {
-    background-position: 500%;
+    background-position: -250% 45%;
   }
 }
 

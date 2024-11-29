@@ -160,7 +160,7 @@ export const DrawerDreamInput = () => {
           {/* Лицевая сторона */}
           <div
             className={cn(
-              'rounded-4xl absolute inset-0 z-10 bg-white shadow-card-box',
+              'absolute inset-0 z-10 rounded-4xl bg-white shadow-card-box',
               stepsValue > 0 && 'hidden'
             )}
           >
@@ -172,7 +172,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'rounded-b-4xl pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent',
+                'pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-4xl bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -180,7 +180,7 @@ export const DrawerDreamInput = () => {
 
           <div
             className={cn(
-              'rounded-4xl absolute inset-0 z-10 bg-white shadow-card-box',
+              'absolute inset-0 z-10 rounded-4xl bg-white shadow-card-box',
               stepsValue > 0 ? 'block' : 'hidden'
             )}
           >
@@ -191,7 +191,7 @@ export const DrawerDreamInput = () => {
             />
             <div
               className={cn(
-                'rounded-b-4xl pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent',
+                'pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-4xl bg-gradient-to-t from-white to-transparent',
                 (isExpandedDream || isExpandedLife) && 'hidden'
               )}
             ></div>
@@ -266,7 +266,7 @@ export const DrawerDreamInput = () => {
         >
           <Button
             className={cn(
-              'text-md shadow-send-dream-btn h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold',
+              'text-md h-[60px] rounded-[16px] px-[40px] py-[18px] font-semibold shadow-send-dream-btn',
               (stepsValue === 0 || isLoading) && 'pointer-events-none'
             )}
             onClick={handleSendDream}

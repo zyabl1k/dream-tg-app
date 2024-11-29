@@ -23,31 +23,6 @@ import { PreloaderWidget } from '@/widgets/preloader'
 //     date: 'Вчера',
 //     description: 'Сон про вашу собаку и маму',
 //   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
-//   {
-//     id: 2,
-//     date: 'Вчера',
-//     description: 'Сон про вашу собаку и маму',
-//   },
 // ]
 
 export const HomePage = () => {
@@ -135,7 +110,7 @@ export const HomePage = () => {
         animate={stepsValue > 0 ? 'invisible' : 'visible'}
         transition={{ duration: 0.5 }}
         className={cn(
-          'relative flex h-full snap-start flex-col pb-14',
+          'relative flex h-full min-h-screen snap-start flex-col pb-14',
           stepsValue > 0 && 'pointer-events-none'
         )}
       >
