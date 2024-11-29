@@ -46,28 +46,28 @@
 
 @keyframes scan-text {
   0% {
-    background-position: -250% 3%;
+    background-position: -250% 0;
   }
   25% {
-    background-position: 250% 3%;
+    background-position: 250% 0;
   }
-  26% {
-    background-position: -250% 20%;
+  25.5% {
+    background-position: -250% 10%;
   }
   50% {
-    background-position: 250% 20%;
+    background-position: 250% 10%;
   }
-  51% {
-    background-position: -250% 40%;
+  50.5% {
+    background-position: -250% 20%;
   }
   75% {
-    background-position: 250% 40%;
+    background-position: 250% 20%;
   }
-  76% {
-    background-position: -250% 45%;
+  75.5% {
+    background-position: -250% 30%;
   }
   100% {
-    background-position: -250% 45%;
+    background-position: -250% 30%;
   }
 }
 

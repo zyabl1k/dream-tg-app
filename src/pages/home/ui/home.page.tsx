@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -27,34 +27,27 @@ import { PreloaderWidget } from '@/widgets/preloader'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
-  const rootContainerRef = useRootContainer()
+  const ref = useRef(null)
+  // const rootContainerRef = useRootContainer()
   const { user, webApp } = useTelegram()
-  const { scrollYProgress } = useScroll({ target: rootContainerRef })
+  const { scrollYProgress } = useScroll({ target: ref })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0.8]
-  )
-  const firstSectionOpacity = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0]
-  )
+  const firstSectionScale = useTransform(scrollYProgress, [0.01, 0.2], [1, 0.8])
+  const firstSectionOpacity = useTransform(scrollYProgress, [0.01, 0.2], [1, 0])
 
-  const textOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
+  const textOpacity = useTransform(scrollYProgress, [0.3, 0.4], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
     [0.03, 0.05],
     [0, 1]
   )
-  const textY = useTransform(scrollYProgress, [0.03, 0.1], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.03, 0.1], [-20, 0])
+  const textY = useTransform(scrollYProgress, [0.3, 0.6], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.3, 0.6], [-20, 0])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -81,6 +74,7 @@ export const HomePage = () => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
+      ref={ref}
     >
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
