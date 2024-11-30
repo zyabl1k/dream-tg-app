@@ -47,13 +47,16 @@ export const HomePage = () => {
     [1, 0]
   )
 
-  const textOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
-  const bottomShadowOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.03, 0.1], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.03, 0.1], [-20, 0])
+  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
+  const bottomShadowOpacity = useTransform(
+    scrollYProgress,
+    [0.03, 0.08],
+    [0, 1]
+  )
+  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
 
   useEffect(() => {
-    window.scrollTo(10, 10000)
     stepsStore.set(0)
     if (BackButton) {
       BackButton.hide()
