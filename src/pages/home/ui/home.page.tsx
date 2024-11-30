@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
 import { useRootContainer } from '@/shared/lib/context'
+import { PreloaderWidget } from '@/widgets/preloader'
 
 // const data = [
 //   {
@@ -52,14 +53,14 @@ export const HomePage = () => {
   const blocksY = useTransform(scrollYProgress, [0.03, 0.1], [-20, 0])
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 1)
     stepsStore.set(0)
     if (BackButton) {
       BackButton.hide()
     }
   }, [])
 
-  if (isPending) return <>LOADING</>
+  if (isPending) return <PreloaderWidget />
   if (error || !data) return 'An error has occurred: ' + error
 
   // FOR LOG SCROLL POSITION:
