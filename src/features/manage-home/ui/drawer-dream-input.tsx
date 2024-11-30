@@ -212,7 +212,7 @@ export const DrawerDreamInput = () => {
         }}
       >
         <div className="relative h-[140px] rounded-b-xl rounded-t-3xl bg-white p-4">
-          <div className={'overflow-hidden'}>
+          <div className={'h-[110px] overflow-hidden'}>
             <p className="scan overflow-hidden text-ellipsis break-words !bg-black font-roslindale-medium text-xl">
               {dreamValue}
             </p>
