@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -35,26 +35,18 @@ export const HomePage = () => {
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
   const BackButton = webApp?.BackButton
-  const [scaleRange, setScaleRange] = useState<[number, number]>([1, 1]) // начальный диапазон для scale
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setScaleRange([1, 0.8]) // меняем значения спустя 500ms
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   const firstSectionScale = useTransform(
     scrollYProgress,
     [0.01, 0.08],
-    scaleRange
+    [1, 0.8]
   )
   const firstSectionOpacity = useTransform(
     scrollYProgress,
     [0.01, 0.08],
     [1, 0]
   )
+
   const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
