@@ -53,7 +53,7 @@ export const HomePage = () => {
   const blocksY = useTransform(scrollYProgress, [0.03, 0.1], [-20, 0])
 
   useEffect(() => {
-    window.scrollTo(0, 100)
+    window.scrollTo(0, -1)
     stepsStore.set(0)
     if (BackButton) {
       BackButton.hide()
