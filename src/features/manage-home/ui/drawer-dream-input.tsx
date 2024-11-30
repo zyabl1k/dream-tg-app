@@ -211,8 +211,8 @@ export const DrawerDreamInput = () => {
           left: 'calc(50% - 143.5px)',
         }}
       >
-        <div className="relative h-1/2 rounded-b-xl rounded-t-3xl bg-white p-4">
-          <div className={'h-[140px] overflow-hidden'}>
+        <div className="relative h-[140px] rounded-b-xl rounded-t-3xl bg-white p-4">
+          <div className={'overflow-hidden'}>
             <p className="scan overflow-hidden text-ellipsis break-words !bg-black font-roslindale-medium text-xl">
               {dreamValue}
             </p>
