@@ -36,13 +36,21 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(scrollYProgress, [0.1, 0.5], [1, 0.8])
-  const firstSectionOpacity = useTransform(scrollYProgress, [0.1, 0.5], [1, 0])
+  const firstSectionScale = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0.8]
+  )
+  const firstSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0]
+  )
 
-  const textOpacity = useTransform(scrollYProgress, [0.6, 1], [0, 1])
-  const bottomShadowOpacity = useTransform(scrollYProgress, [0.6, 1], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.6, 1], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.6, 1], [-20, 0])
+  const textOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
+  const bottomShadowOpacity = useTransform(scrollYProgress, [0.03, 0.1], [0, 1])
+  const textY = useTransform(scrollYProgress, [0.03, 0.1], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.03, 0.1], [-20, 0])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -63,7 +71,13 @@ export const HomePage = () => {
   // }, [scrollYProgress])
 
   return (
-    <div className={'flex flex-col justify-center'}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.8 }}
+      className={'flex flex-col justify-center'}
+    >
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
@@ -133,6 +147,6 @@ export const HomePage = () => {
           }
         ></motion.div>
       </motion.section>
-    </div>
+    </motion.div>
   )
 }
