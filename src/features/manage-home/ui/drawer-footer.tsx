@@ -3,7 +3,7 @@ import { CharacterCounter } from '@/features/manage-home/ui/character-counter.ts
 import { __APPLICATION__ } from '@/shared/config'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 import { EditIcon } from '@/shared/ui/icons'
 import { useStore } from '@nanostores/react'
 import { stepsStore } from '@/features/manage-home'
@@ -20,33 +20,33 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
   nextStep,
 }) => {
   const stepsValue = useStore(stepsStore)
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+  const isKeyboardVisible = false
 
-  useEffect(() => {
-    const handleResize = () => {
-      requestAnimationFrame(() => {
-        const viewportHeight = window.visualViewport
-          ? window.visualViewport.height
-          : window.innerHeight
-        const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85
-        setIsKeyboardVisible(isKeyboardNowVisible)
-      })
-    }
-
-    window.addEventListener('resize', handleResize)
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize)
-    }
-
-    handleResize()
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize)
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     requestAnimationFrame(() => {
+  //       const viewportHeight = window.visualViewport
+  //         ? window.visualViewport.height
+  //         : window.innerHeight
+  //       const isKeyboardNowVisible = viewportHeight < window.innerHeight * 0.85
+  //       setIsKeyboardVisible(isKeyboardNowVisible)
+  //     })
+  //   }
+  //
+  //   window.addEventListener('resize', handleResize)
+  //   if (window.visualViewport) {
+  //     window.visualViewport.addEventListener('resize', handleResize)
+  //   }
+  //
+  //   handleResize()
+  //
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize)
+  //     if (window.visualViewport) {
+  //       window.visualViewport.removeEventListener('resize', handleResize)
+  //     }
+  //   }
+  // }, [])
 
   const KeyboardUp = {
     open: {
