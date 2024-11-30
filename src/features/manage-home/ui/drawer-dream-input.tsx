@@ -11,7 +11,6 @@ import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useTelegram } from '@/shared/lib/context'
-import { sendDream } from '@/entities'
 import {
   CollapseDrawerCard,
   containerVariants,
@@ -29,36 +28,28 @@ export const DrawerDreamInput = () => {
   const { user } = useTelegram()
   const navigate = useNavigate()
 
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null)
-
-  const { mutate: sendDreamRequest } = useMutation({
+  const { mutate: sendDream } = useMutation({
     mutationFn: async () => {
-      const controller = new AbortController()
-      setAbortController(controller)
-
-      try {
-        const response = await sendDream(
-          dreamValue,
-          lifeValue,
-          user?.id,
-          controller.signal
-        )
-        setIsLoading(false)
-        document.body.style.overflow = ''
-        navigate(`/dream/${response.id}`)
-      } catch (error) {
-        // @ts-ignore
-        if (error.name === 'AbortError') {
-          console.log('Запрос отменен')
-        } else {
-          throw error
+      await fetch(
+        'https://01112401.customerserver.orders.typereturn.space/api/dream/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            dreamDescription: dreamValue,
+            lifeDescription: lifeValue,
+            telegram_user_id: user?.id || 1347606553,
+          }),
         }
-      }
+      ).then(async (resp) => {
+        document.body.style.overflow = ''
+        const response = await resp.json()
+        navigate(`/dream/${response.id}`)
+      })
     },
     onError: (err) => {
-      setIsLoading(false)
-      stepsStore.set(0)
       console.error('Ошибка:', err)
     },
   })
@@ -96,10 +87,6 @@ export const DrawerDreamInput = () => {
     )
 
     if (userConfirmed) {
-      if (abortController) {
-        abortController.abort()
-        setAbortController(null)
-      }
       setIsLoading(false)
       dreamStore.set('')
       lifeStore.set('')
@@ -110,7 +97,7 @@ export const DrawerDreamInput = () => {
 
   const handleSendDream = () => {
     handleCloseModal()
-    sendDreamRequest()
+    sendDream()
     setIsLoading(true)
   }
 

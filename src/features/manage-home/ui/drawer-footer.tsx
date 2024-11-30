@@ -40,12 +40,12 @@ export const DrawerFooter: FunctionComponent<DrawerFooterContentProps> = ({
 
     handleResize()
 
-    // return () => {
-    //   window.removeEventListener('resize', handleResize)
-    //   if (window.visualViewport) {
-    //     window.visualViewport.removeEventListener('resize', handleResize)
-    //   }
-    // }
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize)
+      }
+    }
   }, [])
 
   const KeyboardUp = {
