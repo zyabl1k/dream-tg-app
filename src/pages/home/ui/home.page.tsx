@@ -81,7 +81,7 @@ export const HomePage = () => {
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
-          'relative flex h-[80vh] snap-center flex-col justify-start px-5 pt-8'
+          'relative flex h-[80vh] scale-100 snap-center flex-col justify-start px-5 pt-8 opacity-100'
         )}
       >
         <Header />
@@ -116,7 +116,7 @@ export const HomePage = () => {
             y: textY,
           }}
           className={
-            'pointer-events-none mt-8 text-center font-roslindale text-4xl'
+            'pointer-events-none mt-8 text-center font-roslindale text-4xl opacity-0'
           }
         >
           Коллекция снов
