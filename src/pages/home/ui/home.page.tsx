@@ -63,13 +63,7 @@ export const HomePage = () => {
   // }, [scrollYProgress])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.8 }}
-      className={'flex flex-col justify-center'}
-    >
+    <div className={'flex flex-col justify-center'}>
       <motion.section
         style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
         className={cn(
@@ -139,6 +133,6 @@ export const HomePage = () => {
           }
         ></motion.div>
       </motion.section>
-    </motion.div>
+    </div>
   )
 }
