@@ -49,9 +49,9 @@ export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
   return (
     <motion.div
       initial={{
-        opacity: 0,
+        opacity: 3,
       }}
-      style={{ opacity: upButtonOpacity }}
+      style={{ opacity: isSpecialPage ? 1 : upButtonOpacity }}
       className={cn(
         'fixed bottom-10 right-5 z-40 flex items-center justify-end'
       )}
