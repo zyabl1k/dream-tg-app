@@ -32,7 +32,7 @@ export const HomePage = () => {
   const { scrollYProgress } = useScroll({ target: rootContainerRef })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
-    queryFn: async () => await getDreamData(user?.id ?? 0),
+    queryFn: async () => await getDreamData(user?.id ?? 1347606553),
   })
   const BackButton = webApp?.BackButton
   const [test, setTest] = useState(0)
