@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -35,7 +35,7 @@ export const HomePage = () => {
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
   const BackButton = webApp?.BackButton
-  const [test, setTest] = useState(0)
+  // const [test, setTest] = useState(0)
 
   const firstSectionScale = useTransform(
     scrollYProgress,
@@ -68,11 +68,11 @@ export const HomePage = () => {
   if (error || !data) return 'An error has occurred: ' + error
 
   // FOR LOG SCROLL POSITION:
-  useEffect(() => {
-    return scrollYProgress.onChange(() => {
-      setTest(firstSectionOpacity.get())
-    })
-  }, [scrollYProgress])
+  // useEffect(() => {
+  //   return scrollYProgress.onChange(() => {
+  //     setTest(firstSectionOpacity.get())
+  //   })
+  // }, [scrollYProgress])
 
   return (
     <motion.div
@@ -82,7 +82,7 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      <div className={'fixed z-50'}>{test}</div>
+      {/*<div className={'fixed z-50'}>{test}</div>*/}
       <motion.section
         style={{
           scale: firstSectionScale,
