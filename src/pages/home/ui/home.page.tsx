@@ -59,7 +59,7 @@ export const HomePage = () => {
 
   useEffect(() => {
     return scrollYProgress.onChange((val) => {
-      setTest(textY.get())
+      setTest(textOpacity.get())
       setVal(val)
     })
   }, [scrollYProgress])
