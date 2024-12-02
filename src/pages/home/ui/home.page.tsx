@@ -38,25 +38,17 @@ export const HomePage = () => {
   const [test, setTest] = useState(0)
   const [val, setVal] = useState(0)
 
-  const firstSectionScale = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0.8]
-  )
-  const firstSectionOpacity = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0]
-  )
+  const firstSectionScale = useTransform(scrollYProgress, [0, 0.06], [1, 0.8])
+  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0])
 
-  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
+  const textOpacity = useTransform(scrollYProgress, [0.03, 0.06], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
-    [0.03, 0.08],
+    [0.03, 0.06],
     [0, 1]
   )
-  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
+  const textY = useTransform(scrollYProgress, [0.03, 0.06], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.03, 0.06], [-20, 0])
 
   useEffect(() => {
     stepsStore.set(0)
