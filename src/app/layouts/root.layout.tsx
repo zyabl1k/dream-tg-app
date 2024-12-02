@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom'
-import { BottomButtonWidget } from '@/widgets/bottom-button'
 import { useRef } from 'react'
 import { RootContainerProvider } from '@/shared/lib/context'
 
@@ -10,7 +9,6 @@ export const RootLayout = () => {
     <RootContainerProvider rootRef={rootContainerRef}>
       <div ref={rootContainerRef} className={'flex min-h-screen flex-col'}>
         <Outlet />
-        <BottomButtonWidget />
       </div>
     </RootContainerProvider>
   )
