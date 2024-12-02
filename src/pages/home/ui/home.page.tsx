@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -35,8 +35,6 @@ export const HomePage = () => {
     queryFn: async () => await getDreamData(user?.id ?? 1347606553),
   })
   const BackButton = webApp?.BackButton
-  const [test, setTest] = useState(0)
-  const [val, setVal] = useState(0)
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.06], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0])
@@ -57,17 +55,15 @@ export const HomePage = () => {
     }
   }, [scrollYProgress])
 
-  useEffect(() => {
-    return scrollYProgress.onChange((val) => {
-      setTest(textOpacity.get())
-      setVal(val)
-    })
-  }, [scrollYProgress])
+  // useEffect(() => {
+  //   return scrollYProgress.onChange((val) => {
+  //     setTest(textOpacity.get())
+  //     setVal(val)
+  //   })
+  // }, [scrollYProgress])
 
   if (isPending) return <PreloaderWidget />
   if (error || !data) return 'An error has occurred: ' + error
-
-  // FOR LOG SCROLL POSITION:
 
   return (
     <motion.div
@@ -77,9 +73,6 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      <div className={'fixed top-0 z-50'}>
-        {test} {val}
-      </div>
       <motion.section
         initial={{
           scale: 1,
@@ -120,6 +113,10 @@ export const HomePage = () => {
         )}
       >
         <motion.h1
+          initial={{
+            y: 30,
+            opacity: 0,
+          }}
           style={{
             opacity: textOpacity,
             y: textY,
@@ -132,6 +129,9 @@ export const HomePage = () => {
         </motion.h1>
         <motion.div
           className={'no-scrollbar flex flex-col items-center gap-y-8 py-10'}
+          initial={{
+            y: -20,
+          }}
           style={{ y: blocksY }}
         >
           {data.map((item) => (
@@ -148,6 +148,9 @@ export const HomePage = () => {
           ))}
         </motion.div>
         <motion.div
+          initial={{
+            opacity: 0,
+          }}
           style={{
             opacity: bottomShadowOpacity,
           }}
