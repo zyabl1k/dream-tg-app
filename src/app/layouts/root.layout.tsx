@@ -10,7 +10,7 @@ export const RootLayout = () => {
     <RootContainerProvider rootRef={rootContainerRef}>
       <div ref={rootContainerRef} className={'flex min-h-screen flex-col'}>
         <Outlet />
-        <BottomButtonWidget containerRef={rootContainerRef} />
+        <BottomButtonWidget />
       </div>
     </RootContainerProvider>
   )

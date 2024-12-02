@@ -1,4 +1,4 @@
-import { FunctionComponent, MutableRefObject, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowUpIcon, CloseIcon } from '@/shared/ui/icons'
 import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 import { useScroll, useTransform, motion } from 'framer-motion'
@@ -7,15 +7,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { dreamStore } from '@/features/manage-home'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { __APPLICATION__ } from '@/shared/config'
+import { useRootContainer } from '@/shared/lib/context'
 
-interface BottomButtonWidgetProps {
-  containerRef: MutableRefObject<HTMLDivElement | null>
-}
-
-export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
-  containerRef,
-}) => {
-  const { scrollYProgress } = useScroll({ target: containerRef })
+export const BottomButtonWidget = () => {
+  const rootContainerRef = useRootContainer()
+  const { scrollYProgress } = useScroll({ target: rootContainerRef })
   const upButtonOpacity = useTransform(scrollYProgress, [0.03, 0.06], [0, 1])
   const location = useLocation()
   const navigate = useNavigate()
