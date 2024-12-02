@@ -35,25 +35,11 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0.8]
-  )
-  const firstSectionOpacity = useTransform(
-    scrollYProgress,
-    [0.01, 0.08],
-    [1, 0]
-  )
-
-  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
-  const bottomShadowOpacity = useTransform(
-    scrollYProgress,
-    [0.03, 0.08],
-    [0, 1]
-  )
-  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
+  const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
+  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const textOpacity = useTransform(scrollYProgress, [0.7, 0.99], [0, 1])
+  const textY = useTransform(scrollYProgress, [0.7, 0.99], [10, 0])
+  const blocksY = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
 
   useEffect(() => {
     window.scrollTo(0, 1)
@@ -91,7 +77,7 @@ export const HomePage = () => {
         <Header />
         <motion.p
           key="paragraph"
-          className="text-muted-900 mb-8 mt-5 text-center"
+          className="mb-8 mt-5 text-center text-muted"
           variants={FadeInOutBottom}
           initial="visible"
           animate={stepsValue > 0 ? 'invisible' : 'visible'}
@@ -142,14 +128,6 @@ export const HomePage = () => {
             </div>
           ))}
         </motion.div>
-        <motion.div
-          style={{
-            opacity: bottomShadowOpacity,
-          }}
-          className={
-            'fixed bottom-0 h-20 w-screen bg-gradient-to-t from-white to-transparent'
-          }
-        ></motion.div>
       </motion.section>
     </motion.div>
   )
