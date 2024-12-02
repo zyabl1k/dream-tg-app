@@ -36,6 +36,17 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
 
+  const firstSectionScale = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0.8]
+  )
+  const firstSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0]
+  )
+
   const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
@@ -71,7 +82,11 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      <section
+      <motion.section
+        style={{
+          scale: firstSectionScale,
+          opacity: firstSectionOpacity ? firstSectionOpacity : 100,
+        }}
         className={cn(
           'relative flex h-[80vh] snap-center flex-col justify-start px-5 pt-8'
         )}
@@ -90,7 +105,7 @@ export const HomePage = () => {
           декскрипторе, не больше
         </motion.p>
         <DrawerDreamInput />
-      </section>
+      </motion.section>
 
       <motion.section
         variants={FadeInOut}
