@@ -47,7 +47,11 @@ export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
   }
 
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity: 0,
+      }}
+      style={{ opacity: upButtonOpacity }}
       className={cn(
         'fixed bottom-10 right-5 z-40 flex items-center justify-end'
       )}
@@ -62,23 +66,19 @@ export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
         {isSpecialPage ? (
           <CloseIcon />
         ) : (
-          <motion.div
+          <div
             className={cn(
               'flex items-center gap-x-2',
               !isVisible && 'pointer-events-none -z-10'
             )}
-            initial={{
-              opacity: 0,
-            }}
-            style={{ opacity: upButtonOpacity }}
           >
             <div className={'flex size-[20px] items-center justify-center'}>
               <ArrowUpIcon className="!size-3" />
             </div>
             <span className={'text-[17px] font-semibold'}>Назад</span>
-          </motion.div>
+          </div>
         )}
       </Button>
-    </div>
+    </motion.div>
   )
 }
