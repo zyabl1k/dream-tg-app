@@ -11,10 +11,6 @@ import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
 import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
-import {
-  firstSectionRange,
-  secondSectionRange,
-} from '@/pages/home/model/animation.constant.ts'
 
 // const data = [
 //   {
@@ -42,23 +38,23 @@ export const HomePage = () => {
 
   const firstSectionScale = useTransform(
     scrollYProgress,
-    firstSectionRange,
+    [0.01, 0.08],
     [1, 0.8]
   )
   const firstSectionOpacity = useTransform(
     scrollYProgress,
-    firstSectionRange,
+    [0.01, 0.08],
     [1, 0]
   )
 
-  const textOpacity = useTransform(scrollYProgress, secondSectionRange, [0, 1])
+  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
-    secondSectionRange,
+    [0.03, 0.08],
     [0, 1]
   )
-  const textY = useTransform(scrollYProgress, secondSectionRange, [30, 0])
-  const blocksY = useTransform(scrollYProgress, secondSectionRange, [-30, 0])
+  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
 
   useEffect(() => {
     window.scrollTo(0, 1)
