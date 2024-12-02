@@ -11,6 +11,10 @@ import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
 import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
+import {
+  firstSectionRange,
+  secondSectionRange,
+} from '@/pages/home/model/animation.constant.ts'
 
 // const data = [
 //   {
@@ -38,23 +42,23 @@ export const HomePage = () => {
 
   const firstSectionScale = useTransform(
     scrollYProgress,
-    [0.01, 0.08],
+    firstSectionRange,
     [1, 0.8]
   )
   const firstSectionOpacity = useTransform(
     scrollYProgress,
-    [0.01, 0.08],
+    firstSectionRange,
     [1, 0]
   )
 
-  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
+  const textOpacity = useTransform(scrollYProgress, secondSectionRange, [0, 1])
   const bottomShadowOpacity = useTransform(
     scrollYProgress,
-    [0.03, 0.08],
+    secondSectionRange,
     [0, 1]
   )
-  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
-  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
+  const textY = useTransform(scrollYProgress, secondSectionRange, [30, 0])
+  const blocksY = useTransform(scrollYProgress, secondSectionRange, [-30, 0])
 
   useEffect(() => {
     window.scrollTo(0, 1)
@@ -91,7 +95,7 @@ export const HomePage = () => {
         <Header />
         <motion.p
           key="paragraph"
-          className="mb-8 mt-5 text-center text-muted"
+          className="text-muted-900 mb-8 mt-5 text-center"
           variants={FadeInOutBottom}
           initial="visible"
           animate={stepsValue > 0 ? 'invisible' : 'visible'}
