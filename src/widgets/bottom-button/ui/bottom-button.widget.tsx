@@ -47,38 +47,49 @@ export const BottomButtonWidget: FunctionComponent<BottomButtonWidgetProps> = ({
   }
 
   return (
-    <motion.div
-      initial={{
-        opacity: 3,
-      }}
-      style={{ opacity: isSpecialPage ? 1 : upButtonOpacity }}
+    <div
       className={cn(
         'fixed bottom-10 right-5 z-40 flex items-center justify-end'
       )}
     >
-      <Button
-        className={cn(
-          'flex items-center justify-center rounded-xl text-lg',
-          isSpecialPage && 'p-2.5'
-        )}
-        onClick={handleClick}
-      >
-        {isSpecialPage ? (
+      {isSpecialPage ? (
+        <Button
+          className={cn(
+            'flex items-center justify-center rounded-xl text-lg',
+            isSpecialPage && 'p-2.5'
+          )}
+          onClick={handleClick}
+        >
           <CloseIcon />
-        ) : (
-          <div
+        </Button>
+      ) : (
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          style={{ opacity: upButtonOpacity }}
+        >
+          <Button
             className={cn(
-              'flex items-center gap-x-2',
-              !isVisible && 'pointer-events-none -z-10'
+              'flex items-center justify-center rounded-xl text-lg',
+              isSpecialPage && 'p-2.5'
             )}
+            onClick={handleClick}
           >
-            <div className={'flex size-[20px] items-center justify-center'}>
-              <ArrowUpIcon className="!size-3" />
+            <div
+              className={cn(
+                'flex items-center gap-x-2',
+                !isVisible && 'pointer-events-none -z-10'
+              )}
+            >
+              <div className={'flex size-[20px] items-center justify-center'}>
+                <ArrowUpIcon className="!size-3" />
+              </div>
+              <span className={'text-[17px] font-semibold'}>Назад</span>
             </div>
-            <span className={'text-[17px] font-semibold'}>Назад</span>
-          </div>
-        )}
-      </Button>
-    </motion.div>
+          </Button>
+        </motion.div>
+      )}
+    </div>
   )
 }
