@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -9,6 +9,7 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
+import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
 
 // const data = [
@@ -26,20 +27,34 @@ import { PreloaderWidget } from '@/widgets/preloader'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
-  const ref = useRef(null)
+  const rootContainerRef = useRootContainer()
   const { user, webApp } = useTelegram()
-  const { scrollYProgress } = useScroll({ target: ref })
+  const { scrollYProgress } = useScroll({ target: rootContainerRef })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
   const BackButton = webApp?.BackButton
 
-  const firstSectionScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
-  const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const textOpacity = useTransform(scrollYProgress, [0.7, 0.99], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.7, 0.99], [10, 0])
-  const blocksY = useTransform(scrollYProgress, [0.7, 0.99], [-50, 0])
+  const firstSectionScale = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0.8]
+  )
+  const firstSectionOpacity = useTransform(
+    scrollYProgress,
+    [0.01, 0.08],
+    [1, 0]
+  )
+
+  const textOpacity = useTransform(scrollYProgress, [0.03, 0.08], [0, 1])
+  const bottomShadowOpacity = useTransform(
+    scrollYProgress,
+    [0.03, 0.08],
+    [0, 1]
+  )
+  const textY = useTransform(scrollYProgress, [0.03, 0.08], [30, 0])
+  const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
 
   useEffect(() => {
     window.scrollTo(0, 1)
@@ -61,7 +76,6 @@ export const HomePage = () => {
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -128,6 +142,14 @@ export const HomePage = () => {
             </div>
           ))}
         </motion.div>
+        <motion.div
+          style={{
+            opacity: bottomShadowOpacity,
+          }}
+          className={
+            'fixed bottom-0 h-20 w-screen bg-gradient-to-t from-white to-transparent'
+          }
+        ></motion.div>
       </motion.section>
     </motion.div>
   )
