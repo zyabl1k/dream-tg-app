@@ -9,6 +9,8 @@ import { motion } from 'framer-motion'
 import { cn } from '@/shared/lib/tailwind.ts'
 import { lifeStore } from '@/features/manage-home/model/dream.store.ts'
 import { usePosition, useTelegram } from '@/shared/lib/context'
+import { CloseIcon } from '@/shared/ui/icons'
+import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
 
 export const DreamPage = () => {
   const { id } = useParams()
@@ -58,6 +60,12 @@ export const DreamPage = () => {
     lifeStore.set('')
     BackButton.hide()
   })
+
+  const handleClick = () => {
+    dreamStore.set('')
+    lifeStore.set('')
+    navigate('/')
+  }
 
   const paragraphs = parseDescription(data.description).map(
     ({ title, text, index }) => (
@@ -145,6 +153,21 @@ export const DreamPage = () => {
       >
         {paragraphs}
       </motion.div>
+
+      <div
+        className={cn(
+          'fixed bottom-10 right-5 z-40 flex items-center justify-end'
+        )}
+      >
+        <Button
+          className={cn(
+            'flex items-center justify-center rounded-xl p-2.5 text-lg'
+          )}
+          onClick={handleClick}
+        >
+          <CloseIcon />
+        </Button>
+      </div>
     </motion.div>
   )
 }

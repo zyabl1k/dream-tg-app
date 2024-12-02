@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -11,6 +11,8 @@ import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
 import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
+import { Button } from '@/shared/ui-shad-cn/ui/button.tsx'
+import { ArrowUpIcon } from '@/shared/ui/icons'
 
 // const data = [
 //   {
@@ -35,6 +37,7 @@ export const HomePage = () => {
     queryFn: async () => await getDreamData(user?.id ?? 1347606553),
   })
   const BackButton = webApp?.BackButton
+  const [isVisible, setIsVisible] = useState(false)
 
   const firstSectionScale = useTransform(scrollYProgress, [0, 0.06], [1, 0.8])
   const firstSectionOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0])
@@ -47,6 +50,23 @@ export const HomePage = () => {
   )
   const textY = useTransform(scrollYProgress, [0.03, 0.06], [30, 0])
   const blocksY = useTransform(scrollYProgress, [0.03, 0.06], [-20, 0])
+  const upButtonOpacity = useTransform(scrollYProgress, [0.03, 0.07], [0, 1])
+
+  const top = () => {
+    window.scrollTo({
+      behavior: 'smooth',
+      top: 0,
+    })
+  }
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.onChange((progress) => {
+      setIsVisible(progress > 0.01)
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [scrollYProgress])
 
   useEffect(() => {
     stepsStore.set(0)
@@ -147,6 +167,34 @@ export const HomePage = () => {
             </div>
           ))}
         </motion.div>
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          className={
+            'fixed bottom-10 right-5 z-40 flex items-center justify-end'
+          }
+          style={{ opacity: upButtonOpacity }}
+        >
+          <Button
+            className={'flex items-center justify-center rounded-xl text-lg'}
+            onClick={top}
+          >
+            <div
+              className={cn(
+                'flex items-center gap-x-2',
+                !isVisible && 'pointer-events-none -z-10'
+              )}
+            >
+              <div className={'flex size-[20px] items-center justify-center'}>
+                <ArrowUpIcon className="!size-3" />
+              </div>
+              <span className={'text-[17px] font-semibold'}>Назад</span>
+            </div>
+          </Button>
+        </motion.div>
+
         <motion.div
           initial={{
             opacity: 0,
