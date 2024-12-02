@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -9,7 +9,6 @@ import { getDreamData } from '@/entities'
 import { useQuery } from '@tanstack/react-query'
 import { useTelegram } from '@/shared/lib/context/telegram.provider.tsx'
 import { FadeInOut, FadeInOutBottom } from '@/shared/ui/animations'
-import { useRootContainer } from '@/shared/lib/context'
 import { PreloaderWidget } from '@/widgets/preloader'
 
 // const data = [
@@ -27,9 +26,9 @@ import { PreloaderWidget } from '@/widgets/preloader'
 
 export const HomePage = () => {
   const stepsValue = useStore(stepsStore)
-  const rootContainerRef = useRootContainer()
+  const ref = useRef(null)
   const { user, webApp } = useTelegram()
-  const { scrollYProgress } = useScroll({ target: rootContainerRef })
+  const { scrollYProgress } = useScroll({ target: ref })
   const { isPending, error, data } = useQuery({
     queryKey: ['dreams'],
     queryFn: async () => await getDreamData(user?.id ?? 0),
@@ -76,6 +75,7 @@ export const HomePage = () => {
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
