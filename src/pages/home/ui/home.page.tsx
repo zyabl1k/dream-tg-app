@@ -82,7 +82,7 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      {/*<div className={'fixed z-50'}>{test}</div>*/}
+      <div className={'fixed z-50'}>{firstSectionOpacity.get()}</div>
       <motion.section
         style={{
           scale: firstSectionScale,
