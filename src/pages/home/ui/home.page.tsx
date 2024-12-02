@@ -82,8 +82,7 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      <motion.section
-        style={{ scale: firstSectionScale, opacity: firstSectionOpacity }}
+      <section
         className={cn(
           'relative flex h-[80vh] snap-center flex-col justify-start px-5 pt-8'
         )}
@@ -102,7 +101,7 @@ export const HomePage = () => {
           декскрипторе, не больше
         </motion.p>
         <DrawerDreamInput />
-      </motion.section>
+      </section>
 
       <motion.section
         variants={FadeInOut}
