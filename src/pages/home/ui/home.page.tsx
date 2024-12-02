@@ -36,6 +36,7 @@ export const HomePage = () => {
   })
   const BackButton = webApp?.BackButton
   const [test, setTest] = useState(0)
+  const [val, setVal] = useState(0)
 
   const firstSectionScale = useTransform(
     scrollYProgress,
@@ -65,8 +66,9 @@ export const HomePage = () => {
   }, [scrollYProgress])
 
   useEffect(() => {
-    return scrollYProgress.onChange(() => {
+    return scrollYProgress.onChange((val) => {
       setTest(firstSectionOpacity.get())
+      setVal(val)
     })
   }, [scrollYProgress])
 
@@ -83,7 +85,9 @@ export const HomePage = () => {
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
-      <div className={'fixed top-0 z-50'}>{test}</div>
+      <div className={'fixed top-0 z-50'}>
+        {test} {val}
+      </div>
       <motion.section
         style={{
           scale: firstSectionScale,
