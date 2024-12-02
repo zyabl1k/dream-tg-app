@@ -1,6 +1,6 @@
 import { DrawerDreamInput, stepsStore } from '@/features/manage-home'
 import { useStore } from '@nanostores/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from '@/widgets/header'
 import { Card } from '@/shared/ui/card.tsx'
 import { cn } from '@/shared/lib/tailwind.ts'
@@ -35,6 +35,7 @@ export const HomePage = () => {
     queryFn: async () => await getDreamData(user?.id ?? 0),
   })
   const BackButton = webApp?.BackButton
+  const [test, setTest] = useState(0)
 
   const firstSectionScale = useTransform(
     scrollYProgress,
@@ -57,35 +58,35 @@ export const HomePage = () => {
   const blocksY = useTransform(scrollYProgress, [0.03, 0.08], [-20, 0])
 
   useEffect(() => {
-    // window.scrollTo(0, 1)
     stepsStore.set(0)
     if (BackButton) {
       BackButton.hide()
     }
-  }, [])
+  }, [scrollYProgress])
 
   if (isPending) return <PreloaderWidget />
   if (error || !data) return 'An error has occurred: ' + error
 
   // FOR LOG SCROLL POSITION:
-  // useEffect(() => {
-  //   return scrollYProgress.onChange((latest) => {
-  //     console.log(latest)
-  //   })
-  // }, [scrollYProgress])
+  useEffect(() => {
+    return scrollYProgress.onChange(() => {
+      setTest(firstSectionOpacity.get())
+    })
+  }, [scrollYProgress])
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.8 }}
       className={'flex flex-col justify-center'}
     >
+      <div className={'fixed z-50'}>{test}</div>
       <motion.section
         style={{
           scale: firstSectionScale,
-          opacity: firstSectionOpacity ? firstSectionOpacity : 100,
+          opacity: firstSectionOpacity,
         }}
         className={cn(
           'relative flex h-[80vh] snap-center flex-col justify-start px-5 pt-8'
