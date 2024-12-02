@@ -81,6 +81,10 @@ export const HomePage = () => {
         {test} {val}
       </div>
       <motion.section
+        initial={{
+          scale: 1,
+          opacity: 1,
+        }}
         style={{
           scale: firstSectionScale,
           opacity: firstSectionOpacity,
